@@ -1,0 +1,5 @@
+*.pyc
+__pycache__
+virtual_env
+db.mysql
+.DS_Store
