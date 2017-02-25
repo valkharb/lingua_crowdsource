@@ -1,0 +1,16 @@
+<html>
+        <head>
+            <title>Домашняя страница</title>
+        </head>
+        <body>
+            <h1>Снова здравствуйте!</h1>
+            <h2>Здесь будут отображаться литературные произведения, которые вы уже добавили.</h2>
+            {% for work in works %}
+                <div>
+                    <p>published: {{ work.created_date }}</p>
+                    <h1><a href="">{{ work.title }}</a></h1>
+                    <p>{{ work.sub_title|linebreaksbr }}</p>
+                </div>
+            {% endfor %}
+        </body>
+</html>
