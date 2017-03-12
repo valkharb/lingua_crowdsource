@@ -1,16 +1,17 @@
-<html>
-        <head>
-            <title>Домашняя страница</title>
-        </head>
-        <body>
-            <h1>Снова здравствуйте!</h1>
-            <h2>Здесь будут отображаться литературные произведения, которые вы уже добавили.</h2>
+ {% extends 'cabinet/lit_work_show.html' %}
+    {% block content %}
             {% for work in works %}
-                <div>
-                    <p>published: {{ work.created_date }}</p>
-                    <h1><a href="">{{ work.title }}</a></h1>
-                    <p>{{ work.sub_title|linebreaksbr }}</p>
+                <div class="content container ">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="date">
+                                <p>published: {{ work.created_date }}</p>
+                            </div>
+                            <h1 class="work-header"><a href="{% url 'work_detail' pk=work.pk %}">{{ work.title }}</a></h1>
+                            <p class="content">{{ work.sub_title|linebreaksbr }}</p>
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
-        </body>
-</html>
+    {% endblock content %}
+

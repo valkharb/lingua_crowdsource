@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<html>
+        <head>
+            <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+            <title>Домашняя страница</title>
+        </head>
+        <body>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
