@@ -7,6 +7,7 @@
                     {{ work.published_date }}
                 </div>
             {% endif %}
+            <a class="btn btn-default" href="{% url 'work_edit' pk=work.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
             <h1>{{ work.title }}</h1>
             <p>{{ work.sub_title|linebreaksbr }}</p>
         </div>

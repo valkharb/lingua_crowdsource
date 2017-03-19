@@ -6,6 +6,12 @@
             <title>Домашняя страница</title>
         </head>
         <body>
+        <div class="page-header">
+          <h1><a href="/">Добро пожаловать</a></h1>
+            {% if user.is_authenticated %}
+                <button><a href="{% url 'work_new' %}" ><span>Create new work</span></a></button>
+            {% endif %}
+        </div>
         <div class="content container">
             <div class="row">
                 <div class="col-md-8">
