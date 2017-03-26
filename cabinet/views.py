@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render_to_response
 from cabinet.models import LitWork
 from django.shortcuts import render, get_object_or_404
 from .forms import WorkForm
@@ -23,6 +23,8 @@ def work_new(request):
             work.published_date = timezone.now()
             work.save()
             return redirect('work_detail', pk=work.pk)
+
+        else: return render_to_response('cabinet/errors.html', {'form': form})
     else:
         form = WorkForm()
     return render(request, 'cabinet/work_new.html', {'form': form})
@@ -40,3 +42,9 @@ def work_edit(request, pk):
         else:
             form = WorkForm(instance=work)
         return render(request, 'cabinet/work_new.html', {'form': form})
+def mark_up(request, pk):
+    work = get_object_or_404(LitWork, pk=pk)
+    if request.method == "GET":
+        work_to_mark = LitWork.objects.get(pk=pk)
+        work_to_mark.mark_up()
+    return render(request, 'cabinet/work_detail.html', {'work': work})

@@ -1,3 +1,9 @@
+import requests
+import codecs
+import re
+import time
+from bs4 import BeautifulSoup
+import os
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -42,6 +48,8 @@ class LitWork(models.Model):
     # main information
     title = models.CharField(null=False, blank=False, max_length=100, verbose_name = _(u'Заголовок'))
     sub_title = models.CharField(null=True, blank=True, max_length=100, verbose_name = _(u'Подзаголовок'))
+    file = models.FileField(null=True,blank=False, verbose_name = _(u'Текст работы'))
+
     # publish dates
     # Дата с учетом введения текста типа "Начало 1998"
     wrote_date = models.CharField(blank=True, null=False, max_length=50, verbose_name = _(u'Дата написания'))
@@ -96,13 +104,42 @@ class LitWork(models.Model):
     published_date = models.DateTimeField(blank=True, null=True, verbose_name = _(u'Дата публикации в кабинете'))
     updated_date = models.DateTimeField(blank = True, null=True, verbose_name = _(u'Дата изменения'))
 
-
     def publish(self):
         self.published_date = timezone.now()
         self.save()
 
     def __str__(self):
         return self.title
+
+    def mark_up(self):
+        h = re.compile('class="entry-title"')
+        ea = re.compile('</a>')
+        qu = re.compile('\"')
+        r = requests.get('https://tproger.ru')
+        with open(self.file.path, 'r') as work:
+            data = work.read().replace('\n', '')
+            work.close()
+        addr1 = data.split('')
+        addr1.pop(0)
+        print(addr1[0])
+        addr2 = []
+        for a in addr1:
+            t = qu.split(a)[1]
+            addr2.append(t)
+        print(addr2[0])
+        data = "DATA:" + '\n\n'
+        for a in addr2:
+            r2 = requests.get(a)
+            header = re.split("</h1>", re.split('"entry-title">', r2.text)[1])[0]
+            atext = re.split('<footer', re.split('"entry-content">', r2.text)[1])[0]
+            stext = BeautifulSoup(atext, "lxml")
+            data += header + '\n' + '\n' + stext.get_text() + '\n' + '\n'
+        print(data)
+        f = open('data_tproger.txt', 'w')
+        f.write(str(data))
+        f.close()
+        return 'marked up!'
+
 
 class Author_Work(models.Model):
     author = models.ForeignKey('Author')

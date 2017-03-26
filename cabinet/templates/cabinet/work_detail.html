@@ -7,8 +7,16 @@
                     {{ work.published_date }}
                 </div>
             {% endif %}
-            <a class="btn btn-default" href="{% url 'work_edit' pk=work.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            <button><a class="btn btn-default" href="{% url 'mark_up' pk=work.pk %}"><span class="glyphicon glyphicon-pencil">Запустить автоматическую разметку</span></a></button>
+            <button><a class="btn btn-default" href="{% url 'work_edit' pk=work.pk %}"><span class="glyphicon glyphicon-pencil">Изменить запись</span></a></button>
             <h1>{{ work.title }}</h1>
             <p>{{ work.sub_title|linebreaksbr }}</p>
+            <p class="content">{{ work.file|linebreaksbr }}</p>
+            <p class="content">{{ work.is_published|linebreaksbr }}</p>
+            <p class="content">{{ work.publish_title|linebreaksbr }}</p>
+            <p class="content">{{ work.publisher_title_id|linebreaksbr }}</p>
+            <p class="content">{{ work.publish_date|linebreaksbr }}</p>
+            <p class="content">{{ work.version_type|linebreaksbr }}</p>
+            <p class="content">{{ work.collection|linebreaksbr }}</p>
         </div>
     {% endblock %}

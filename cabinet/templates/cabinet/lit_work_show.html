@@ -2,24 +2,78 @@
 <html>
         <head>
             <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-            <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+            <link rel="stylesheet" href="{% static 'styles/style.css' %}">
             <title>Домашняя страница</title>
         </head>
         <body>
-        <div class="page-header">
-          <h1><a href="/">Добро пожаловать</a></h1>
-            {% if user.is_authenticated %}
-                <button><a href="{% url 'work_new' %}" ><span>Create new work</span></a></button>
-            {% endif %}
-        </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
+        <div class="main" style="background:#d0cbbf url({% static "images/header_bg.gif" %}) repeat-x center top;">
+              <div class="header">
+                <div class="header_resize">
+                  <div class="menu_nav" style="background:#ebeadf url({% static "images/menu.gif" %}) repeat-x center top;border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <ul>
+                      <li class="active"><a href="{% url 'lit_work_list' %}"> Домой </a></li>
+                      <li><a href="{% url 'lit_work_list' %}"> Перейти к разметке</a></li>
+                      <li><a href="">Статистика</a></li>
+                      <li><a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a></li>
+                    </ul>
+                    <div class="searchform">
+                      <form id="formsearch" name="formsearch" method="post" action="#" style="background:url({% static "images/search.gif" %}) no-repeat top left;">
+                        <span>
+                        <input name="editbox_search" class="editbox_search" id="editbox_search" maxlength="80" value="Поиск..." type="text" />
+                        </span>
+                        <input name="button_search" src="{% static "images/search_btn.gif" %}" class="button_search" type="image" />
+                      </form>
+                    </div>
+                  </div>
+                  <div class="clr"></div>
+                  <div class="logo">
+                    <h1 style="background:#fff;">
+                        <a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
+                        <small>linguistic mark-up platform</small>
+                    </h1>
+                  </div>
+                  <div class="clr"></div>
+                </div>
+              </div>
+
+          <div class="content">
+            <div class="content_resize" style="background:url({% static "images/content_bg.gif" %}) repeat-y center top;">
+              <div class="mainbar">
                 {% block content %}
                 {% endblock %}
+              </div>
+              <div class="sidebar">
+                <div class="gadget">
+                  <h2 class="star"><span>Ссылки</span></h2>
+                  <div class="clr"></div>
+                  <ul class="sb_menu">
+                    <li><a href="{% url 'lit_work_list' %}">Домой</a></li>
+                    <li><a href="#">Авторы</a></li>
+                    <li><a href="#">Коллекции</a></li>
+                    <li><a href="#">Издательства</a></li>
+                  </ul>
                 </div>
+              </div>
+              <div class="clr"></div>
             </div>
+          </div>
+        <div class="footer">
+            <div class="footer_resize">
+              <p class="lf">Copyright &copy; <a href="#">Higher School of Economics</a>. All Rights Reserved</p>
+              <p class="rf">Get More info about <a target="_blank" href="http://www.hse.ru/"> NRU HSE </a></p>
+              <div class="clr"></div>
+            </div>
+          </div>
+
         </div>
     </body>
 </html>
+
+
+
+
+
+
+
+
 
