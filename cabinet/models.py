@@ -1,13 +1,13 @@
-import requests
-import codecs
 import re
-import time
-from bs4 import BeautifulSoup
-import os
+import pymysql
+import math
+import pymorphy2
+from tqdm import tqdm
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.apps import apps
+db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_project' , charset='utf8')
 apps.get_app_config('admin').verbose_name = 'Главная панель'
 # from pytz import timezone
 # Create your models here.
@@ -39,6 +39,24 @@ class Collection(models.Model):
     updated_date = models.DateTimeField(
         blank = True, null=True, verbose_name = _(u'Дата последнего обновления'))
     is_open = models.BooleanField(default = False, verbose_name = _(u'Доступность'))
+
+class MarkUp(models.Model):
+    word = models.CharField( blank=False, max_length=100, verbose_name = _(u'Слово'))
+    grammem = models.CharField( blank=False, max_length=100, verbose_name = _(u'Часть речи'))
+    animacy = models.CharField(blank=False, max_length=100, verbose_name = _(u'Одушевленность'))# одушевленность
+    aspect = models.CharField( blank=False, max_length=100, verbose_name = _(u'Вид'))# вид: совершенный или несовершенный
+    case = models.CharField( blank=False, max_length=100, verbose_name = _(u'Падеж'))# падеж
+    gender = models.CharField( blank=False, max_length=100, verbose_name = _(u'Род'))# род (мужской, женский, средний)
+    involvement = models.CharField( blank=False, max_length=100, verbose_name = _(u'Говорящий')) # включенность говорящего в действие
+    mood = models.CharField( blank=False, max_length=100, verbose_name = _(u'Наклонение')) # наклонение (повелительное, изъявительное)
+    number = models.CharField( blank=False, max_length=100, verbose_name = _(u'Число')) # число (единственное, множественное)
+    person = models.CharField( blank=False, max_length=100, verbose_name = _(u'Лицо')) # лицо (1, 2, 3)
+    tense = models.CharField( blank=False, max_length=100, verbose_name = _(u'Время')) # время (настоящее, прошедшее, будущее)
+    transitivity = models.CharField( blank=False, max_length=100, verbose_name = _(u'Переходность')) # переходность (переходный, непереходный)
+    voice = models.CharField( blank=False, max_length=100, verbose_name = _(u'Залог'))# залог (действительный, страдательный)
+    count = models.IntegerField( blank=False, verbose_name = _(u'Встречается в тексте'))
+    lit_work = models.ForeignKey('LitWork', verbose_name=_(u'Произведение'))
+
 
 class LitWork(models.Model):
     verbose_name = u'Литературные произведения'
@@ -111,34 +129,59 @@ class LitWork(models.Model):
     def __str__(self):
         return self.title
 
-    def mark_up(self):
-        h = re.compile('class="entry-title"')
-        ea = re.compile('</a>')
-        qu = re.compile('\"')
-        r = requests.get('https://tproger.ru')
+    def mark_up(self, morph):
+        # take the text from attachment
         with open(self.file.path, 'r') as work:
+            work.seek(0)
             data = work.read().replace('\n', '')
             work.close()
-        addr1 = data.split('')
-        addr1.pop(0)
-        print(addr1[0])
-        addr2 = []
-        for a in addr1:
-            t = qu.split(a)[1]
-            addr2.append(t)
-        print(addr2[0])
-        data = "DATA:" + '\n\n'
-        for a in addr2:
-            r2 = requests.get(a)
-            header = re.split("</h1>", re.split('"entry-title">', r2.text)[1])[0]
-            atext = re.split('<footer', re.split('"entry-content">', r2.text)[1])[0]
-            stext = BeautifulSoup(atext, "lxml")
-            data += header + '\n' + '\n' + stext.get_text() + '\n' + '\n'
-        print(data)
-        f = open('data_tproger.txt', 'w')
-        f.write(str(data))
-        f.close()
-        return 'marked up!'
+        # parse text by symbol characters and put it to the array
+        words = re.findall(r"[\w']+", str.lower(data))
+        POSes = {'NOUN', 'VERB', 'ADJF', 'PRTF', 'GRND','NPRO','COMP','PRTS','INTJ','PRCL','ADJS','NUMR','ADVB'}
+        # take infinitives
+        normal_words = []
+        for nw in words[:-1]:
+            parsed = morph.parse(nw)
+            # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
+            for p in parsed:
+                normal_words.append(parsed[0].normal_form)
+                MarkUp.objects.create(  word = nw,
+                                        grammem = str(p.tag.POS),
+                                        animacy = str(p.tag.animacy),
+                                        aspect = str(p.tag.aspect),
+                                        case  = str(p.tag.case),
+                                        involvement = str(p.tag.involvement),
+                                        mood  = str(p.tag.mood),
+                                        number = str(p.tag.number),
+                                        person  = str(p.tag.person),
+                                        tense  = str(p.tag.tense),
+                                        transitivity  = str(p.tag.transitivity),
+                                        voice  = str(p.tag.voice),
+                                        count = 0,
+                                        lit_work_id = self.id)
+        # TODO: Добавить поле count в модель маркап и убрать ограничение длины для поля описания. Подумать, как красиво записать туда полное описание слова.
+
+        # create the dictionary
+        normals = set(normal_words)
+        dictionary = {w: 0 for w in normals}
+
+        cur = db.cursor()
+        cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
+        cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
+        cur.execute("SET character_set_connection=utf8mb4;")  # same as above
+        for w in dictionary:
+            parsed = morph.parse(w)
+            if parsed[0].normal_form in normal_words:
+                dictionary[parsed[0].normal_form] += 1
+        for w in words:
+            for key in dictionary:
+                if morph.parse(w)[0].normal_form == key:
+                    with db:
+                        cur.execute('UPDATE cabinet_markup SET count = '+ str(dictionary[key]) +' WHERE word = "'+ w +'" and lit_work_id = '+ str(self.id))
+        frequent = {w: dictionary[w] for w in dictionary.keys() if dictionary[w] > 1}
+
+        # TODO: ЗАКИДЫВАТЬ ЧИСЛО СЛОВ ПО ТЕКСТУ В БАЗУ
+        return frequent
 
 
 class Author_Work(models.Model):

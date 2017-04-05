@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from .forms import WorkForm
 from django.shortcuts import redirect
 from django.utils import timezone
+import pymorphy2
 # Create your views here.
 def lit_work_list(request):
     works = LitWork.objects.all()
@@ -46,5 +47,6 @@ def mark_up(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
     if request.method == "GET":
         work_to_mark = LitWork.objects.get(pk=pk)
-        work_to_mark.mark_up()
+        morph = pymorphy2.MorphAnalyzer()
+        work_to_mark.mark_up(morph)
     return render(request, 'cabinet/work_detail.html', {'work': work})

@@ -18,6 +18,17 @@
         text-decoration: none;
     }
 
+    .menuitem{
+	display:block;
+    float:left;
+    margin-left:25px;
+    position:relative;
+    min-height:35px;
+    max-width:125px;
+    padding-bottom:10px;
+    text-align:center;
+    }
+
     .content {
         margin-left: 40px;
         background-color: #6F47D7;
