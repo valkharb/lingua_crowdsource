@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from cabinet.models import LitWork
 from django.shortcuts import render, get_object_or_404
 from .forms import WorkForm
+from .forms import FiltersForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -14,6 +15,24 @@ def work_detail(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
     return render(request, 'cabinet/work_detail.html', {'work': work})
 
+def work_search(request):
+    works = LitWork.objects.all()
+    return render(request, 'cabinet/search.html', {'works': works})
+
+def work_filters(request):
+    if request.method == "POST":
+        form = WorkForm(request.POST)
+        if form.is_valid():
+            work = form.save(commit=False)
+            work.owner_id = request.user.id
+            work.published_date = timezone.now()
+            work.save()
+            return redirect('filters')
+
+        else: return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = FiltersForm()
+    return render(request, 'cabinet/filters.html', {'form': form})
 
 def work_new(request):
     if request.method == "POST":

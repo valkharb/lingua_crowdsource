@@ -1,0 +1,16 @@
+ {% extends 'cabinet/search.html' %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+
+    {% block content %}
+                <div class="article">
+                  <form method="POST" class="post-form">{% csrf_token %}
+                      {{ form.as_p }}
+                      <button type="submit" class="save btn btn-default">Save</button>
+                  </form>
+                </div>
+    {% endblock content %}
+
+<script>
+
+    </script>
