@@ -17,14 +17,6 @@
                       <li><a href="">Статистика</a></li>
                       <li><a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a></li>
                     </ul>
-                    <div class="searchform">
-                      <form id="formsearch" name="formsearch" method="post" action="#" style="background:url({% static "images/search.gif" %}) no-repeat top left;">
-                        <span>
-                        <input name="editbox_search" class="editbox_search" id="editbox_search" maxlength="80" value="Поиск..." type="text" />
-                        </span>
-                        <input name="button_search" src="{% static "images/search_btn.gif" %}" class="button_search" type="image" />
-                      </form>
-                    </div>
                   </div>
                   <div class="clr"></div>
                   <div class="logo">
@@ -45,9 +37,24 @@
                       <button style="border: none;" class="show_filters">Показать фильтры</button>
                   </div>
                 <div id="filters" style="display: none;">
-                    {% block content %}
-                    {% endblock %}
+                    <div class="article">
+{#                        {% block filters %}#}
+{#                        {% endblock %}#}
+                        <table>
+                            <form method="POST" class="post-form">{% csrf_token %}
+                                 <table>
+                                    {{ form.as_table }}
+                                 </table>
+                                <button type="submit" class="save btn btn-default">Применить</button>
+                                <button type="reset" class="cancel btn btn-default">Очистить фильтр</button>
+                            </form>
+
+                    </div>
                 </div>
+                    <div class="results">
+                        {% block results %}
+                        {% endblock %}
+                    </div>
               </div>
               <div class="sidebar">
                 <div class="gadget">
