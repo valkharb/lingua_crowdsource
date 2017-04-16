@@ -3,6 +3,7 @@ import django
 from django.forms import Form
 from .models import LitWork
 from .models import Collection
+from django.contrib.auth.models import User
 
 
 class WorkForm(ModelForm):
@@ -11,6 +12,10 @@ class WorkForm(ModelForm):
         fields = ('title', 'sub_title', 'file','is_published','publish_title', 'publisher_title',
                   'publish_date','version_type','collection')
 
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'last_name', 'first_name','email')
 
 class FiltersForm(Form):
     main = 'MN'

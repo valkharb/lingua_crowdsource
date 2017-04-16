@@ -15,6 +15,11 @@
                       <li><a href="search/"> Перейти к разметке</a></li>
                       <li><a href="">Статистика</a></li>
                       <li><a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a></li>
+                      {% if user.is_authentificated == true %}
+                        <li style="padding: 0 100px;"><a href="{% url 'account' pk=user.pk %}">Личный кабинет</a></li>
+                      {% else %}
+                         <li style="padding: 0 100px;"><a href="{% url 'auth_login' %}">Войти в систему</a></li>
+                      {% endif %}
                     </ul>
                   </div>
                   <div class="clr"></div>

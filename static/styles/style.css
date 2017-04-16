@@ -124,6 +124,7 @@ img.hbg_img {
 	background-color:#cbcac0;
 }
 .content {
+	font-size: 16px;
 }
 .content_resize {
 	margin:0 auto;
@@ -315,11 +316,11 @@ ol li .send {
 	margin:16px 0 0 0;
 }
 
-.search {
-	padding:5px;
+.search{
+	padding:20px;
 }
 .searchform {
-	padding:5px;
+	padding:20px;
 }
 #formsearch {
 	margin:0;

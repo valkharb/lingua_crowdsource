@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
 
     {% block content %}
+        {% if user.is_authenticated %}
             {% for work in works %}
                 <div class="article">
                   <h2> <a href="{% url 'work_detail' pk=work.pk %}">{{ work.title }}</a></h2>
@@ -14,5 +15,10 @@
                   <p class="spec"><a href="{% url 'work_detail' pk=work.pk %}" class="rm">Узнать больше &raquo;</a></p>
                 </div>
             {% endfor %}
+        {% else %}
+            <div class="article">
+                <h2> <a href=" {% url 'auth_login' %}" >Авторизуйтесь</a> , чтобы просматривать существующие тексты. </h2>
+            </div>
+        {% endif %}
     {% endblock content %}
 

@@ -1,0 +1,18 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'styles/style.css' %}">
+<div class="panel" style="    text-align: center;">
+        <div class="logo">
+                    <h1 style="background:#fff;">
+                        <a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
+                        <small>linguistic mark-up platform</small>
+                    </h1>
+                  </div>
+        <div class="user" style="display: inline-grid;">
+            <h2>{{ user.username }}</h2>
+            <p class="content"><span class="menuitem">Фамилия:</span>{{ user.last_name|linebreaksbr }}</p>
+            <p class="content"><span class="menuitem">Имя:</span>{{ user.first_name|linebreaksbr }}</p>
+            <p class="content"><span class="menuitem">email:</span>{{ user.email|linebreaksbr }}</p>
+            <p class="content"><span class="menuitem">Присоединился:</span>{{ user.date_joined|linebreaksbr }}</p>
+        </div>
+    <button><a class="btn btn-default" href="{% url 'account_form' pk=user.pk %}"><span class="glyphicon glyphicon-pencil">Изменить параметры пользователя</span></a></button>
+</div>

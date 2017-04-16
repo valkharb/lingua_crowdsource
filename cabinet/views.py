@@ -3,11 +3,26 @@ from django.shortcuts import render_to_response
 from cabinet.models import LitWork
 from django.shortcuts import render, get_object_or_404
 from .forms import WorkForm
+from .forms import UserForm
 from .forms import FiltersForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
 from django.contrib import auth
+from django.core.urlresolvers import reverse
+from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.contrib.auth.models import User
+
+def reset_confirm(request, uidb36=None, token=None):
+    return password_reset_confirm(request, template_name='registration/password_reset_confirm.html',
+        uidb36=uidb36, token=token, post_reset_redirect=reverse('cabinet:login'))
+
+
+def reset(request):
+    return password_reset(request, template_name='registration/password_reset_form.html',
+        email_template_name='registration/password_reset_email.html',
+        subject_template_name='registration/password_reset_email.txt',
+        post_reset_redirect=reverse('cabinet:login'))
 
 def base(request):
     return render(request, 'registration/base.html')
@@ -38,6 +53,28 @@ def lit_work_list(request):
 def work_detail(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
     return render(request, 'cabinet/work_detail.html', {'work': work})
+
+def account(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+        return render(request, 'cabinet/account.html', {'user': user})
+    except  User.DoesNotExist:
+        get_object_or_404(User, pk=pk)
+
+def account_form(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.last_name = user.last_name
+            user.first_name = user.first_name
+            user.email = user.email
+            user.save()
+            return redirect('account', pk=user.pk)
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'cabinet/account_form.html', {'form': form})
 
 def work_search(request):
     works = LitWork.objects.all()
