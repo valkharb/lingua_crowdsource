@@ -1,0 +1,22 @@
+ {% extends 'cabinet/lit_work_show.html' %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+    {% block content %}
+        <h2>Издательства</h2>
+        {% if user.is_authenticated %}
+            {% for au in publishers %}
+                <div class="article">
+                  <h3> <a href="#">{{ au.title }}</a></h3>
+                  <div class="clr"></div>
+                    <p class="content">{{ au.sub_title|linebreaksbr }}</p>
+                    <p class="content">{{ au.collection|linebreaksbr }}</p>
+                  <p class="spec"><a href="#" class="rm">Узнать больше &raquo;</a></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="article">
+                <h2> <a href=" {% url 'auth_login' %}" >Авторизуйтесь</a> , чтобы просматривать список издательств. </h2>
+            </div>
+        {% endif %}
+    {% endblock content %}
+

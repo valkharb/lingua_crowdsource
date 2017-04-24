@@ -1,101 +1,46 @@
+{% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
-<html>
-        <head>
-            <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-            <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            <title>Домашняя страница</title>
-        </head>
-        <body>
-        <div class="main" style="background:#d0cbbf url({% static "images/header_bg.gif" %}) repeat-x center top;">
-              <div class="header">
-                <div class="header_resize">
-                  <div class="menu_nav" style="background:#ebeadf url({% static "images/menu.gif" %}) repeat-x center top;border-top-left-radius: 16px; border-top-right-radius: 16px;">
-                    <ul>
-                      <li ><a href="{% url 'lit_work_list' %}"> Домой </a></li>
-                      <li class="active"><a href="{% url 'lit_work_list' %}"> Перейти к разметке</a></li>
-                      <li><a href="">Статистика</a></li>
-                      <li><a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a></li>
-                    </ul>
-                  </div>
-                  <div class="clr"></div>
-                  <div class="logo">
-                    <h1 style="background:#fff;">
-                        <a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
-                        <small>linguistic mark-up platform</small>
-                    </h1>
-                  </div>
-                  <div class="clr"></div>
-                </div>
-              </div>
-
-          <div class="content">
-            <div class="content_resize" style="background:url({% static "images/content_bg.gif" %}) repeat-y center top;">
-              <div class="mainbar">
-                  <div class="search" style="padding:5%;">
-                      <input style="width:70%; padding: 10px;" name="editbox_search" class="editbox_search" id="editbox_search" maxlength="80" placeholder="Лемма..." type="text" />
-                      <button style="border: none;" class="show_filters">Показать фильтры</button>
-                  </div>
-                <div id="filters" style="display: none;">
-                    <div class="article">
-{#                        {% block filters %}#}
-{#                        {% endblock %}#}
-                        <table>
-                            <form method="POST" class="post-form">{% csrf_token %}
-                                 <table>
-                                    {{ form.as_table }}
-                                 </table>
-                                <button type="submit" class="save btn btn-default">Применить</button>
-                                <button type="reset" class="cancel btn btn-default">Очистить фильтр</button>
-                            </form>
-
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+{% block content %}
+    <h2>Поиск по текстам</h2>
+    <input style="width:70%; padding: 10px;" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Название..." type="text" />
+    <button style="border: none;" class="button show_filters">Показать фильтры</button>
+    <div id="filters" style="display: none;">
+        <div class="article">
+            <table>
+                <form method="get" action="/results/" class="post-form">{% csrf_token %}
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                    <div class="buttons">
+                        <input type="submit" value="Применить" />
+                        <button type="reset" class="cancel btn btn-default">Очистить фильтр</button>
                     </div>
-                </div>
-                    <div class="results">
-                        {% block results %}
-                        {% endblock %}
-                    </div>
-              </div>
-              <div class="sidebar">
-                <div class="gadget">
-                  <h2 class="star"><span>Ссылки</span></h2>
-                  <div class="clr"></div>
-                  <ul class="sb_menu">
-                    <li><a href="{% url 'lit_work_list' %}">Домой</a></li>
-                    <li><a href="#">Авторы</a></li>
-                    <li><a href="#">Коллекции</a></li>
-                    <li><a href="#">Издательства</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="clr"></div>
-            </div>
-          </div>
-        <div class="footer">
-            <div class="footer_resize">
-              <p class="lf">Copyright &copy; <a href="#">Higher School of Economics</a>. All Rights Reserved</p>
-              <p class="rf">Get More info about <a target="_blank" href="http://www.hse.ru/"> NRU HSE </a></p>
-              <div class="clr"></div>
-            </div>
-          </div>
-
+                </form>
+            </table>
         </div>
-    </body>
-</html>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
 
-<script type="text/javascript">
-    $('.show_filters').click(function(){
-        filters = document.getElementById('filters');
-        if(filters.style.display=="none") {
-            filters.style.display = "block";
-        }
-        else {
-            filters.style.display = "none";
-        }
-    });
-</script>
-
-
+        });
+        $('.show_filters').click(function(){
+            filters = document.getElementById('filters');
+            if (filters.style.display=="none") {
+                filters.style.display = "block";
+            }
+            else {
+                filters.style.display = "none";
+            }
+        });
+        $('.cancel').click(function(){
+            filters = document.querySelectorAll('[id^="id_"]');
+            $(filters).each(function(e, val){
+                $(val).val('');
+            })
+        });
+    </script>
+{% endblock content %}
 
 
 

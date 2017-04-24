@@ -1,0 +1,22 @@
+ {% extends 'cabinet/lit_work_show.html' %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+    {% block content %}
+        {% if user.is_authenticated %}
+            {% for au in authors %}
+                <div class="article">
+                  <h3> <a href="#">{{ au.title }}</a></h3>
+                  <div class="clr"></div>
+                  <p class="infopost">Опубликовано <span class="date">{{ au.created_date }}</span> <a href="#">{{ au.owner }}</a> &nbsp;|&nbsp; </p>
+                    <p class="content">{{ au.sub_title|linebreaksbr }}</p>
+                    <p class="content">{{ au.collection|linebreaksbr }}</p>
+                  <p class="spec"><a href="{% url 'au_detail' pk=au.pk %}" class="rm">Узнать больше &raquo;</a></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="article">
+                <h2> <a href=" {% url 'auth_login' %}" >Авторизуйтесь</a> , чтобы просматривать список авторов. </h2>
+            </div>
+        {% endif %}
+    {% endblock content %}
+

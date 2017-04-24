@@ -1,14 +1,13 @@
- {% extends 'cabinet/search.html' %}
+ {% extends 'cabinet/lit_work_show.html' %}
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
 
-    {% block filters %}
+    {% block content %}
         <table>
             <form method="POST" class="post-form">{% csrf_token %}
                {{ form.as_table }}
             </form>
         </table>
-    {% endblock filters %}
+    {% endblock content %}
 
 <script>
 

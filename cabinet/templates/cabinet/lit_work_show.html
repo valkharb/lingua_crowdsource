@@ -1,69 +1,57 @@
 {% load staticfiles %}
 <html>
-        <head>
-            <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-            <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-            <title>Домашняя страница</title>
-        </head>
-        <body>
-        <div class="main" style="background:#d0cbbf url({% static "images/header_bg.gif" %}) repeat-x center top;">
-              <div class="header">
-                <div class="header_resize">
-                  <div class="menu_nav" style="background:#ebeadf url({% static "images/menu.gif" %}) repeat-x center top;border-top-left-radius: 16px; border-top-right-radius: 16px;">
-                    <ul>
-                      <li class="active"><a href="{% url 'lit_work_list' %}"> Домой </a></li>
-                      <li><a href="search/"> Перейти к разметке</a></li>
-                      <li><a href="">Статистика</a></li>
-                      <li><a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a></li>
-                      {% if user.is_authentificated == true %}
-                        <li style="padding: 0 100px;"><a href="{% url 'account' pk=user.pk %}">Личный кабинет</a></li>
-                      {% else %}
-                         <li style="padding: 0 100px;"><a href="{% url 'auth_login' %}">Войти в систему</a></li>
-                      {% endif %}
-                    </ul>
-                  </div>
-                  <div class="clr"></div>
-                  <div class="logo">
-                    <h1 style="background:#fff;">
-                        <a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
-                        <small>linguistic mark-up platform</small>
-                    </h1>
-                  </div>
-                  <div class="clr"></div>
-                </div>
-              </div>
-
-          <div class="content">
-            <div class="content_resize" style="background:url({% static "images/content_bg.gif" %}) repeat-y center top;">
-              <div class="mainbar">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <title>Домашняя страница</title>
+</head>
+<body class=" dashboard">
+<div id="container">
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
+                <small>linguistic mark-up platform</small>
+            </h1>
+        </div>
+        <div id="user-tools">
+            <a href="{% url 'work_filters' %}"> Перейти к разметке</a>
+            <a href="">Статистика</a>
+            <a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a>
+            {% if user.is_authentificated == True and user.is_anonymous != True%}
+                <a href="{% url 'account' pk=user.pk %}">Личный кабинет</a>
+            {% else %}
+                <a href="{% url 'auth_login' %}">Войти в систему</a>
+            {% endif %}
+        </div>
+    </div>
+    <div id="content" class="colMS">
+        <div id="content-main">
+            <div class="app-cabinet module">
                 {% block content %}
                 {% endblock %}
-              </div>
-              <div class="sidebar">
-                <div class="gadget">
-                  <h2 class="star"><span>Ссылки</span></h2>
-                  <div class="clr"></div>
-                  <ul class="sb_menu">
-                    <li><a href="{% url 'lit_work_list' %}">Домой</a></li>
-                    <li><a href="#">Авторы</a></li>
-                    <li><a href="#">Коллекции</a></li>
-                    <li><a href="#">Издательства</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="clr"></div>
             </div>
-          </div>
-        <div class="footer">
-            <div class="footer_resize">
-              <p class="lf">Copyright &copy; <a href="#">Higher School of Economics</a>. All Rights Reserved</p>
-              <p class="rf">Get More info about <a target="_blank" href="http://www.hse.ru/"> NRU HSE </a></p>
-              <div class="clr"></div>
-            </div>
-          </div>
-
         </div>
-    </body>
+        <div id="content-related">
+            <div class="module" id="recent-actions-module">
+                <ul class="actionlist">
+                    <li class="addlink"><a href="{% url 'lit_work_list' %}">Домой</a></li>
+                    <li class="addlink"><a href="{% url 'authors_list' %}">Авторы</a></li>
+                    <li class="addlink"><a href="{% url 'collections_list' %}">Коллекции</a></li>
+                    <li class="addlink"><a href="{% url 'publishers_list' %}">Издательства</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footer_resize">
+            <p class="lf">Copyright &copy; <a href="#">Higher School of Economics</a>. All Rights Reserved</p>
+            <p class="rf">Get More info about <a target="_blank" href="http://www.hse.ru/"> NRU HSE </a></p>
+        <div class="clr"></div>
+    </div>
+    </div>
+</div>
+</body>
 </html>
 
 

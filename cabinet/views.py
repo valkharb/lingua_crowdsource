@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from cabinet.models import LitWork
+from cabinet.models import LitWork, Author, Collection, PublishingHouse
 from django.shortcuts import render, get_object_or_404
 from .forms import WorkForm
 from .forms import UserForm
@@ -54,6 +54,18 @@ def work_detail(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
     return render(request, 'cabinet/work_detail.html', {'work': work})
 
+def authors_list(request):
+    authors = Author.objects.all()
+    return render(request, 'cabinet/authors_list.html', {'authors': authors})
+
+def collections_list(request):
+    collections = Collection.objects.all()
+    return render(request, 'cabinet/collections_list.html', {'collections': collections})
+
+def publishers_list(request):
+    publishers = PublishingHouse.objects.all()
+    return render(request, 'cabinet/publishers_list.html', {'publishers': publishers})
+
 def account(request, pk):
     try:
         user = User.objects.get(pk=pk)
@@ -96,7 +108,6 @@ def work_filters(request):
     return render(request, 'cabinet/search.html', {'form': form})
 
 def work_results(request):
-    work_filters(request)
     works = LitWork.objects.all()
     return render(request, 'cabinet/results.html', {'works': works})
 
