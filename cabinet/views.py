@@ -134,12 +134,12 @@ def work_new(request):
 
         else: return render_to_response('cabinet/errors.html', {'form': form})
     else:
-        form = WorkForm()
+        form = NewWorkForm()
     return render(request, 'cabinet/work_new.html', {'form': form})
 
 def collection_new(request):
     if request.method == "POST":
-        form = NewCollForm(request.POST)
+        form = WorkForm(request.POST)
         if form.is_valid():
             work = form.save(commit=False)
             work.owner_id = request.user.id
@@ -149,7 +149,7 @@ def collection_new(request):
 
         else: return render_to_response('cabinet/errors.html', {'form': form})
     else:
-        form = WorkForm()
+        form = NewCollForm()
     return render(request, 'cabinet/collection_new.html', {'form': form})
 
 def work_edit(request, pk):

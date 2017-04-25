@@ -367,7 +367,6 @@ table thead th.sorted .sortoptions a.sortremove {
 }
 
 table thead th.sorted .sortoptions a.sortremove:after {
-    content: "\\";
     position: absolute;
     top: -6px;
     left: 3px;
@@ -777,10 +776,6 @@ table#change-history tbody th {
     padding-bottom: 90px;
 }
 
-.dashboard #content {
-    width: 100%;
-}
-
 #content-main {
     float: left;
     width: 70%;
@@ -794,15 +789,21 @@ table#change-history tbody th {
 }
 
 #footer {
+    margin-top: -80px;
     clear: both;
     padding: 10px;
-    position: absolute;
     left: 0;
     bottom: 0;
     height: 80px;
 }
 
-/* COLUMN TYPES */
+.lf{
+    float: left;
+}
+
+.rf{
+    float: right;
+}
 
 .colMS {
     margin-right: 300px;

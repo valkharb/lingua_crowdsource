@@ -1,44 +1,45 @@
 {% load staticfiles %}
 <html>
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.min.js"></script>
     <title>Лингвистическая платформа</title>
 </head>
 <body class=" dashboard">
 <div id="container">
-    <div id="header">
-        <div id="branding">
-            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
-        </div>
-        <div id="user-tools">
-            <a href="{% url 'work_filters' %}"> Перейти к разметке</a><span> / </span>
-            <a href="{% url 'analysis' %}">Статистика</a><span> / </span>
-            <a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a><span> / </span>
-            {% if user.is_authentificated == True or user.is_anonymous != True%}
-                <a href="{% url 'account' pk=user.pk %}">Личный кабинет</a>
-            {% else %}
-                <a href="{% url 'auth_login' %}">Войти в систему</a>
-            {% endif %}
-        </div>
-    </div>
-    <div id="content" class="colMS">
-        <div id="content-main">
-            <div class="app-cabinet module">
-                {% block content %}
-                {% endblock %}
+    <div style="min-height: 100%">
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
+            </div>
+            <div id="user-tools">
+                <a href="{% url 'work_filters' %}"> Перейти к разметке</a><span> / </span>
+                <a href="{% url 'analysis' %}">Статистика</a><span> / </span>
+                <a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a><span> / </span>
+                {% if user.is_authentificated == True or user.is_anonymous != True%}
+                    <a href="{% url 'account' pk=user.pk %}">Личный кабинет</a>
+                {% else %}
+                    <a href="{% url 'auth_login' %}">Войти в систему</a>
+                {% endif %}
             </div>
         </div>
-        <div id="content-related">
-            <div class="module" id="recent-actions-module">
-                <ul class="actionlist">
-                    <li class="addlink"><a href="{% url 'lit_work_list' %}">Домой</a></li>
-                    <li class="addlink"><a href="{% url 'my_lit_works' %}">Мои тексты</a></li>
-                    <li class="addlink"><a href="{% url 'authors_list' %}">Авторы</a></li>
-                    <li class="addlink"><a href="{% url 'collections_list' %}">Коллекции</a></li>
-                    <li class="addlink"><a href="{% url 'publishers_list' %}">Издательства</a></li>
-                </ul>
+        <div id="content" class="colMS">
+            <div id="content-main">
+                <div class="app-cabinet module">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div id="content-related">
+                <div class="module" id="recent-actions-module">
+                    <ul class="actionlist">
+                        <li class="addlink"><a href="{% url 'lit_work_list' %}">Домой</a></li>
+                        <li class="addlink"><a href="{% url 'my_lit_works' %}">Мои тексты</a></li>
+                        <li class="addlink"><a href="{% url 'authors_list' %}">Авторы</a></li>
+                        <li class="addlink"><a href="{% url 'collections_list' %}">Коллекции</a></li>
+                        <li class="addlink"><a href="{% url 'publishers_list' %}">Издательства</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -46,8 +47,8 @@
         <div class="footer_resize">
             <p class="lf">Copyright &copy; <a href="#">Higher School of Economics</a>. All Rights Reserved</p>
             <p class="rf">Get More info about <a target="_blank" href="http://www.hse.ru/"> NRU HSE </a></p>
-        <div class="clr"></div>
-    </div>
+            <div class="clr"></div>
+        </div>
     </div>
 </div>
 </body>

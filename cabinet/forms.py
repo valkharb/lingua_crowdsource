@@ -40,6 +40,6 @@ class FiltersForm(Form):
     genus = django.forms.CharField(label='Род')
     measure = django.forms.CharField(label='Метр')
     redaction = django.forms.ChoiceField(label='Тип редакции', choices=version_types)
-    collection = django.forms.ChoiceField(label='Коллекция',choices=Collection.objects.all())
+    collection = django.forms.ChoiceField(label='Коллекция')
     published = django.forms.DateTimeField(label='Добавлено')
 

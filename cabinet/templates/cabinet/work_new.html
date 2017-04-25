@@ -1,12 +1,59 @@
 {% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
-    {% block content %}
-        <h1>Художественное произведение</h1>
+{% block content %}
+    <h1>Художественное произведение</h1>
+    <div>
         <form method="POST" class="post-form">{% csrf_token %}
             <table>
-            {{ form.as_table }}
+                {{ form.as_table }}
             </table>
             <input type="submit" value="Сохранить"/>
         </form>
-    {% endblock %}
+    </div>
+    <script type="text/javascript">
+        $('#id_is_main_version').change(function(){
+            if ($(this).is(":checked")){
+                $('#id_version_type').parents('tr').attr('style', 'display: none')
+            }
+            else{
+                $('#id_version_type').parents('tr').attr('style', 'display: table-row')
+            }
+        });
+        $('#id_wrote_date_type').change(function(){
+            if ($(this).is(":checked")){
+                $('#id_wrote_date_source').parents('tr').attr('style', 'display: none')
+            }
+            else{
+                $('#id_wrote_date_source').parents('tr').attr('style', 'display: table-row')
+            }
+        });
+        $('#id_is_published').change(function(){
+            alive = $('#id_is_published_alive').parents('tr');
+            book = $('#id_publish_title').parents('tr');
+            date = $('#id_publish_date').parents('tr');
+            publisher = $('#id_publisher_title').parents('tr');
+            pages = $('#id_publish_pages').parents('tr');
+            archive = $('#id_archive_title').parents('tr');
+            if ($(this).is(":checked")){
+                $(alive).attr('style', 'display: table-row');
+                $(book).attr('style', 'display: table-row');
+                $(date).attr('style', 'display: table-row');
+                $(publisher).attr('style', 'display: table-row');
+                $(pages).attr('style', 'display: table-row');
+                $(archive).attr('style', 'display: none');
+            }
+            else{
+                $(alive).attr('style', 'display: none');
+                $(book).attr('style', 'display: none');
+                $(date).attr('style', 'display: none');
+                $(publisher).attr('style', 'display: none');
+                $(pages).attr('style', 'display: none');
+                $(archive).attr('style', 'display: table-row');
+            }
+        });
+        $(document).ready(function(){
+            $('#id_is_published').trigger('change');
+        });
+    </script>
+{% endblock %}
