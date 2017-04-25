@@ -4,21 +4,19 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <title>Домашняя страница</title>
+    <title>Лингвистическая платформа</title>
 </head>
 <body class=" dashboard">
 <div id="container">
     <div id="header">
         <div id="branding">
-            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
-                <small>linguistic mark-up platform</small>
-            </h1>
+            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
         </div>
         <div id="user-tools">
-            <a href="{% url 'work_filters' %}"> Перейти к разметке</a>
-            <a href="">Статистика</a>
-            <a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a>
-            {% if user.is_authentificated == True and user.is_anonymous != True%}
+            <a href="{% url 'work_filters' %}"> Перейти к разметке</a><span> / </span>
+            <a href="{% url 'analysis' %}">Статистика</a><span> / </span>
+            <a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a><span> / </span>
+            {% if user.is_authentificated == True or user.is_anonymous != True%}
                 <a href="{% url 'account' pk=user.pk %}">Личный кабинет</a>
             {% else %}
                 <a href="{% url 'auth_login' %}">Войти в систему</a>
@@ -36,6 +34,7 @@
             <div class="module" id="recent-actions-module">
                 <ul class="actionlist">
                     <li class="addlink"><a href="{% url 'lit_work_list' %}">Домой</a></li>
+                    <li class="addlink"><a href="{% url 'my_lit_works' %}">Мои тексты</a></li>
                     <li class="addlink"><a href="{% url 'authors_list' %}">Авторы</a></li>
                     <li class="addlink"><a href="{% url 'collections_list' %}">Коллекции</a></li>
                     <li class="addlink"><a href="{% url 'publishers_list' %}">Издательства</a></li>

@@ -1,8 +1,7 @@
 from django.forms import ModelForm
 import django
 from django.forms import Form
-from .models import LitWork
-from .models import Collection
+from .models import LitWork, Collection
 from django.contrib.auth.models import User
 
 
@@ -11,6 +10,16 @@ class WorkForm(ModelForm):
         model = LitWork
         fields = ('title', 'sub_title', 'file','is_published','publish_title', 'publisher_title',
                   'publish_date','version_type','collection')
+
+class NewWorkForm(ModelForm):
+    class Meta:
+        model = LitWork
+        fields = '__all__'
+
+class NewCollForm(ModelForm):
+    class Meta:
+        model = Collection
+        fields = '__all__'
 
 class UserForm(ModelForm):
     class Meta:

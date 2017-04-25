@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     {% block content %}
-        <h1>Художественное произведение</h1>
+        <h1>Коллекция</h1>
         <form method="POST" class="post-form">{% csrf_token %}
             <table>
             {{ form.as_table }}

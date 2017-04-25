@@ -2,9 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from cabinet.models import LitWork, Author, Collection, PublishingHouse
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm
-from .forms import UserForm
-from .forms import FiltersForm
+from .forms import WorkForm, NewWorkForm, UserForm, FiltersForm, NewCollForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -54,6 +52,10 @@ def work_detail(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
     return render(request, 'cabinet/work_detail.html', {'work': work})
 
+def coll_detail(request, pk):
+    coll = get_object_or_404(Collection, pk=pk)
+    return render(request, 'cabinet/coll_detail.html', {'coll': coll})
+
 def authors_list(request):
     authors = Author.objects.all()
     return render(request, 'cabinet/authors_list.html', {'authors': authors})
@@ -69,7 +71,9 @@ def publishers_list(request):
 def account(request, pk):
     try:
         user = User.objects.get(pk=pk)
-        return render(request, 'cabinet/account.html', {'user': user})
+        works = LitWork.objects.filter(owner = request.user)
+        collections = Collection.objects.filter(owner = request.user)
+        return render(request, 'cabinet/account.html', {'user': user , 'works': works , 'collections': collections})
     except  User.DoesNotExist:
         get_object_or_404(User, pk=pk)
 
@@ -92,6 +96,9 @@ def work_search(request):
     works = LitWork.objects.all()
     return render(request, 'cabinet/search.html', {'works': works})
 
+def analysis(request):
+    return render(request, 'cabinet/statistics.html')
+
 def work_filters(request):
     if request.method == "POST":
         form = WorkForm(request.POST)
@@ -107,13 +114,17 @@ def work_filters(request):
         form = FiltersForm()
     return render(request, 'cabinet/search.html', {'form': form})
 
+def my_works(request):
+    works = LitWork.objects.filter(owner = request.user)
+    return render(request, 'cabinet/my.html', {'works': works})
+
 def work_results(request):
     works = LitWork.objects.all()
     return render(request, 'cabinet/results.html', {'works': works})
 
 def work_new(request):
     if request.method == "POST":
-        form = WorkForm(request.POST)
+        form = NewWorkForm(request.POST)
         if form.is_valid():
             work = form.save(commit=False)
             work.owner_id = request.user.id
@@ -125,6 +136,21 @@ def work_new(request):
     else:
         form = WorkForm()
     return render(request, 'cabinet/work_new.html', {'form': form})
+
+def collection_new(request):
+    if request.method == "POST":
+        form = NewCollForm(request.POST)
+        if form.is_valid():
+            work = form.save(commit=False)
+            work.owner_id = request.user.id
+            work.created_date = timezone.now()
+            work.save()
+            return redirect('collections_list')
+
+        else: return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = WorkForm()
+    return render(request, 'cabinet/collection_new.html', {'form': form})
 
 def work_edit(request, pk):
         work = get_object_or_404(LitWork, pk=pk)

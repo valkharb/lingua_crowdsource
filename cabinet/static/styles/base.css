@@ -524,6 +524,15 @@ input[type=button][disabled].default {
     background: #79aec8;
     color: #fff;
 }
+.add {
+        color: white !important;
+        float: right;
+        font-style: italic;
+    }
+
+.menuitem{
+    width: 70%;
+}
 
 .module caption,
 .inline-group h2 {

@@ -1,23 +1,24 @@
- {% extends 'cabinet/lit_work_show.html' %}
+{% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
-    {% block content %}
-        <div class="article">
-            {% if work.published_date %}
-
-                <div class="date">
-                    <span>Дата добавления:</span>{{ work.published_date }}
-                </div>
-            {% endif %}
-            <button><a class="btn btn-default" href="{% url 'mark_up' pk=work.pk %}"><span class="glyphicon glyphicon-pencil">Запустить автоматическую разметку</span></a></button>
-            <button><a class="btn btn-default" href="{% url 'work_edit' pk=work.pk %}"><span class="glyphicon glyphicon-pencil">Изменить запись</span></a></button>
-            <h1>{{ work.title }}</h1>
-            <p><span>Подзаголовок:</span>{{ work.sub_title|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Текст произведения:</span>{{ work.file|linebreaksbr }}</p>
-           <p class="content"> <span class="menuitem">Опубликовано?</span>{{ work.is_published|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Издание:</span>{{ work.publish_title|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Издательство:</span>{{ work.publisher_title_id|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Дата публикации:</span>{{ work.publish_date|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Редакция:</span>{{ work.version_type|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Принадлежит коллекции:</span>{{ work.collection|linebreaksbr }}</p>
-        </div>
-    {% endblock %}
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+{% block content %}
+    <div class="article">
+        {% if work.published_date %}
+            <div class="date">
+                <span>Дата добавления:</span>{{ work.published_date }}
+            </div>
+        {% endif %}
+        <br/>
+        <h1>{{ work.title }}</h1>
+        <p><span>Подзаголовок:</span>{{ work.sub_title|linebreaksbr }}</p>
+        <p class="content"><span class="menuitem">Текст произведения:</span>{{ work.file|linebreaksbr }}</p>
+        <p class="content"> <span class="menuitem">Опубликовано?</span>{{ work.is_published|linebreaksbr }}</p>
+        <p class="content"><span class="menuitem">Издание:</span>{{ work.publish_title|linebreaksbr }}</p>
+        <p class="content"><span class="menuitem">Издательство:</span>{{ work.publisher_title_id|linebreaksbr }}</p>
+        <p class="content"><span class="menuitem">Дата публикации:</span>{{ work.publish_date|linebreaksbr }}</p>
+        <p class="content"><span class="menuitem">Редакция:</span>{{ work.version_type|linebreaksbr }}</p>
+        <p class="content"><span class="menuitem">Принадлежит коллекции:</span>{{ work.collection|linebreaksbr }}</p>
+    </div>
+    <a class="button" href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a>
+    <a class="button" href="{% url 'work_edit' pk=work.pk %}">Изменить запись</a>
+{% endblock %}

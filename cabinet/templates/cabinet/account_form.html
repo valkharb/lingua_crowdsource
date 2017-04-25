@@ -1,7 +1,21 @@
-<h1>Edit your account</h1>
-        <form method="POST" class="post-form">{% csrf_token %}
-            <table>
-            {{ form.as_table }}
-            </table>
-            <button type="submit" class="save btn btn-default">Save</button>
-        </form>
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+<div class="panel">
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
+        </div>
+    </div>
+    <div id="content" class="colMS">
+        <div id="content-main">
+            <div class="app-cabinet module">
+                <form method="POST" class="post-form">{% csrf_token %}
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                    <input type="submit" value="Сохранить"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

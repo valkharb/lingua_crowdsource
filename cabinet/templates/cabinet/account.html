@@ -1,17 +1,56 @@
 {% load staticfiles %}
-<div class="panel" style="    text-align: center;">
-        <div class="logo">
-                    <h1 style="background:#fff;">
-                        <a href="{% url 'lit_work_list' %}">Linguistics&<span>Crowdsource</span></a>
-                        <small>linguistic mark-up platform</small>
-                    </h1>
-                  </div>
-        <div class="user" style="display: inline-grid;">
-            <h2>{{ user.username }}</h2>
-            <p class="content"><span class="menuitem">Фамилия:</span>{{ user.last_name|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Имя:</span>{{ user.first_name|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">email:</span>{{ user.email|linebreaksbr }}</p>
-            <p class="content"><span class="menuitem">Присоединился:</span>{{ user.date_joined|linebreaksbr }}</p>
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+<div class="panel">
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
         </div>
-    <button><a class="btn btn-default" href="{% url 'account_form' pk=user.pk %}"><span class="glyphicon glyphicon-pencil">Изменить параметры пользователя</span></a></button>
+        <div id="user-tools">
+            <a href="{% url 'lit_work_list' %}"> Открыть сайт </a><span> / </span>
+            <a href="{% url 'account_form' pk=user.pk %}">Изменить параметры</a><span> / </span>
+            {% if user.is_superuser %}
+                <a href="/admin/">Панель администратора</a><span> / </span>
+            {% endif %}
+            <a href="{% url 'auth_logout' %}">Выйти</a>
+        </div>
+    </div>
+    <div id="content" class="colMS">
+        <div id="content-main">
+            <div class="app-cabinet module">
+                <h2>{{ user.username }}</h2>
+                <p class="content">
+                    <label>Фамилия:</label>
+                    <span>{{ user.last_name|linebreaksbr }}</span>
+                </p>
+                <p class="content">
+                    <label>Имя:</label>
+                    <span>{{ user.first_name|linebreaksbr }}</span>
+                </p>
+                <p class="content">
+                    <label>email:</label>
+                    <span>{{ user.email|linebreaksbr }}</span>
+                </p>
+                <p class="content">
+                    <label>Присоединился:</label>
+                    <span>{{ user.date_joined|linebreaksbr }}</span>
+                </p>
+            </div>
+            <div class="app-cabinet module">
+                <h2>Мои тексты<a class="add" href="{% url 'work_new' %}">Добавить</a></h2>
+                {% for work in works %}
+                    <div class="article">
+                        <p class="content"><a href="{% url 'work_detail' pk=work.pk %}">{{ work.title }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="app-cabinet module">
+                <h2>Мои коллекции<a class="add" href="{% url 'collection_new' %}">Добавить</a></h2>
+                {% for collection in collections %}
+                    <div class="article">
+                        <p class="content"><a href="{% url 'coll_detail' pk=collection.pk %}">{{ collection.title }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
