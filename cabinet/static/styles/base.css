@@ -169,6 +169,11 @@ hr {
 
 /* TEXT STYLES & MODIFIERS */
 
+.td{
+    width: 200px;
+    display: block;
+}
+
 .small {
     font-size: 11px;
 }

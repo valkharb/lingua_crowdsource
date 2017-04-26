@@ -9,6 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.apps import apps
 db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_project' , charset='utf8')
 apps.get_app_config('admin').verbose_name = 'Главная панель'
+import codecs
+
 # from pytz import timezone
 # Create your models here.
 #     let's use existing django-model now
@@ -182,6 +184,36 @@ class LitWork(models.Model):
 
         # TODO: ЗАКИДЫВАТЬ ЧИСЛО СЛОВ ПО ТЕКСТУ В БАЗУ
         return frequent
+
+    def sentences(self):
+        # take the text from attachment
+        with open(self.file.path, 'r') as work:
+            work.seek(0)
+            work = codecs.open(self.file.path, "r", "utf_8_sig")
+            data = work.read().replace('\n', '')
+            work.close()
+            data = data.replace('? ','.')
+            data = data.replace('! ', '.')
+            sentences = data.replace('... ', '.').split('.')
+        return len(sentences)
+
+    def analysis(self):
+        # take the text from attachment
+        with open(self.file.path, 'r') as work:
+            work.seek(0)
+            work = codecs.open(self.file.path, "r", "utf_8_sig")
+            data = work.read()
+            work.close()
+            paragraphs = data.split('\n')
+        return len(paragraphs)
+
+    def concordance(self):
+        # take the text from attachment
+        with open(self.file.path, 'r') as work:
+            work.seek(0)
+            data = work.read().replace('\n', '')
+            work.close()
+        return data
 
 
 class Author_Work(models.Model):

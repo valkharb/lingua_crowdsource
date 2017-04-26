@@ -39,8 +39,11 @@ urlpatterns = [
         url(r'^collection/new/$', views.collection_new, name='collection_new'),
         url(r'^work/(?P<pk>[0-9]+)/edit/$', views.work_edit, name='work_edit'),
         url(r'^work/(?P<pk>[0-9]+)/mark/$', views.mark_up, name='mark_up'),
+        url(r'^work/(?P<pk>[0-9]+)/sentences/$', views.sentences, name='sentences'),
+        url(r'^work/(?P<pk>[0-9]+)/analysis/$', views.analysis, name='analysis'),
+        url(r'^work/(?P<pk>[0-9]+)/concordance/$', views.concordance, name='concordance'),
         url(r'^search/$', views.work_filters, name='work_filters'),
         url(r'^my/$', views.my_works, name='my_lit_works'),
-        url(r'^analysis/$', views.analysis, name='analysis'),
+        url(r'^statistics/$', views.statistics, name='statistics'),
         url(r'^search/filters/$', views.work_results, name='work_results'),
     ]

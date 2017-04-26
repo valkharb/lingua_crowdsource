@@ -9,16 +9,62 @@
             </div>
         {% endif %}
         <br/>
-        <h1>{{ work.title }}</h1>
-        <p><span>Подзаголовок:</span>{{ work.sub_title|linebreaksbr }}</p>
-        <p class="content"><span class="menuitem">Текст произведения:</span>{{ work.file|linebreaksbr }}</p>
-        <p class="content"> <span class="menuitem">Опубликовано?</span>{{ work.is_published|linebreaksbr }}</p>
-        <p class="content"><span class="menuitem">Издание:</span>{{ work.publish_title|linebreaksbr }}</p>
-        <p class="content"><span class="menuitem">Издательство:</span>{{ work.publisher_title_id|linebreaksbr }}</p>
-        <p class="content"><span class="menuitem">Дата публикации:</span>{{ work.publish_date|linebreaksbr }}</p>
-        <p class="content"><span class="menuitem">Редакция:</span>{{ work.version_type|linebreaksbr }}</p>
-        <p class="content"><span class="menuitem">Принадлежит коллекции:</span>{{ work.collection|linebreaksbr }}</p>
+        <h1>{{ work.title }} <a style="font-size:16px; font-style: italic; float: right;" href="{% url 'work_edit' pk=work.pk %}">Изменить</a></h1>
+        <table style="margin-bottom: 15px;">
+            <tr>
+                <th style="width:40%"></th>
+                <th style="width:40%"></th>
+            </tr>
+            <tr>
+                <td><span class="td" >Подзаголовок:</span></td>
+                <td><span>{{ work.sub_title|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td><span class="td">Текст произведения:</span></td>
+                <td><span>{{ work.file|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td> <span class="td">Опубликовано:</span></td>
+                <td><span>{{ work.is_published|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td><span class="td">Издание:</span></td>
+                <td><span>{{ work.publish_title|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td><span class="td">Издательство:</span></td>
+                <td><span>{{ work.publisher_title_id|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td><span class="td">Дата публикации:</span></td>
+                <td><span>{{ work.publish_date|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td><span class="td">Редакция:</span></td>
+                <td><span>{{ work.collection|linebreaksbr }}</span></td>
+            </tr>
+            <tr>
+                <td><span class="td">Принадлежит коллекции:</span></td>
+                <td><span>{{ work.collection|linebreaksbr }}</span></td>
+            </tr>
+        </table>
     </div>
     <a class="button" href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a>
-    <a class="button" href="{% url 'work_edit' pk=work.pk %}">Изменить запись</a>
+    {% if sentences %}
+        <a class="button" href="{% url 'sentences' pk=work.pk %}">Предложения(Excel)</a>
+    {% else %}
+        <a class="button" href="{% url 'sentences' pk=work.pk %}">Предложения</a>
+    {% endif %}
+    {% if analysed %}
+        <a class="button" href="{% url 'analysis' pk=work.pk %}">Анализ абзацев(Excel)</a>
+    {% else %}
+        <a class="button" href="{% url 'analysis' pk=work.pk %}">Анализ абзацев</a>
+    {% endif %}
+    {% if concordances %}
+        <a class="button" href="{% url 'concordance' pk=work.pk %}">Конкорданс(Excel)</a>
+    {% else %}
+        <a class="button" href="{% url 'concordance' pk=work.pk %}">Конкорданс</a>
+    {% endif %}
+
+
 {% endblock %}

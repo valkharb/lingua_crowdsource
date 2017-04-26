@@ -14,7 +14,7 @@
             </div>
             <div id="user-tools">
                 <a href="{% url 'work_filters' %}"> Перейти к разметке</a><span> / </span>
-                <a href="{% url 'analysis' %}">Статистика</a><span> / </span>
+                <a href="{% url 'statistics' %}">Статистика</a><span> / </span>
                 <a href="https://github.com/valkharb/lingua_crowdsource"> Связаться с автором </a><span> / </span>
                 {% if user.is_authentificated == True or user.is_anonymous != True%}
                     <a href="{% url 'account' pk=user.pk %}">Личный кабинет</a>
