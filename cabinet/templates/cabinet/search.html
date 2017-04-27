@@ -3,21 +3,28 @@
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
 {% block content %}
     <h2>Поиск по текстам</h2>
-    <input style="width:70%; padding: 10px;" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Название..." type="text" />
+    <input style="width:70%; padding: 10px;" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
     <button style="border: none;" class="button show_filters">Показать фильтры</button>
     <div id="filters" style="display: none;">
         <div class="article">
-            <table>
+            <div style="display: inline-block;">
                 <form method="get" action="/results/" class="post-form">{% csrf_token %}
                     <table>
-                        {{ form.as_table }}
+                        {{ form1.as_table }}
                     </table>
-                    <div class="buttons">
-                        <input type="submit" value="Применить" />
-                        <button type="reset" class="cancel btn btn-default">Очистить фильтр</button>
-                    </div>
                 </form>
-            </table>
+            </div>
+            <div style="display: inline-block;">
+                <form method="get" action="/results/" class="post-form">{% csrf_token %}
+                    <table>
+                        {{ form2.as_table }}
+                    </table>
+                </form>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="Применить" />
+                <button type="reset" class="cancel btn btn-default">Очистить фильтр</button>
+            </div>
         </div>
     </div>
     <script type="text/javascript">

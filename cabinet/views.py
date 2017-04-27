@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from cabinet.models import LitWork, Author, Collection, PublishingHouse
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm, NewWorkForm, UserForm, FiltersForm, NewCollForm
+from .forms import WorkForm, NewWorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -126,8 +126,9 @@ def work_filters(request):
         else:
             return render_to_response('cabinet/errors.html', {'form': form})
     else:
-        form = FiltersForm()
-    return render(request, 'cabinet/search.html', {'form': form})
+        form1 = TextFiltersForm()
+        form2 = WordFiltersForm()
+    return render(request, 'cabinet/search.html', {'form1': form1, 'form2': form2})
 
 
 def my_works(request):
