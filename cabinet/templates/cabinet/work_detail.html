@@ -60,11 +60,4 @@
     {% else %}
         <a class="button" href="{% url 'analysis' pk=work.pk %}">Анализ абзацев</a>
     {% endif %}
-    {% if concordances %}
-        <a class="button" href="{% url 'concordance' pk=work.pk %}">Конкорданс(Excel)</a>
-    {% else %}
-        <a class="button" href="{% url 'concordance' pk=work.pk %}">Конкорданс</a>
-    {% endif %}
-
-
 {% endblock %}

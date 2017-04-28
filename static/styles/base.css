@@ -7,11 +7,13 @@
 body {
     margin: 0;
     padding: 0;
+    height: 100%;
     font-size: 14px;
-    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
     color: #333;
     background: #fff;
 }
+
 
 /* LINKS */
 
@@ -166,6 +168,11 @@ hr {
 }
 
 /* TEXT STYLES & MODIFIERS */
+
+.td{
+    width: 200px;
+    display: block;
+}
 
 .small {
     font-size: 11px;
@@ -365,7 +372,6 @@ table thead th.sorted .sortoptions a.sortremove {
 }
 
 table thead th.sorted .sortoptions a.sortremove:after {
-    content: "\\";
     position: absolute;
     top: -6px;
     left: 3px;
@@ -445,7 +451,7 @@ select[multiple] {
 
 /* FORM BUTTONS */
 
-.button, input[type=submit], input[type=button], .submit-row input, a.button {
+.button, button[type=reset], input[type=submit], input[type=button], .submit-row input, a.button {
     background: #79aec8;
     padding: 10px 15px;
     border: none;
@@ -455,7 +461,7 @@ select[multiple] {
 }
 
 a.button {
-    padding: 4px 5px;
+    font-size: 12px;
 }
 
 .button:active, input[type=submit]:active, input[type=button]:active,
@@ -521,6 +527,15 @@ input[type=button][disabled].default {
     text-align: left;
     background: #79aec8;
     color: #fff;
+}
+.add {
+        color: white !important;
+        float: right;
+        font-style: italic;
+    }
+
+.menuitem{
+    width: 70%;
 }
 
 .module caption,
@@ -755,6 +770,7 @@ table#change-history tbody th {
 
 #container {
     position: relative;
+    min-height: 100%;
     width: 100%;
     min-width: 980px;
     padding: 0;
@@ -762,30 +778,37 @@ table#change-history tbody th {
 
 #content {
     padding: 20px 40px;
-}
-
-.dashboard #content {
-    width: 600px;
+    padding-bottom: 90px;
 }
 
 #content-main {
     float: left;
-    width: 100%;
+    width: 70%;
 }
 
 #content-related {
     float: right;
-    width: 260px;
+    width: 45%;
     position: relative;
     margin-right: -300px;
 }
 
 #footer {
+    margin-top: -80px;
     clear: both;
     padding: 10px;
+    left: 0;
+    bottom: 0;
+    height: 80px;
 }
 
-/* COLUMN TYPES */
+.lf{
+    float: left;
+}
+
+.rf{
+    float: right;
+}
 
 .colMS {
     margin-right: 300px;
@@ -899,19 +922,13 @@ table#change-history tbody th {
     font-size: 13px;
 }
 
-#content-related p {
-    padding-left: 16px;
-    padding-right: 16px;
-}
-
 #content-related .actionlist {
-    padding: 0;
+    text-transform: uppercase;
     margin: 16px;
 }
 
 #content-related .actionlist li {
-    line-height: 1.2;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding-left: 18px;
 }
 

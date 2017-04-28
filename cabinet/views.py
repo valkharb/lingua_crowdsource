@@ -10,6 +10,7 @@ from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.models import User
+from django.template import RequestContext
 
 
 def reset_confirm(request, uidb36=None, token=None):
@@ -214,9 +215,9 @@ def analysis(request, pk):
         return render(request, 'cabinet/work_detail.html', {'work': work, 'analysed': count})
 
 
-def concordance(request, pk):
-    work = get_object_or_404(LitWork, pk=pk)
-    if request.method == "GET":
-        work = LitWork.objects.get(pk=pk)
-        work.concordance()
-        return render(request, 'cabinet/work_detail.html', {'work': work})
+def concordance(request):
+    works = LitWork.objects.all()
+    form1 = TextFiltersForm()
+    form2 = WordFiltersForm()
+    request_context = RequestContext(request)
+    return render(request, 'cabinet/results.html', {'works': works, 'form1': form1, 'form2': form2})

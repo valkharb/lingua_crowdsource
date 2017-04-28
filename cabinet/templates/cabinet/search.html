@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
 {% block content %}
     <h2>Поиск по текстам</h2>
-    <input style="width:70%; padding: 10px;" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
+    <input style="width:70%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
     <button style="border: none;" class="button show_filters">Показать фильтры</button>
     <div id="filters" style="display: none;">
         <div class="article">
@@ -21,15 +21,25 @@
                     </table>
                 </form>
             </div>
-            <div class="buttons">
-                <input type="submit" value="Применить" />
-                <button type="reset" class="cancel btn btn-default">Очистить фильтр</button>
-            </div>
+
         </div>
+    </div>
+    <div class="buttons">
+        <button type="submit" class=" button submit">Поиск</button>
+        <button type="reset" class="cancel btn btn-default">Очистить</button>
+    </div>
+    <div>
+        {% block results %}
+        {%  endblock %}
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-
+            $('input').each(function(e, obj){
+                obj.style.width='260px'
+            });
+            $('select').each(function(e, obj){
+                obj.style.width='260px'
+            });
         });
         $('.show_filters').click(function(){
             filters = document.getElementById('filters');
@@ -45,6 +55,27 @@
             $(filters).each(function(e, val){
                 $(val).val('');
             })
+        });
+        $('.submit').click(function(){
+            var data = [];
+            $("[data-name]").each(function(e, obj){
+                if (obj.type == 'checkbox'){
+                    data[obj.getAttribute('data-name')]=obj.checked;
+                }
+                else{
+                    data[obj.getAttribute('data-name')]=obj.value;
+                }
+            });
+            $.ajax({
+                url: '/search/results/',
+                dataType: 'html',
+                type: 'POST',
+                data: data
+            }).done(function(){
+                console.log('success');
+            }).fail(function(){
+                console.log('fail');
+            });
         });
     </script>
 {% endblock content %}

@@ -461,7 +461,7 @@ select[multiple] {
 }
 
 a.button {
-    padding: 4px 5px;
+    font-size: 12px;
 }
 
 .button:active, input[type=submit]:active, input[type=button]:active,

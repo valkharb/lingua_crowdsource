@@ -1,15 +1,16 @@
 {% extends 'cabinet/search.html' %}
-    {% load staticfiles %}
-    {% block results %}
-            {% for work in works %}
-                <div class="article">
-                  <h2> <a href="{% url 'work_detail' pk=work.pk %}">{{ work.title }}</a></h2>
-                  <div class="clr"></div>
-                  <p class="infopost">Опубликовано <span class="date">{{ work.created_date }}</span> <a href="#">{{ work.owner }}</a> &nbsp;|&nbsp; </p>
-                  <img src="{% static "images/img1.jpg" %}" width="201" height="146" alt="" class="fl" />
-                    <p class="content">{{ work.sub_title|linebreaksbr }}</p>
-                    <p class="content">{{ work.collection|linebreaksbr }}</p>
-                  <p class="spec"><a href="{% url 'work_detail' pk=work.pk %}" class="rm">Узнать больше &raquo;</a></p>
-                </div>
-            {% endfor %}
-    {% endblock results %}
+{% load staticfiles %}
+{% block results %}
+    <table>
+        {% for work in works %}
+            <tr>
+                <td>
+                    {{ work.id }}
+                </td>
+                <td>
+                    {{ work.title }}
+                </td>
+            </tr>
+            </table>
+        {% endfor %}
+{% endblock results %}
