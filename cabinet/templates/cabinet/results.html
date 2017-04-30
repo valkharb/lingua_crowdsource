@@ -1,16 +1,33 @@
-{% extends 'cabinet/search.html' %}
+{#{% extends 'cabinet/search.html' %}#}
 {% load staticfiles %}
-{% block results %}
-    <table>
-        {% for work in works %}
-            <tr>
-                <td>
-                    {{ work.id }}
-                </td>
-                <td>
-                    {{ work.title }}
-                </td>
-            </tr>
-            </table>
-        {% endfor %}
-{% endblock results %}
+{#{% block results %}#}
+<table>
+    {% for work in works %}
+        <tr>
+            <td>
+                {{ work.id }}
+            </td>
+            <td>
+                {{ work.title }}
+            </td>
+            <td>
+                {{ work.file }}
+            </td>
+        </tr>
+    {% endfor %}
+    {% for word in words %}
+        <tr>
+            <td>
+                {{ word.id }}
+            </td>
+            <td>
+                {{ word.word }}
+            </td>
+            <td>
+                {{ word.lit_work }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{#{% endblock results %}#}

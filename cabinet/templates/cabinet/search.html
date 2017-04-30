@@ -3,19 +3,20 @@
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
 {% block content %}
     <h2>Поиск по текстам</h2>
-    <input style="width:70%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
+    <input style="width:85%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
     <button style="border: none;" class="button show_filters">Показать фильтры</button>
-    <div id="filters" style="display: none;">
+    <label  class="alert" style="display: none;">Поле обязательно для заполнения!</label>
+    <div id="filters"  style="display: none;">
         <div class="article">
             <div style="display: inline-block;">
-                <form method="get" action="/results/" class="post-form">{% csrf_token %}
+                <form method="get" action="/filters/" class="post-form">{% csrf_token %}
                     <table>
                         {{ form1.as_table }}
                     </table>
                 </form>
             </div>
             <div style="display: inline-block;">
-                <form method="get" action="/results/" class="post-form">{% csrf_token %}
+                <form method="post" action="/results/" class="post-form">{% csrf_token %}
                     <table>
                         {{ form2.as_table }}
                     </table>
@@ -28,19 +29,14 @@
         <button type="submit" class=" button submit">Поиск</button>
         <button type="reset" class="cancel btn btn-default">Очистить</button>
     </div>
-    <div>
-        {% block results %}
-        {%  endblock %}
+    <div class="results">
+        <table class="table">
+
+        </table>
     </div>
+    {% csrf_token %}
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('input').each(function(e, obj){
-                obj.style.width='260px'
-            });
-            $('select').each(function(e, obj){
-                obj.style.width='260px'
-            });
-        });
+
         $('.show_filters').click(function(){
             filters = document.getElementById('filters');
             if (filters.style.display=="none") {
@@ -57,26 +53,70 @@
             })
         });
         $('.submit').click(function(){
-            var data = [];
-            $("[data-name]").each(function(e, obj){
-                if (obj.type == 'checkbox'){
-                    data[obj.getAttribute('data-name')]=obj.checked;
+                name_query = $('.editbox_search');
+                results = $('.table');
+                var data = {};
+                $("[data-name]").each(function(e, obj){
+                    if (obj.type == 'checkbox'){
+                        data[obj.getAttribute('data-name')]=obj.checked;
+                    }
+                    else{
+                        data[obj.getAttribute('data-name')]=obj.value;
+                    }
+                });
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
                 }
-                else{
-                    data[obj.getAttribute('data-name')]=obj.value;
+                var csrftoken = getCookie('csrftoken');
+
+                function csrfSafeMethod(method) {
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
                 }
-            });
-            $.ajax({
-                url: '/search/results/',
-                dataType: 'html',
-                type: 'POST',
-                data: data
-            }).done(function(){
-                console.log('success');
-            }).fail(function(){
-                console.log('fail');
-            });
-        });
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });$(function () {
+                    $.ajaxSetup({
+                        headers: { "X-CSRFToken": getCookie("csrftoken") }
+                    });
+                });
+                if ($(name_query).val() !== ''){
+                    $('.alert').attr('style', 'display: none;');
+                    $.ajax({
+                        url: '/search/results/',
+                        dataType: 'html',
+                        type: 'POST',
+                        data: JSON.stringify(data)
+                    }).done(function(e){
+                        results.hide();
+                        results.before(e);
+                        setTimeout(function(){
+                            results.remove();
+                        }, 1);
+                    }).fail(function(e){
+                        console.log(e);
+                    });
+                }
+                else {
+                    $('.alert').attr('style', 'display: block;');
+                }
+            }
+        );
     </script>
 {% endblock content %}
 
