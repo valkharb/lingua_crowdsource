@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
 {% block content %}
     <h2>Поиск по текстам</h2>
-    <input style="width:85%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
+    <input style="width:85%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search work word" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
     <button style="border: none;" class="button show_filters">Показать фильтры</button>
     <label  class="alert" style="display: none;">Поле обязательно для заполнения!</label>
     <div id="filters"  style="display: none;">
@@ -55,13 +55,25 @@
         $('.submit').click(function(){
                 name_query = $('.editbox_search');
                 results = $('.table');
-                var data = {};
-                $("[data-name]").each(function(e, obj){
-                    if (obj.type == 'checkbox'){
-                        data[obj.getAttribute('data-name')]=obj.checked;
+                var data = {work:{}, word:{}};
+                $(".work[data-name]").each(function(e, obj){
+                    if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                        if (obj.type == 'checkbox') {
+                            data['work'][obj.getAttribute('data-name')] = obj.checked;
+                        }
+                        else {
+                            data['work'][obj.getAttribute('data-name')] = obj.value;
+                        }
                     }
-                    else{
-                        data[obj.getAttribute('data-name')]=obj.value;
+                });
+                $(".word[data-name]").each(function(e, obj){
+                    if ($(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                        if (obj.type == 'checkbox') {
+                            data['word'][obj.getAttribute('data-name')] = obj.checked;
+                        }
+                        else {
+                            data['word'][obj.getAttribute('data-name')] = obj.value;
+                        }
                     }
                 });
                 function getCookie(name) {

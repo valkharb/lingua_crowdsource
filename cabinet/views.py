@@ -199,62 +199,12 @@ def parent_model(self):
     return self._meta.object_name
 
 def concordance(request):
-    cur = db.cursor()
-    cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
-    cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
-    cur.execute("SET character_set_connection=utf8mb4;")  # same as above
-    # будем динамически создавать запрос к базе и объединять результаты
-    work_query = 'select id, title as res, file as parent from cabinet_litwork where '
-    work_flag = False
-    word_query = ' union select id, word as res, lit_work_id as parent from cabinet_markup where '
-    word_flag = False
     params = json.loads(request.body.decode('utf-8'))
-    for key in params.keys():
-        if params[key] != '' and params[key] != 'none' and params[key] != 'empty':
-            if params[key] == True:
-                params[key] = '1'
-            if params[key] == False:
-                params[key] = '0'
-            if key == 'title':
-                if not word_flag:
-                    word_query += ' word = ' + '"' + params[key] + '"'
-                else:
-                    word_query += ' and word = ' + '"' + params[key] + '"'
-                if not work_flag:
-                    work_query += key + ' = ' + '"' + params[key] + '"'
-                else:
-                    work_query += ' and ' + key + ' = ' + '"' + params[key] + '"'
-            else:
-        #     смотрим, к какой из таблиц принадлежит параметр
-                try:
-                    LitWork._meta.get_field(key)
-                    if not work_flag:
-                        work_query += key + ' = ' + '"' + params[key] + '"'
-                        work_flag = True
-                    else:
-                        work_query += ' and ' + key + ' = ' + '"' + params[key] + '"'
-                except models.FieldDoesNotExist:
-                    try:
-                        MarkUp._meta.get_field(key)
-                        if not word_flag:
-                            word_query += key + ' = ' + '"' + params[key] + '"'
-                            word_flag = True
-                        else:
-                            word_query += ' and ' + key + ' = ' + '"' + params[key] + '"'
-                    except models.FieldDoesNotExist:
-                        pass
-    final1 = LitWork.objects.none()
-    final2 = MarkUp.objects.none()
-    with db:
-        cur.execute(work_query+word_query)
-        result = cur.fetchall()
-        for t in result:
-            if t[2].find('txt') != -1:
-                final1 = LitWork.objects.filter(id=t[0])
-            else:
-                final2 = MarkUp.objects.filter(id=t[0])
-    final = list(chain(final1, final2))
-    works = LitWork.objects.all()
+    work_query = params['work']
+    params['word']['word'] = params['word'].pop('title')
+    word_query = params['word']
+    final1 = LitWork.objects.filter(**work_query)
+    final2 = MarkUp.objects.filter(**word_query)
     form1 = TextFiltersForm()
     form2 = WordFiltersForm()
     return render(request, 'cabinet/results.html', {'works': final1, 'words': final2, 'form1': form1, 'form2': form2})
