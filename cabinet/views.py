@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp
 from django.shortcuts import render, get_object_or_404
@@ -129,19 +130,20 @@ def work_results(request):
 
 def work_new(request):
     if request.method == "POST":
-        form = NewWorkForm(request.POST)
+        form = WorkForm(request.POST, request.FILES)
+        morph = pymorphy2.MorphAnalyzer()
         if form.is_valid():
             work = form.save(commit=False)
             work.owner_id = request.user.id
             work.published_date = timezone.now()
             work.save()
+            work.mark_up(morph)
             return redirect('work_detail', pk=work.pk)
-
         else:
             return render_to_response('cabinet/errors.html', {'form': form})
     else:
-        form = NewWorkForm()
-    return render(request, 'cabinet/work_new.html', {'form': form})
+        form = WorkForm()
+        return render(request, 'cabinet/work_new.html', {'form': form})
 
 def collection_new(request):
     if request.method == "POST":

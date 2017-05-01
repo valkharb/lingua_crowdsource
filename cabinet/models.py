@@ -16,6 +16,76 @@ import codecs
 #     let's use existing django-model now
 # class User(models.Model) :
 
+class Paragraph(models.Model):
+    verbose_name = u'Абзацы'
+    value = models.CharField(verbose_name = _(u'Абзац'), max_length=3000, null=True)
+    lit_work = models.ForeignKey('LitWork', verbose_name=_(u'Литературное произведение'))
+
+    def parse_sentences(self, morph):
+        cur = db.cursor()
+        cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
+        cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
+        cur.execute("SET character_set_connection=utf8mb4;")  # same as above
+        sentences = re.split('\n|\.\.\. |\! |\? |\. ', self.value)
+        for s in sentences:
+            with db:
+                cur.execute('INSERT INTO cabinet_sentence (value, paragraph_id) values( "' +s+'", '+str(self.id)+ ')')
+                # new_s = Paragraph.objects.create(value=s,paragraph_id=self.id)
+            Sentence.objects.latest('id').parse_words(morph)
+        return self
+
+class Sentence(models.Model):
+    verbose_name = u'Предложения'
+    value = models.CharField(verbose_name=_(u'Предложение'), max_length=500, null=True)
+    paragraph = models.ForeignKey(Paragraph, verbose_name=_(u'Абзац'))
+
+    def parse_words(self, morph):
+        cur = db.cursor()
+        cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
+        cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
+        cur.execute("SET character_set_connection=utf8mb4;")  # same as above
+        words = re.findall(r"[\w']+", str.lower(self.value))
+        POSes = {'NOUN', 'VERB', 'ADJF', 'PRTF', 'GRND', 'NPRO', 'COMP', 'PRTS', 'INTJ', 'PRCL', 'ADJS', 'NUMR',
+                 'ADVB'}
+        # take infinitives
+        normal_words = []
+        for nw in words[:-1]:
+            parsed = morph.parse(nw)
+            # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
+            for p in parsed:
+                normal_words.append(parsed[0].normal_form)
+                MarkUp.objects.create(word=nw,
+                                      grammem=str(p.tag.POS),
+                                      animacy=str(p.tag.animacy),
+                                      aspect=str(p.tag.aspect),
+                                      case=str(p.tag.case),
+                                      involvement=str(p.tag.involvement),
+                                      mood=str(p.tag.mood),
+                                      number=str(p.tag.number),
+                                      person=str(p.tag.person),
+                                      tense=str(p.tag.tense),
+                                      transitivity=str(p.tag.transitivity),
+                                      voice=str(p.tag.voice),
+                                      count=0,
+                                      sentence_id=self.id)
+        # create the dictionary
+        normals = set(normal_words)
+        dictionary = {w: 0 for w in normals}
+
+        for w in dictionary:
+            parsed = morph.parse(w)
+            if parsed[0].normal_form in normal_words:
+                dictionary[parsed[0].normal_form] += 1
+        for w in words:
+            for key in dictionary:
+                if morph.parse(w)[0].normal_form == key:
+                    with db:
+                        cur.execute('UPDATE cabinet_markup SET count = ' + str(
+                            dictionary[key]) + ' WHERE word = "' + w + '" and sentence_id = ' + str(self.id))
+        frequent = {w: dictionary[w] for w in dictionary.keys() if dictionary[w] > 1}
+        return self
+
+
 class Author(models.Model):
     verbose_name = u'Авторы'
     last_name = models.CharField(max_length=50, verbose_name = _(u'Фамилия'))
@@ -57,8 +127,7 @@ class MarkUp(models.Model):
     transitivity = models.CharField( blank=False, max_length=100, verbose_name = _(u'Переходность')) # переходность (переходный, непереходный)
     voice = models.CharField( blank=False, max_length=100, verbose_name = _(u'Залог'))# залог (действительный, страдательный)
     count = models.IntegerField( blank=False, verbose_name = _(u'Встречается в тексте'))
-    lit_work = models.ForeignKey('LitWork', verbose_name=_(u'Произведение'))
-
+    sentence = models.ForeignKey('Sentence', verbose_name=_(u'Предложение'))
 
 class LitWork(models.Model):
     verbose_name = u'Литературные произведения'
@@ -132,58 +201,24 @@ class LitWork(models.Model):
         return self.title
 
     def mark_up(self, morph):
+
         # take the text from attachment
         with open(self.file.path, 'r') as work:
             work.seek(0)
-            data = work.read().replace('\n', '')
+            data = work.read()
             work.close()
         # parse text by symbol characters and put it to the array
-        words = re.findall(r"[\w']+", str.lower(data))
-        POSes = {'NOUN', 'VERB', 'ADJF', 'PRTF', 'GRND','NPRO','COMP','PRTS','INTJ','PRCL','ADJS','NUMR','ADVB'}
-        # take infinitives
-        normal_words = []
-        for nw in words[:-1]:
-            parsed = morph.parse(nw)
-            # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
-            for p in parsed:
-                normal_words.append(parsed[0].normal_form)
-                MarkUp.objects.create(  word = nw,
-                                        grammem = str(p.tag.POS),
-                                        animacy = str(p.tag.animacy),
-                                        aspect = str(p.tag.aspect),
-                                        case  = str(p.tag.case),
-                                        involvement = str(p.tag.involvement),
-                                        mood  = str(p.tag.mood),
-                                        number = str(p.tag.number),
-                                        person  = str(p.tag.person),
-                                        tense  = str(p.tag.tense),
-                                        transitivity  = str(p.tag.transitivity),
-                                        voice  = str(p.tag.voice),
-                                        count = 0,
-                                        lit_work_id = self.id)
-        # TODO: Добавить поле count в модель маркап и убрать ограничение длины для поля описания. Подумать, как красиво записать туда полное описание слова.
+        # разбиваем тексты сначала на абзацы. Будем их сохранять в базе последовательно
+        paragraphs = data.split('\n')
+        for p in paragraphs:
+            new_p = Paragraph.objects.create( value = p,
+                                      lit_work_id = self.id )
+            new_p.save()
+            new_p.parse_sentences(morph)
 
-        # create the dictionary
-        normals = set(normal_words)
-        dictionary = {w: 0 for w in normals}
-
-        cur = db.cursor()
-        cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
-        cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
-        cur.execute("SET character_set_connection=utf8mb4;")  # same as above
-        for w in dictionary:
-            parsed = morph.parse(w)
-            if parsed[0].normal_form in normal_words:
-                dictionary[parsed[0].normal_form] += 1
-        for w in words:
-            for key in dictionary:
-                if morph.parse(w)[0].normal_form == key:
-                    with db:
-                        cur.execute('UPDATE cabinet_markup SET count = '+ str(dictionary[key]) +' WHERE word = "'+ w +'" and lit_work_id = '+ str(self.id))
-        frequent = {w: dictionary[w] for w in dictionary.keys() if dictionary[w] > 1}
 
         # TODO: ЗАКИДЫВАТЬ ЧИСЛО СЛОВ ПО ТЕКСТУ В БАЗУ
-        return frequent
+        return self
 
     def sentences(self):
         # take the text from attachment
@@ -214,7 +249,6 @@ class LitWork(models.Model):
             data = work.read().replace('\n', '')
             work.close()
         return data
-
 
 class Author_Work(models.Model):
     author = models.ForeignKey('Author')

@@ -4,7 +4,7 @@
 {% block content %}
     <h1>Художественное произведение</h1>
     <div>
-        <form method="POST" class="post-form">{% csrf_token %}
+        <form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>

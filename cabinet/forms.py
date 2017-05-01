@@ -8,8 +8,9 @@ from django.contrib.auth.models import User
 class WorkForm(ModelForm):
     class Meta:
         model = LitWork
-        fields = ('title', 'sub_title', 'file','is_published','publish_title', 'publisher_title',
-                  'publish_date','version_type','collection')
+        fields = '__all__'
+        file = django.forms.FileField(label='Текст произведения', widget=django.forms.FileInput(attrs={'class':'file_upload'}))
+
 
 class NewWorkForm(ModelForm):
     class Meta:
