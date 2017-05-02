@@ -1,0 +1,34 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+{% block content %}
+    <div class="article">
+        <h1> Результаты:  <a style="font-size:16px; font-style: italic; float: right;" href="{% url 'markup_edit' pk=word.pk %}">Изменить</a></h1>
+        <h2 style="width: 800px;padding: 10px 30px;"> {{ word.word }}</h2>
+        <div id="paragraph" style="background-color: #f8f8f8; width: 800px; padding: 30px;">
+            {{ word.sentence.paragraph.value }}
+        </div>
+        <table>
+            <tr><th>Свойство:</th><th>Значение:</th></tr>
+            <tr><td>Часть речи:	</td><td>{{ word.grammem }}</td></tr>
+            <tr><td>Одушевленность:	</td><td>{{ word.animacy }}</td></tr>
+            <tr><td>Совершенность:	</td><td>{{ word.aspect }}</td></tr>
+            <tr><td>Падеж:	</td><td>{{ word.case }}</td></tr>
+            <tr><td>Род:	</td><td>{{ word.gender }}</td></tr>
+            <tr><td>Вовлеченность говорящего: </td><td>{{ word.involvement }}</td></tr>
+            <tr><td>Наклонение:	</td><td>{{ word.mood }}</td></tr>
+            <tr><td>Число: </td><td>{{ word.number }}</td></tr>
+            <tr><td>Лицо:	</td><td>{{ word.person }}</td></tr>
+            <tr><td>Время:	</td><td>{{ word.tense }}</td></tr>
+            <tr><td>Переходность:</td><td>{{ word.transitivity }}</td></tr>
+            <tr><td>Залог:</td><td>{{ word.voice }}</td></tr>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function(){
+            text = $('#paragraph').html();
+            text = text.replace(' {{ word.word }} ', '<b style="color:red;"> {{ word.word }} </b>');
+            $('#paragraph').html(text);
+        });
+    </script>
+{% endblock %}

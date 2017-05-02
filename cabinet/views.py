@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm, NewWorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm
+from .forms import WorkForm, NewWorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -127,6 +127,24 @@ def my_works(request):
 def work_results(request):
     works = LitWork.objects.all()
     return render(request, 'cabinet/results.html', {'works': works})
+
+def view_paragraph(request,pk):
+    word = get_object_or_404(MarkUp, pk=pk)
+    return render(request, 'cabinet/view_paragraph.html', {'word': word})
+
+def word_edit(request,pk):
+    word = get_object_or_404(MarkUp, pk=pk)
+    if request.method == "POST":
+        form = WordForm(request.POST, instance=word)
+        if form.is_valid():
+            word = form.save(commit=False)
+            word.save()
+            return redirect('view_paragraph', pk=word.pk)
+        else:
+            return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = WordForm(instance=word)
+        return render(request, 'cabinet/word_edit.html', {'form': form})
 
 def work_new(request):
     if request.method == "POST":

@@ -14,6 +14,18 @@ body {
     background: #fff;
 }
 
+#info{
+	position:absolute;
+	display:none;
+    top:200px;
+	z-index:9;
+}
+
+#info:target{
+
+display:block;
+}
+
 
 /* LINKS */
 
@@ -502,6 +514,10 @@ input[type=button][disabled].default {
     background: #fff;
 }
 
+.filter{
+    width: 260px;
+}
+
 .module p, .module ul, .module h3, .module h4, .module dl, .module pre {
     padding-left: 10px;
     padding-right: 10px;
@@ -783,12 +799,12 @@ table#change-history tbody th {
 
 #content-main {
     float: left;
-    width: 70%;
+    width: 90%;
 }
 
 #content-related {
     float: right;
-    width: 45%;
+    width: 20%;
     position: relative;
     margin-right: -300px;
 }

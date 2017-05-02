@@ -21,14 +21,56 @@
                 <td>
                     {{ word.id }}
                 </td>
-                <td>
+                <td class="before">
                     {{ word.sentence.value }}
                 </td>
-                <td>
-                    {{ word.word }}
+                <td class="context" onClick="panel = document.getElementById('{{ word.id }}'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
+                    <a href="#info">
+                        {{ word.word }}
+                    </a>
+                </td>
+                <td class="after">
+                    {{ word.sentence.value }}
                 </td>
             </tr>
+            <div id="{{ word.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
+                <a href="#" id="hideel" onclick="$(this).parent().attr('style', 'display:none'); return false;" style="margin: 49%">
+                    <img style="width: 15px;height: 15px;" src="{% static 'images/arrow.png' %}"/>
+                </a>
+                <div class="grammar" style="display: table">
+                    <div style="width: 800px;margin-bottom: 40px;">
+                        <div style="float: left; width: 25%;">
+                            Лемма:
+                        </div>
+                        <div style="float: right;width: 70%; background-color: white;padding: 10px;">
+                            {{ word.word }}
+                        </div>
+                    </div>
+                    <div style="width: 800px;margin-bottom: 80px;">
+                        <div style="float: left; width: 25%;">
+                            Грамматика:
+                        </div>
+                        <div style="float: right;width: 70%; background-color: white;padding: 10px;">
+                            {{ word.grammem }}
+                        </div>
+                    </div>
+                    <div style="width: 800px;">
+                        <div style="float: left; width: 25%;">
+                            Теги:
+                        </div>
+                        <div style="float: right;width: 70%; background-color: white;padding: 10px;">
+                            {{ word.sentence.id }}
+                        </div>
+                    </div>
+                </div>
+                <div style="float: right;">
+                    <a href="{% url 'view_paragraph' pk=word.pk %}">
+                        Подробнее...
+                    </a>
+                </div>
+            </div>
         {% endfor %}
     </table>
 </div>
+
 {#{% endblock results %}#}

@@ -1,6 +1,6 @@
 {% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+<link rel="stylesheet" href="{% static 'styles/base.css' %}" type="text/css" media="screen" />
 {% block content %}
     <h2>Поиск по текстам</h2>
     <input style="width:85%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search work word" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
@@ -34,8 +34,11 @@
 
         </table>
     </div>
+
     {% csrf_token %}
     <script type="text/javascript">
+
+        word = $('.editbox_search');
 
         $('.show_filters').click(function(){
             filters = document.getElementById('filters');
@@ -92,7 +95,6 @@
                     return cookieValue;
                 }
                 var csrftoken = getCookie('csrftoken');
-
                 function csrfSafeMethod(method) {
                     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
                 }
@@ -120,6 +122,16 @@
                         setTimeout(function(){
                             results.remove();
                         }, 1);
+
+                        before = $('.before');
+                        after = $('.after');
+
+                        $(before).each(function(e,b){
+                            $(b)[0].innerText = $(b)[0].innerText.toLowerCase().split(word.val())[0];
+                        });
+                        $(after).each(function(e,a) {
+                            $(a)[0].innerText = $(a)[0].innerText.toLowerCase().split(word.val())[1];
+                        });
                     }).fail(function(e){
                         console.log(e);
                     });

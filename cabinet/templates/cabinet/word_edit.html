@@ -1,0 +1,14 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+{% block content %}
+    <h1>Редактирование разметки</h1>
+    <div>
+        <form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Сохранить"/>
+        </form>
+    </div>
+{% endblock %}

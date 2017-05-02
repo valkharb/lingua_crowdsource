@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 import django
 from django.forms import Form
-from .models import LitWork, Collection
+from .models import LitWork, Collection, MarkUp
 from django.contrib.auth.models import User
 
 
@@ -11,6 +11,10 @@ class WorkForm(ModelForm):
         fields = '__all__'
         file = django.forms.FileField(label='Текст произведения', widget=django.forms.FileInput(attrs={'class':'file_upload'}))
 
+class WordForm(ModelForm):
+    class Meta:
+        model = MarkUp
+        exclude = ('word','count', 'sentence',)
 
 class NewWorkForm(ModelForm):
     class Meta:

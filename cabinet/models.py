@@ -54,18 +54,19 @@ class Sentence(models.Model):
             # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
             for p in parsed:
                 normal_words.append(parsed[0].normal_form)
+                # в базу будут сохраняться переведенные на киррилицу морфологические свойства. Юзеру так будет приятнее.
                 MarkUp.objects.create(word=nw,
-                                      grammem=str(p.tag.POS),
-                                      animacy=str(p.tag.animacy),
-                                      aspect=str(p.tag.aspect),
-                                      case=str(p.tag.case),
-                                      involvement=str(p.tag.involvement),
-                                      mood=str(p.tag.mood),
-                                      number=str(p.tag.number),
-                                      person=str(p.tag.person),
-                                      tense=str(p.tag.tense),
-                                      transitivity=str(p.tag.transitivity),
-                                      voice=str(p.tag.voice),
+                                      grammem=morph.lat2cyr(str(p.tag.POS)),
+                                      animacy=morph.lat2cyr(str(p.tag.animacy)),
+                                      aspect=morph.lat2cyr(str(p.tag.aspect)),
+                                      case=morph.lat2cyr(str(p.tag.case)),
+                                      involvement=morph.lat2cyr(str(p.tag.involvement)),
+                                      mood=morph.lat2cyr(str(p.tag.mood)),
+                                      number=morph.lat2cyr(str(p.tag.number)),
+                                      person=morph.lat2cyr(str(p.tag.person)),
+                                      tense=morph.lat2cyr(str(p.tag.tense)),
+                                      transitivity=morph.lat2cyr(str(p.tag.transitivity)),
+                                      voice=morph.lat2cyr(str(p.tag.voice)),
                                       count=0,
                                       sentence_id=self.id)
         # create the dictionary
@@ -84,7 +85,6 @@ class Sentence(models.Model):
                             dictionary[key]) + ' WHERE word = "' + w + '" and sentence_id = ' + str(self.id))
         frequent = {w: dictionary[w] for w in dictionary.keys() if dictionary[w] > 1}
         return self
-
 
 class Author(models.Model):
     verbose_name = u'Авторы'
