@@ -48,4 +48,5 @@ urlpatterns = [
         url(r'^search/filters/$', views.work_results, name='work_results'),
         url(r'^search/(?P<pk>[0-9]+)/$', views.view_paragraph, name='view_paragraph'),
         url(r'^search/(?P<pk>[0-9]+)/edit/$', views.word_edit, name='markup_edit'),
+        url(r'^tags/new/(?P<id>[0-9]+)/(?P<type>sentence|word|paragraph|text)/$', views.add_tag, name='add_tag')
     ]

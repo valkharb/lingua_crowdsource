@@ -1,9 +1,14 @@
 from django.forms import ModelForm
 import django
 from django.forms import Form
-from .models import LitWork, Collection, MarkUp
+from .models import LitWork, Collection, MarkUp, Tags
 from django.contrib.auth.models import User
 
+
+class TagForm(ModelForm):
+    class Meta:
+        model = Tags
+        fields = '__all__'
 
 class WorkForm(ModelForm):
     class Meta:

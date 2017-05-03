@@ -4,9 +4,12 @@
 {% block content %}
     <div class="article">
         <h1> Результаты:  <a style="font-size:16px; font-style: italic; float: right;" href="{% url 'markup_edit' pk=word.pk %}">Изменить</a></h1>
-        <h2 style="width: 800px;padding: 10px 30px;"> {{ word.word }}</h2>
+        <h2 style="width: 800px;padding: 10px 30px;"> {{ word.word }}<a style="color: white; font-size:16px; font-style: italic; float: right;" href="{% url 'add_tag' type='word' id=word.id %}?next={{ request.path }}">Теги</a></h2>
         <div id="paragraph" style="background-color: #f8f8f8; width: 800px; padding: 30px;">
             {{ word.sentence.paragraph.value }}
+            <a class="button" style="float: right;" href="{% url 'add_tag' type='paragraph' id=word.sentence.paragraph.id %}?next={{ request.path }}">
+                Теги
+            </a>
         </div>
         <table>
             <tr><th>Свойство:</th><th>Значение:</th></tr>

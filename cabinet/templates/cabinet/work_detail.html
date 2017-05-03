@@ -9,7 +9,11 @@
             </div>
         {% endif %}
         <br/>
-        <h1>{{ work.title }} <a style="font-size:16px; font-style: italic; float: right;" href="{% url 'work_edit' pk=work.pk %}">Изменить</a></h1>
+        <h2>{{ work.title }} <a style="font-size:16px; font-style: italic; float: right; color:white" href="{% url 'work_edit' pk=work.pk %}">Изменить</a></h2>
+        <a class="button" style=" float: right; margin: 30px 0;" href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a>
+        <a class="button" style="float: right; margin: 30px 10px;" href="{% url 'add_tag' type='text' id=work.id %}?next={{ request.path }}">
+            Теги
+        </a>
         <table style="margin-bottom: 15px;">
             <tr>
                 <th style="width:40%"></th>
@@ -49,15 +53,25 @@
             </tr>
         </table>
     </div>
-    <a class="button" href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a>
-    {% if sentences %}
-        <a class="button" href="{% url 'sentences' pk=work.pk %}">Предложения(Excel)</a>
-    {% else %}
-        <a class="button" href="{% url 'sentences' pk=work.pk %}">Предложения</a>
-    {% endif %}
-    {% if analysed %}
-        <a class="button" href="{% url 'analysis' pk=work.pk %}">Анализ абзацев(Excel)</a>
-    {% else %}
-        <a class="button" href="{% url 'analysis' pk=work.pk %}">Анализ абзацев</a>
-    {% endif %}
+
+    <h2> Статистика </h2>
+    <h3> Предложения: </h3>
+    <table>
+        <tr>
+            <th>Количество предложений:</th><td>{{ s_count }}</td>
+        </tr>
+        <tr>
+            <th>Среднее число слов:</th><td>{{ w_count }}</td>
+        </tr>
+    </table>
+    <h3> Абзацы: </h3>
+    <table>
+        <tr>
+            <th>Количество абзацев:</th><td>{{ p_count }}</td>
+        </tr>
+        <tr>
+            <th>Средняя длина абзаца:</th><td>{{ p_length }}</td>
+        </tr>
+    </table>
+
 {% endblock %}

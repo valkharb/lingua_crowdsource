@@ -1,14 +1,11 @@
 from django.http import HttpResponseRedirect
-from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp
+from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp, Sentence, Paragraph, Word, Tags
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm, NewWorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm
+from .forms import WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
-from itertools import chain
-from django.db import models
 from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
@@ -16,6 +13,9 @@ from django.contrib.auth.models import User
 import pymysql
 db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_project' , charset='utf8')
 import json
+from django.db.models import Count, Avg
+from django.utils.http import is_safe_url
+
 
 def reset_confirm(request, uidb36=None, token=None):
     return password_reset_confirm(request, template_name='registration/password_reset_confirm.html',
@@ -54,7 +54,21 @@ def lit_work_list(request):
 
 def work_detail(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
-    return render(request, 'cabinet/work_detail.html', {'work': work})
+    p_count = len(Paragraph.objects.filter(lit_work_id=pk))
+    ids = Paragraph.objects.values_list('id', flat=True).filter(lit_work_id=pk)
+    sentences = Sentence.objects.filter(paragraph_id__in=set(ids))
+    s_count = len(sentences)
+    s_ids =  Sentence.objects.values_list('id', flat=True).filter(paragraph_id__in=set(ids))
+    aaa = Sentence.objects.annotate(num=Count('word'))
+    w_count = aaa.aggregate(Avg('num'))
+    w_pars = Paragraph.objects.annotate(count = Count('sentence'))
+    p_length = w_pars.aggregate(Avg('count'))
+    if p_length['count__avg']:
+        p_length['count__avg'] = round(p_length['count__avg'])
+    if w_count['num__avg']:
+        w_count['num__avg'] = round(w_count['num__avg'])
+    return render(request, 'cabinet/work_detail.html', {'work': work, 's_count': s_count, 'w_count':w_count['num__avg'],
+                                                        'p_count':p_count, 'p_length':p_length['count__avg']})
 
 def coll_detail(request, pk):
     coll = get_object_or_404(Collection, pk=pk)
@@ -163,6 +177,26 @@ def work_new(request):
         form = WorkForm()
         return render(request, 'cabinet/work_new.html', {'form': form})
 
+def add_tag(request, id, type):
+    if request.method == "POST":
+        POST = request.POST.copy()
+        POST['el_type'] = type
+        POST['el_id'] = id
+        form = TagForm(POST)
+        if form.is_valid():
+            tag = form.save(commit=False)
+            tag.save()
+            next = request.GET.get('next', '/')
+            # check that next is safe
+            if not is_safe_url(next):
+                next = '/'
+            return redirect(next)
+        else:
+            return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = TagForm()
+        return render(request, 'cabinet/add_tag.html', {'form': form})
+
 def collection_new(request):
     if request.method == "POST":
         form = WorkForm(request.POST)
@@ -221,10 +255,10 @@ def parent_model(self):
 def concordance(request):
     params = json.loads(request.body.decode('utf-8'))
     work_query = params['work']
-    params['word']['word'] = params['word'].pop('title')
+    params['word']['value'] = params['word'].pop('title')
     word_query = params['word']
     final1 = LitWork.objects.filter(**work_query)
-    final2 = MarkUp.objects.filter(**word_query)
+    final2 = Word.objects.filter(**word_query)
     form1 = TextFiltersForm()
     form2 = WordFiltersForm()
     return render(request, 'cabinet/results.html', {'works': final1, 'words': final2, 'form1': form1, 'form2': form2})

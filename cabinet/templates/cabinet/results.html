@@ -22,15 +22,20 @@
                     {{ word.id }}
                 </td>
                 <td class="before">
-                    {{ word.sentence.value }}
+                    {{ word.Sentence.value }}
                 </td>
                 <td class="context" onClick="panel = document.getElementById('{{ word.id }}'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
                     <a href="#info">
-                        {{ word.word }}
+                        {{ word.value }}
                     </a>
                 </td>
                 <td class="after">
-                    {{ word.sentence.value }}
+                    {{ word.Sentence.value }}
+                </td>
+                <td class="tags">
+                    <a class="button" href="{% url 'add_tag' type='sentence' id=word.Sentence.id %}?next={{ request.path }}">
+                        Теги
+                    </a>
                 </td>
             </tr>
             <div id="{{ word.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
@@ -43,7 +48,7 @@
                             Лемма:
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
-                            {{ word.word }}
+                            {{ word.value }}
                         </div>
                     </div>
                     <div style="width: 800px;margin-bottom: 80px;">
@@ -51,7 +56,7 @@
                             Грамматика:
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
-                            {{ word.grammem }}
+                            {{ word.mark_up.grammem }}
                         </div>
                     </div>
                     <div style="width: 800px;">
@@ -64,7 +69,7 @@
                     </div>
                 </div>
                 <div style="float: right;">
-                    <a href="{% url 'view_paragraph' pk=word.pk %}">
+                    <a href="{% url 'view_paragraph' pk=word.mark_up_id %}">
                         Подробнее...
                     </a>
                 </div>

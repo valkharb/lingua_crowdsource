@@ -51,6 +51,7 @@ class Sentence(models.Model):
         normal_words = []
         for nw in words[:-1]:
             parsed = morph.parse(nw)
+
             # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
             for p in parsed:
                 normal_words.append(parsed[0].normal_form)
@@ -69,6 +70,9 @@ class Sentence(models.Model):
                                       voice=morph.lat2cyr(str(p.tag.voice)),
                                       count=0,
                                       sentence_id=self.id)
+            Word.objects.create(value = nw,
+                                Sentence_id = self.id,
+                                mark_up_id = MarkUp.objects.filter(word=nw).first().id)
         # create the dictionary
         normals = set(normal_words)
         dictionary = {w: 0 for w in normals}
@@ -85,6 +89,23 @@ class Sentence(models.Model):
                             dictionary[key]) + ' WHERE word = "' + w + '" and sentence_id = ' + str(self.id))
         frequent = {w: dictionary[w] for w in dictionary.keys() if dictionary[w] > 1}
         return self
+
+class Tags(models.Model):
+    user = 'ur'
+    system = 'ss'
+    lingua = 'LG'
+    library = 'LB'
+    prosody = 'PS'
+    narratology = 'NL'
+    custom = 'CS'
+    authority = ((user,'Пользовательский'),(system,'Системный'))
+    version_types = ((custom, 'Пользовательский'),(lingua, 'Лингвистический'), (library, 'Словарный'), (prosody, 'Стиховедческий'), (narratology, 'Нарратологический'))
+    category = models.CharField(null=False, blank=False,
+                                    choices=version_types, default=lingua, max_length=50, verbose_name=_(u'Категория'))
+    content = models.CharField(blank=False, null=False, max_length=50, verbose_name=_(u'Описание'))
+    author_type = models.CharField(blank=False, null=False, max_length=50, verbose_name=_(u'Авторство'),choices=authority, default=system)
+    el_type = models.CharField(blank=False, null=False, max_length=50, verbose_name=_(u'Тип объекта'))
+    el_id = models.IntegerField(blank=False, null=False, verbose_name=_(u'Объект'))
 
 class Author(models.Model):
     verbose_name = u'Авторы'
@@ -128,6 +149,12 @@ class MarkUp(models.Model):
     voice = models.CharField( blank=False, max_length=100, verbose_name = _(u'Залог'))# залог (действительный, страдательный)
     count = models.IntegerField( blank=False, verbose_name = _(u'Встречается в тексте'))
     sentence = models.ForeignKey('Sentence', verbose_name=_(u'Предложение'))
+
+class Word(models.Model):
+    verbose_name = u'Слова'
+    value = models.CharField(verbose_name=_(u'Предложение'), max_length=500, null=True)
+    mark_up = models.ForeignKey('MarkUp', verbose_name=_(u'Вероятный разбор'),related_name='+')
+    Sentence = models.ForeignKey('Sentence', verbose_name=_(u'Предложение'))
 
 class LitWork(models.Model):
     verbose_name = u'Литературные произведения'
