@@ -1,5 +1,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+<html>
+<head>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.min.js"></script>
+</head>
+<body>
 <div class="panel">
     <div id="header">
         <div id="branding">
@@ -51,6 +56,29 @@
                     </div>
                 {% endfor %}
             </div>
+            <div class="app-cabinet module">
+                <h2>Мои издательства<a class="add" href="{% url 'pub_new' %}">Добавить</a></h2>
+                {% for pub in publishers %}
+                    <div class="article">
+                        <p class="content"><a href="{% url 'pub_detail' pk=pub.pk %}">{{ pub.title }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="app-cabinet module">
+                <h2>Мои выборки</h2>
+                {% for s in searches %}
+                    <div class="article">
+                        <p class="content">Выборка от <button id="{{ s.id }}" data-info="{{ s.data }}" class="search" >{{ s.created_date }}</button></p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
+    <script>
+        $('.search').click(function(){
+            window.location.replace('{% url 'work_filters' %}?saved=true&data='+this.getAttribute('data-info'));
+        });
+    </script>
 </div>
+</body>
+<html>

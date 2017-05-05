@@ -1,0 +1,21 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="article">
+        <h1>Просмотр сведений об издательстве</h1>
+        <table>
+            <tr>
+                <th>Страна: </th><td>{{ pub.country|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Наименование: </th><td>{{ pub.title|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Дата создания: </th><td>{{ pub.created_date|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Добавлено: </th><td>{{ pub.owner|linebreaksbr }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

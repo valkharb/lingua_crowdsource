@@ -33,13 +33,55 @@
         <table class="table">
 
         </table>
+        <h2 style="margin-top: 50px;"> Статистика </h2>
+        <h3> Предложения: </h3>
+        <table>
+            <tr>
+                <td>Количество предложений:</td><td id="s_count"></td>
+            </tr>
+            <tr>
+                <td>Среднее число слов:</td><td id="w_avg"></td>
+            </tr>
+        </table>
+        <h3> Абзацы: </h3>
+        <table>
+            <tr>
+                <td>Средняя длина абзаца:</td><td id="s_len"></td>
+            </tr>
+        </table>
+        <table class="actions" style="display: none">
+            <tr>
+                <td><a style="float: right" class="button" href="#">Экспорт результатов</a></td>
+                <td><button type="submit" style="float: right" class="button save_search" >Cохранить выборку</button></td>
+                <td><button style="float: right" class="button share" >Поделиться</button></td>
+            </tr>
+        </table>
+
     </div>
 
     {% csrf_token %}
     <script type="text/javascript">
 
+        $(document).ready(function(){
+            search = decodeURIComponent(window.location.search).split(/&|=/);
+            saved = search[1];
+            res = JSON.parse(search[3]);
+            if (saved === 'true'){
+                Object.keys(res['work']).forEach(function(item, i, arr){
+                    $('.work[data-name='+item+']').val(res['work'][item]);
+                    if(res['work'][item]===false || res['work'][item]===true){
+                        $('.work[data-name='+item+']').attr('checked', res['work'][item]);
+                    }
+                });
+                Object.keys(res['word']).forEach(function(item, i, arr){
+                    $('.word[data-name='+item+']').val(res['word'][item]);
+                });
+                $('.submit').trigger('click');
+            }
+        });
         word = $('.editbox_search');
 
+        {# показать фильтры #}
         $('.show_filters').click(function(){
             filters = document.getElementById('filters');
             if (filters.style.display=="none") {
@@ -49,98 +91,206 @@
                 filters.style.display = "none";
             }
         });
+
+        {# Очистить поля #}
         $('.cancel').click(function(){
             filters = document.querySelectorAll('[id^="id_"]');
             $(filters).each(function(e, val){
                 $(val).val('');
             })
         });
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });$(function () {
+            $.ajaxSetup({
+                headers: { "X-CSRFToken": getCookie("csrftoken") }
+            });
+        });
+
+        {# поиск по текстам и словам#}
         $('.submit').click(function(){
-                name_query = $('.editbox_search');
-                results = $('.table');
-                var data = {work:{}, word:{}};
-                $(".work[data-name]").each(function(e, obj){
-                    if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
-                        if (obj.type == 'checkbox') {
-                            data['work'][obj.getAttribute('data-name')] = obj.checked;
-                        }
-                        else {
-                            data['work'][obj.getAttribute('data-name')] = obj.value;
-                        }
+            $('.actions').attr('style', 'display:block; float: right;');
+            name_query = $('.editbox_search');
+            results = $('.table');
+            var data = {work:{}, word:{}};
+            $(".work[data-name]").each(function(e, obj){
+                if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                    if (obj.type == 'checkbox') {
+                        data['work'][obj.getAttribute('data-name')] = obj.checked;
                     }
-                });
-                $(".word[data-name]").each(function(e, obj){
-                    if ($(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
-                        if (obj.type == 'checkbox') {
-                            data['word'][obj.getAttribute('data-name')] = obj.checked;
-                        }
-                        else {
-                            data['word'][obj.getAttribute('data-name')] = obj.value;
-                        }
+                    else {
+                        data['work'][obj.getAttribute('data-name')] = obj.value;
                     }
-                });
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie != '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = jQuery.trim(cookies[i]);
-                            // Does this cookie string begin with the name we want?
-                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
+                }
+            });
+            $(".word[data-name]").each(function(e, obj){
+                if ($(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                    if (obj.type == 'checkbox') {
+                        data['word'][obj.getAttribute('data-name')] = obj.checked;
+                    }
+                    else {
+                        data['word'][obj.getAttribute('data-name')] = obj.value;
+                    }
+                }
+            });
+
+            if ($(name_query).val() !== ''){
+                $('.alert').attr('style', 'display: none;');
+                $.ajax({
+                    url: '/search/results/',
+                    dataType: 'html',
+                    type: 'POST',
+                    data: JSON.stringify(data)
+                }).done(function(e){
+                    results.hide();
+                    results.before(e);
+                    setTimeout(function(){
+                        results.remove();
+                    }, 1);
+
+                    before = $('.before');
+                    after = $('.after');
+
+                    $(before).each(function(e,b){
+                        $(b)[0].innerText = $(b)[0].innerText.toLowerCase().split(word.val())[0];
+                    });
+                    $(after).each(function(e,a) {
+                        $(a)[0].innerText = $(a)[0].innerText.toLowerCase().split(word.val())[1];
+                    });
+
+                    table = document.getElementById("results");
+
+                    for (var i=0, row; row = table.rows[i]; i++){
+                        for (var j=1, row; row = table.rows[j]; j++){
+                            if(table.rows[i].cells[1].innerText === table.rows[j].cells[1].innerText){
+                                table.deleteRow(j);
                             }
                         }
                     }
-                    return cookieValue;
-                }
-                var csrftoken = getCookie('csrftoken');
-                function csrfSafeMethod(method) {
-                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-                }
-                $.ajaxSetup({
-                    beforeSend: function(xhr, settings) {
-                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                        }
+
+                    document.getElementById("s_count").innerHTML=table.rows.length;
+                    var arr=[];
+                    for (var i = 0, row; row = table.rows[i]; i++) {
+                         arr.push(table.rows[i].cells[1].innerText.split(' ').length+
+                                    table.rows[i].cells[3].innerText.split(' ').length + 1);
                     }
-                });$(function () {
-                    $.ajaxSetup({
-                        headers: { "X-CSRFToken": getCookie("csrftoken") }
+                    var sum = 0;
+                    for( var i = 0; i < arr.length; i++ ){
+                        sum += parseInt( arr[i], 10 ); //don't forget to add the base
+                    }
+                    var avg = sum/arr.length;
+                    document.getElementById("w_avg").innerHTML = avg;
+                    var par = [];
+                    $('#paragraph').each(function(){
+                        par.push(this.innerHTML.trim().split(' ').length);
                     });
+                    for( var i = 0; i < par.length; i++ ){
+                        sum += parseInt( par[i], 10 ); //don't forget to add the base
+                    }
+                    var avg = sum/par.length;
+                    document.getElementById("s_len").innerHTML = avg;
+                }).fail(function(e){
+                    console.log(e);
                 });
-                if ($(name_query).val() !== ''){
-                    $('.alert').attr('style', 'display: none;');
-                    $.ajax({
-                        url: '/search/results/',
-                        dataType: 'html',
-                        type: 'POST',
-                        data: JSON.stringify(data)
-                    }).done(function(e){
-                        results.hide();
-                        results.before(e);
-                        setTimeout(function(){
-                            results.remove();
-                        }, 1);
-
-                        before = $('.before');
-                        after = $('.after');
-
-                        $(before).each(function(e,b){
-                            $(b)[0].innerText = $(b)[0].innerText.toLowerCase().split(word.val())[0];
-                        });
-                        $(after).each(function(e,a) {
-                            $(a)[0].innerText = $(a)[0].innerText.toLowerCase().split(word.val())[1];
-                        });
-                    }).fail(function(e){
-                        console.log(e);
-                    });
-                }
-                else {
-                    $('.alert').attr('style', 'display: block;');
-                }
             }
-        );
+            else {
+                $('.alert').attr('style', 'display: block;');
+            }
+        });
+
+        {# сохранить выборку #}
+        $('.save_search').click(function(){
+            name_query = $('.editbox_search');
+            results = $('.table');
+            var data = {work:{}, word:{}};
+            $(".work[data-name]").each(function(e, obj){
+                if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                    if (obj.type == 'checkbox') {
+                        data['work'][obj.getAttribute('data-name')] = obj.checked;
+                    }
+                    else {
+                        data['work'][obj.getAttribute('data-name')] = obj.value;
+                    }
+                }
+            });
+            $(".word[data-name]").each(function(e, obj){
+                if ($(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                    if (obj.type == 'checkbox') {
+                        data['word'][obj.getAttribute('data-name')] = obj.checked;
+                    }
+                    else {
+                        data['word'][obj.getAttribute('data-name')] = obj.value;
+                    }
+                }
+            });
+            $.ajax({
+                url: '/search/save/',
+                dataType: 'html',
+                type: 'POST',
+                data: JSON.stringify(data)
+            }).done(function(e){
+                alert('Выборка сохранена успешно!')
+            }).fail(function(e){
+                console.log(e);
+            });
+        });
+
+        {# поделиться #}
+        $('.share').click(function(){
+            name_query = $('.editbox_search');
+            results = $('.table');
+            var data = {work:{}, word:{}};
+            $(".work[data-name]").each(function(e, obj){
+                if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                    if (obj.type == 'checkbox') {
+                        data['work'][obj.getAttribute('data-name')] = obj.checked;
+                    }
+                    else {
+                        data['work'][obj.getAttribute('data-name')] = obj.value;
+                    }
+                }
+            });
+            $(".word[data-name]").each(function(e, obj){
+                if ($(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
+                    if (obj.type == 'checkbox') {
+                        data['word'][obj.getAttribute('data-name')] = obj.checked;
+                    }
+                    else {
+                        data['word'][obj.getAttribute('data-name')] = obj.value;
+                    }
+                }
+            });
+            var url = decodeURIComponent(window.location.href);
+            if (window.location.search===''){
+                url+='?saved=true&data='+JSON.stringify(data);
+            }
+            var link = prompt("Доступ к выборке по ссылке:", url);
+        });
+
     </script>
 {% endblock content %}
 

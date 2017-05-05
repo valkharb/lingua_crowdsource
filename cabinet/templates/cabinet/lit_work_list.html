@@ -6,9 +6,9 @@
             {% for work in works %}
                 {% if work.is_editable == True %}
                     <div class="article">
-                      <h2> <a href="{% url 'work_detail' pk=work.pk %}">{{ work.title }}</a></h2>
+                      <h2> <a style="text-transform: uppercase; color: white;" href="{% url 'work_detail' pk=work.pk %}">{{ work.title }}</a></h2>
                       <div class="clr"></div>
-                      <p class="infopost">Опубликовано <span class="date">{{ work.created_date }}</span> <a href="{% url 'account' pk=work.owner_id %}">{{ work.owner }}</a> &nbsp;|&nbsp; </p>
+                        <p class="infopost">Опубликовано <span class="date">{{ work.created_date }}</span> пользователем <span style="text-transform: uppercase">{{ work.owner }}</span> &nbsp;|&nbsp; </p>
                         <p class="content">{{ work.sub_title|linebreaksbr }}</p>
                         <p class="content">{{ work.collection|linebreaksbr }}</p>
                       <p class="spec"><a href="{% url 'work_detail' pk=work.pk %}" class="rm">Узнать больше &raquo;</a></p>

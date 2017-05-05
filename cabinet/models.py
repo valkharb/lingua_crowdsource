@@ -21,6 +21,7 @@ class Paragraph(models.Model):
     value = models.CharField(verbose_name = _(u'Абзац'), max_length=3000, null=True)
     lit_work = models.ForeignKey('LitWork', verbose_name=_(u'Литературное произведение'))
 
+
     def parse_sentences(self, morph):
         cur = db.cursor()
         cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
@@ -101,11 +102,14 @@ class Tags(models.Model):
     authority = ((user,'Пользовательский'),(system,'Системный'))
     version_types = ((custom, 'Пользовательский'),(lingua, 'Лингвистический'), (library, 'Словарный'), (prosody, 'Стиховедческий'), (narratology, 'Нарратологический'))
     category = models.CharField(null=False, blank=False,
-                                    choices=version_types, default=lingua, max_length=50, verbose_name=_(u'Категория'))
+                                choices=version_types, default=lingua, max_length=50, verbose_name=_(u'Категория'))
     content = models.CharField(blank=False, null=False, max_length=50, verbose_name=_(u'Описание'))
     author_type = models.CharField(blank=False, null=False, max_length=50, verbose_name=_(u'Авторство'),choices=authority, default=system)
     el_type = models.CharField(blank=False, null=False, max_length=50, verbose_name=_(u'Тип объекта'))
     el_id = models.IntegerField(blank=False, null=False, verbose_name=_(u'Объект'))
+    owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
+    created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
+    updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
 
 class Author(models.Model):
     verbose_name = u'Авторы'
@@ -115,12 +119,18 @@ class Author(models.Model):
     birth_date = models.DateTimeField(blank = True, null = True, verbose_name = _(u'Дата рождения'))
     death_date = models.DateTimeField(blank=True, null=True, verbose_name = _(u'Дата смерти'))
     country = models.CharField(max_length=80, verbose_name = _(u'Страна'))
+    owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
+    created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
+    updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
 #     could be drop_down_list
 
 class PublishingHouse(models.Model):
     verbose_name = u'Издательства'
     title = models.CharField(max_length=80, verbose_name = _(u'Издательство'))
     country = models.CharField(max_length=80, verbose_name = _(u'Страна'))
+    owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
+    created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
+    updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
 #     what else?
 
 class Collection(models.Model):
@@ -239,7 +249,7 @@ class LitWork(models.Model):
         paragraphs = data.split('\n')
         for p in paragraphs:
             new_p = Paragraph.objects.create( value = p,
-                                      lit_work_id = self.id )
+                                              lit_work_id = self.id )
             new_p.save()
             new_p.parse_sentences(morph)
 
@@ -284,3 +294,9 @@ class Author_Work(models.Model):
 class Parent_Draft(models.Model):
     main_version = models.ForeignKey('LitWork',related_name='main_version')
     child_version = models.ForeignKey('LitWork',related_name='child_version')
+
+class Search(models.Model):
+    data = models.CharField(blank=False, null=False, max_length=1500, verbose_name=_(u'Параметры'))
+    owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
+    created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
+    updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))

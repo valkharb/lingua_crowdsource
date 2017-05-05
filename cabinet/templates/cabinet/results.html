@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {#{% block results %}#}
 <div class="table">
-    <table>
+    <table id="results" style="width: 100%">
         {% for work in works %}
             <tr>
                 <td>
@@ -21,24 +21,27 @@
                 <td>
                     {{ word.id }}
                 </td>
-                <td class="before">
-                    {{ word.Sentence.value }}
+                <td class="before" style="text-align: right;">
+                    {{ word.sentence.value }}
                 </td>
-                <td class="context" onClick="panel = document.getElementById('{{ word.id }}'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
+                <td class="context" onClick="$('.info').each(function(e, el){$(el).attr('style','display: none;')});panel = document.getElementById('{{ word.id }}'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
                     <a href="#info">
-                        {{ word.value }}
+                        {{ word.word }}
                     </a>
                 </td>
-                <td class="after">
-                    {{ word.Sentence.value }}
+                <td class="after" style="text-align: left;">
+                    {{ word.sentence.value }}
                 </td>
-                <td class="tags">
-                    <a class="button" href="{% url 'add_tag' type='sentence' id=word.Sentence.id %}?next={{ request.path }}">
+                <td class="tags" style="text-align: right">
+                    <a class="button" href="{% url 'add_tag' type='sentence' id=word.sentence.id %}?next={{ request.path }}">
                         Теги
                     </a>
                 </td>
+                <td id="paragraph" style="display:none">
+                    {{ word.sentence.paragraph.value }}
+                </td>
             </tr>
-            <div id="{{ word.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
+            <div class="info" id="{{ word.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
                 <a href="#" id="hideel" onclick="$(this).parent().attr('style', 'display:none'); return false;" style="margin: 49%">
                     <img style="width: 15px;height: 15px;" src="{% static 'images/arrow.png' %}"/>
                 </a>
@@ -48,7 +51,7 @@
                             Лемма:
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
-                            {{ word.value }}
+                            {{ word.word }}
                         </div>
                     </div>
                     <div style="width: 800px;margin-bottom: 80px;">
@@ -56,7 +59,7 @@
                             Грамматика:
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
-                            {{ word.mark_up.grammem }}
+                            {{ word.grammem }}, {{ word.animacy }}, {{ word.case }}, {{ word.number }}
                         </div>
                     </div>
                     <div style="width: 800px;">
@@ -64,18 +67,26 @@
                             Теги:
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
-                            {{ word.sentence.id }}
+                            {% for t in tags %}
+                                {% if t.el_id == word.id %}
+                                    {{ t.content }},
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
                 <div style="float: right;">
-                    <a href="{% url 'view_paragraph' pk=word.mark_up_id %}">
+                    <a href="{% url 'view_paragraph' pk=word.id %}">
                         Подробнее...
                     </a>
                 </div>
             </div>
         {% endfor %}
     </table>
+
+    <script>
+
+    </script>
 </div>
 
 {#{% endblock results %}#}

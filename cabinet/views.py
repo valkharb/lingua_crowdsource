@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp, Sentence, Paragraph, Word, Tags
+from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp, Sentence, Paragraph, Word,PublishingHouse, Tags , Search
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm
+from .forms import WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -74,6 +74,10 @@ def coll_detail(request, pk):
     coll = get_object_or_404(Collection, pk=pk)
     return render(request, 'cabinet/coll_detail.html', {'coll': coll})
 
+def pub_detail(request, pk):
+    pub = get_object_or_404(PublishingHouse, pk=pk)
+    return render(request, 'cabinet/pub_detail.html', {'pub': pub})
+
 def authors_list(request):
     authors = Author.objects.all()
     return render(request, 'cabinet/authors_list.html', {'authors': authors})
@@ -91,7 +95,9 @@ def account(request, pk):
         user = User.objects.get(pk=pk)
         works = LitWork.objects.filter(owner=request.user)
         collections = Collection.objects.filter(owner=request.user)
-        return render(request, 'cabinet/account.html', {'user': user, 'works': works, 'collections': collections})
+        publishers  = PublishingHouse.objects.filter(owner = request.user)
+        searches = Search.objects.filter(owner=request.user)
+        return render(request, 'cabinet/account.html', {'user': user, 'works': works, 'collections': collections, 'publishers': publishers, 'searches':searches})
     except  User.DoesNotExist:
         get_object_or_404(User, pk=pk)
 
@@ -113,9 +119,6 @@ def account_form(request, pk):
 def work_search(request):
     works = LitWork.objects.all()
     return render(request, 'cabinet/search.html', {'works': works})
-
-def statistics(request):
-    return render(request, 'cabinet/statistics.html')
 
 def work_filters(request):
     if request.method == "POST":
@@ -197,6 +200,11 @@ def add_tag(request, id, type):
         form = TagForm()
         return render(request, 'cabinet/add_tag.html', {'form': form})
 
+def save_search(request):
+    Search.objects.create(data=request.body.decode('utf-8'),
+                          owner=request.user,
+                          created_date=timezone.now())
+
 def collection_new(request):
     if request.method == "POST":
         form = WorkForm(request.POST)
@@ -212,6 +220,22 @@ def collection_new(request):
     else:
         form = NewCollForm()
     return render(request, 'cabinet/collection_new.html', {'form': form})
+
+def pub_new(request):
+    if request.method == "POST":
+        form = PubForm(request.POST)
+        if form.is_valid():
+            work = form.save(commit=False)
+            work.owner_id = request.user.id
+            work.created_date = timezone.now()
+            work.save()
+            return redirect('publishers_list')
+
+        else:
+            return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = PubForm()
+    return render(request, 'cabinet/pub_new.html', {'form': form})
 
 def work_edit(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
@@ -257,8 +281,14 @@ def concordance(request):
     work_query = params['work']
     params['word']['value'] = params['word'].pop('title')
     word_query = params['word']
+    # final2 = Word.objects.filter(**word_query)
+    params['word']['word'] = params['word'].pop('value')
+    mark_query = params['word']
     final1 = LitWork.objects.filter(**work_query)
-    final2 = Word.objects.filter(**word_query)
+    final2 = MarkUp.objects.filter(**mark_query)
+    words = MarkUp.objects.values_list('word', flat=True).distinct().filter(**mark_query)
+    ids = MarkUp.objects.values_list('id', flat=True).filter(word__in=words)
+    tags = Tags.objects.filter(el_type='word').filter(el_id__in=set(ids))
     form1 = TextFiltersForm()
     form2 = WordFiltersForm()
-    return render(request, 'cabinet/results.html', {'works': final1, 'words': final2, 'form1': form1, 'form2': form2})
+    return render(request, 'cabinet/results.html', {'works': final1, 'words': final2, 'tags': tags, 'form1': form1, 'form2': form2})

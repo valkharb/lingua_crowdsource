@@ -1,13 +1,19 @@
 from django.forms import ModelForm
 import django
 from django.forms import Form
-from .models import LitWork, Collection, MarkUp, Tags
+from .models import LitWork, Collection, MarkUp, Tags,PublishingHouse
 from django.contrib.auth.models import User
+import pymorphy2
 
 
 class TagForm(ModelForm):
     class Meta:
         model = Tags
+        fields = '__all__'
+
+class PubForm(ModelForm):
+    class Meta:
+        model = PublishingHouse
         fields = '__all__'
 
 class WorkForm(ModelForm):
@@ -54,29 +60,30 @@ class TextFiltersForm(Form):
     published = django.forms.DateField(label='Добавлено', widget=django.forms.DateInput(attrs={'data-name':'created_date', 'class':'filter work'}))
 
 class WordFiltersForm(Form):
+    morph = pymorphy2.MorphAnalyzer()
     yes = 1
     no = 2
     unknown = 0
-    nomn='NM'
-    gent='GN'
-    datv='DT'
-    accs='AC'
-    ablt='AL'
-    loct='LC'
-    NOUN='NOUN'
-    ADJF='ADJF'
-    COMP='COMP'
-    VERB='VERB'
-    PRTF='PRTF'
-    GRND='GRND'
-    NUMR='NUMR'
-    ADVB='ADVB'
-    NPRO='NPRO'
-    PRED='PRED'
-    PREP='PREP'
-    CONJ='CONJ'
-    PRCL='PRCL'
-    INTJ='INTJ'
+    nomn= morph.lat2cyr('NM')
+    gent=morph.lat2cyr('GN')
+    datv=morph.lat2cyr('DT')
+    accs=morph.lat2cyr('AC')
+    ablt=morph.lat2cyr('AL')
+    loct=morph.lat2cyr('LC')
+    NOUN=morph.lat2cyr('NOUN')
+    ADJF=morph.lat2cyr('ADJF')
+    COMP=morph.lat2cyr('COMP')
+    VERB=morph.lat2cyr('VERB')
+    PRTF=morph.lat2cyr('PRTF')
+    GRND=morph.lat2cyr('GRND')
+    NUMR=morph.lat2cyr('NUMR')
+    ADVB=morph.lat2cyr('ADVB')
+    NPRO=morph.lat2cyr('NPRO')
+    PRED=morph.lat2cyr('PRED')
+    PREP=morph.lat2cyr('PREP')
+    CONJ=morph.lat2cyr('CONJ')
+    PRCL=morph.lat2cyr('PRCL')
+    INTJ=morph.lat2cyr('INTJ')
     none='empty'
     grams = ((none,''),(NOUN,'существительное'),(ADJF,'прилагательное'),(COMP,'компаратив'),(VERB,'глагол'),
      (PRTF,'причастие'),(GRND,'деепричастие'),(NUMR,'числительное'),(ADVB,'наречие'),(NPRO,'местоимение - существительное'),

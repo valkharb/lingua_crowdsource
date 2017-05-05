@@ -3,4 +3,5 @@ __pycache__
 virtual_env
 db.mysql
 .DS_Store
-.idea
+workspace.xml
+tasks.xml

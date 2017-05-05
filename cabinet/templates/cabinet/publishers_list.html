@@ -2,7 +2,7 @@
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     {% block content %}
-        <h2>Издательства</h2>
+        <h2>Издательства<a style="color:white; font-style: italic; float: right;" href="{% url 'pub_new'%}">Добавить</a></h2>
         {% if user.is_authenticated %}
             {% for au in publishers %}
                 <div class="article">
@@ -10,7 +10,7 @@
                   <div class="clr"></div>
                     <p class="content">{{ au.sub_title|linebreaksbr }}</p>
                     <p class="content">{{ au.collection|linebreaksbr }}</p>
-                  <p class="spec"><a href="#" class="rm">Узнать больше &raquo;</a></p>
+                  <p class="spec"><a href="{% url 'pub_detail' pk=au.pk %}" class="rm">Узнать больше &raquo;</a></p>
                 </div>
             {% endfor %}
         {% else %}
