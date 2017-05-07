@@ -11,7 +11,7 @@
                 Теги
             </a>
         </div>
-        <table>
+        <table style="float:left">
             <tr><th>Свойство:</th><th>Значение:</th></tr>
             <tr><td>Часть речи:	</td><td>{{ word.grammem }}</td></tr>
             <tr><td>Одушевленность:	</td><td>{{ word.animacy }}</td></tr>
@@ -26,6 +26,11 @@
             <tr><td>Переходность:</td><td>{{ word.transitivity }}</td></tr>
             <tr><td>Залог:</td><td>{{ word.voice }}</td></tr>
         </table>
+    <div style="float: right; padding: 10px 140px;">
+        <table style="float:left">
+            <tr><td><a href="{% url 'add_mark' pk=word.pk %}" class="button edit">Предложить правку</a></td></tr>
+        </table>
+    </div>
     </div>
     <script>
         $(document).ready(function(){

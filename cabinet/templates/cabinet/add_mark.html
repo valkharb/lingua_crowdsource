@@ -1,0 +1,31 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+{% block content %}
+    <h1>Предложить правку</h1>
+    <div>
+        <form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Сохранить"/>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            path = document.location.pathname.split('/');
+            type = $('#id_object_type');
+            $(type).val(path[3]);
+            if (path[3]==='work'){
+                $('#id_field')
+                  .append($('<option>', { value : 'title' }).text('Заголовок'));
+            }
+            else{
+
+            }
+            $(type).attr('disabled','disabled');
+            $('#id_object').val(path[2]);
+            $('#id_object').attr('disabled','disabled');
+        });
+    </script>
+{% endblock %}

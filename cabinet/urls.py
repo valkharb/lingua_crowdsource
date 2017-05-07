@@ -50,5 +50,8 @@ urlpatterns = [
         url(r'^search/(?P<pk>[0-9]+)/$', views.view_paragraph, name='view_paragraph'),
         url(r'^search/(?P<pk>[0-9]+)/edit/$', views.word_edit, name='markup_edit'),
         url(r'^tags/new/(?P<id>[0-9]+)/(?P<type>sentence|word|paragraph|text)/$', views.add_tag, name='add_tag'),
-        url(r'^search/save/$', views.save_search, name='save_search')
+        url(r'^search/save/$', views.save_search, name='save_search'),
+        url(r'^add_mark/(?P<pk>[0-9]+)/(?P<type>work|word)/$', views.add_mark, name='add_mark'),
+        url(r'^search/cql/$', views.cql, name='cql'),
+        url(r'^search/cql/query$', views.cql_search, name='cql_search')
     ]

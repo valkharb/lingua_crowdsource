@@ -10,15 +10,8 @@
         {% endif %}
         <br/>
         <h2>{{ work.title }} <a style="font-size:16px; font-style: italic; float: right; color:white" href="{% url 'work_edit' pk=work.pk %}">Изменить</a></h2>
-        <a class="button" style=" float: right; margin: 30px 0;" href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a>
-        <a class="button" style="float: right; margin: 30px 10px;" href="{% url 'add_tag' type='text' id=work.id %}?next={{ request.path }}">
-            Теги
-        </a>
+        <br/>
         <table style="margin-bottom: 15px;">
-            <tr>
-                <th style="width:40%"></th>
-                <th style="width:40%"></th>
-            </tr>
             <tr>
                 <td><span class="td" >Подзаголовок:</span></td>
                 <td><span>{{ work.sub_title|linebreaksbr }}</span></td>
@@ -50,6 +43,12 @@
             <tr>
                 <td><span class="td">Принадлежит коллекции:</span></td>
                 <td><span>{{ work.collection|linebreaksbr }}</span></td>
+            </tr>
+        </table>
+        <table >
+            <tr><td><a class="button" style=" float: right; " href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a></td>
+                <td><a class="button" style=" float: right;" href="{% url 'add_mark' pk=work.pk type='work' %}?next={{ request.path }}">Предложить правку</a></td>
+                <td><a class="button" style="float: right; " href="{% url 'add_tag' type='text' id=work.id %}?next={{ request.path }}">Теги</a></td>
             </tr>
         </table>
     </div>

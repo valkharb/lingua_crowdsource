@@ -1,0 +1,59 @@
+{#{% extends 'cabinet/search.html' %}#}
+{% load staticfiles %}
+{% load cql_words %}
+{#{% block results %}#}
+<div class="table">
+    <table id="results" style="width: 100%">
+        {% for text in texts %}
+            <tr>
+                <td>
+                    {{  text|cql_word }}
+                </td>
+                <td>
+{#                    {{ text }}#}
+                </td>
+                <td>
+{#                    {{ text }}#}
+                </td>
+            </tr>
+            <div class="info" id="{{ text.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
+                <a href="#" id="hideel" onclick="$(this).parent().attr('style', 'display:none'); return false;" style="margin: 49%">
+                    <img style="width: 15px;height: 15px;" src="{% static 'images/arrow.png' %}"/>
+                </a>
+                <div class="grammar" style="display: table">
+                    <div style="width: 800px;margin-bottom: 40px;">
+                        <div style="float: left; width: 25%;">
+                            Лемма:
+                        </div>
+                        <div style="float: right;width: 70%; background-color: white;padding: 10px;">
+                            {{ text.value }}
+                        </div>
+                    </div>
+                    <div style="width: 800px;">
+                        <div style="float: left; width: 25%;">
+                            Теги:
+                        </div>
+                        <div style="float: right;width: 70%; background-color: white;padding: 10px;">
+                            {% for t in tags %}
+                                {% if t.el_id == text.id %}
+                                    {{ t.content }},
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div style="float: right;">
+{#                    <a href="{% url 'view_paragraph' pk=text.id %}">#}
+{#                        Подробнее...#}
+{#                    </a>#}
+                </div>
+            </div>
+        {% endfor %}
+    </table>
+
+    <script>
+
+    </script>
+</div>
+
+{#{% endblock results %}#}

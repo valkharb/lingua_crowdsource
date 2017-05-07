@@ -14,10 +14,12 @@
     <script type="text/javascript">
         $('#id_is_main_version').change(function(){
             if ($(this).is(":checked")){
-                $('#id_version_type').parents('tr').attr('style', 'display: none')
+                $('#id_version_type').parents('tr').attr('style', 'display: none');
+                $('#id_parent_version').parents('tr').attr('style', 'display: none');
             }
             else{
-                $('#id_version_type').parents('tr').attr('style', 'display: table-row')
+                $('#id_version_type').parents('tr').attr('style', 'display: table-row');
+                $('#id_parent_version').parents('tr').attr('style', 'display: table-row');
             }
         });
         $('#id_wrote_date_type').change(function(){

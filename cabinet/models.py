@@ -10,11 +10,21 @@ from django.apps import apps
 db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_project' , charset='utf8')
 apps.get_app_config('admin').verbose_name = 'Главная панель'
 import codecs
-
+from pynlpl.formats import folia, fql, cql
 # from pytz import timezone
 # Create your models here.
 #     let's use existing django-model now
 # class User(models.Model) :
+
+class Marks(models.Model):
+    verbose_name=u'Правки'
+    object=models.IntegerField(verbose_name = _(u'Объект'))
+    object_type = models.CharField(verbose_name=_(u'Тип объекта'), max_length=100)
+    none = 'N'
+    fields=((none,''),)
+    field = models.CharField(verbose_name=_(u'Поле'), max_length=100, choices=fields)
+    value = models.CharField(verbose_name=_(u'Значение'), max_length=100)
+    author = models.ForeignKey('auth.User',verbose_name=_(u'Автор'))
 
 class Paragraph(models.Model):
     verbose_name = u'Абзацы'
@@ -45,16 +55,18 @@ class Sentence(models.Model):
         cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
         cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
         cur.execute("SET character_set_connection=utf8mb4;")  # same as above
+
         words = re.findall(r"[\w']+", str.lower(self.value))
         POSes = {'NOUN', 'VERB', 'ADJF', 'PRTF', 'GRND', 'NPRO', 'COMP', 'PRTS', 'INTJ', 'PRCL', 'ADJS', 'NUMR',
                  'ADVB'}
         # take infinitives
         normal_words = []
-        for nw in words[:-1]:
+        for i,nw in words[:-1]:
             parsed = morph.parse(nw)
 
             # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
             for p in parsed:
+
                 normal_words.append(parsed[0].normal_form)
                 # в базу будут сохраняться переведенные на киррилицу морфологические свойства. Юзеру так будет приятнее.
                 MarkUp.objects.create(word=nw,
@@ -122,7 +134,6 @@ class Author(models.Model):
     owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
     created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
     updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
-#     could be drop_down_list
 
 class PublishingHouse(models.Model):
     verbose_name = u'Издательства'
@@ -131,7 +142,6 @@ class PublishingHouse(models.Model):
     owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
     created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
     updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
-#     what else?
 
 class Collection(models.Model):
     verbose_name = u'Коллекции'
@@ -172,6 +182,7 @@ class LitWork(models.Model):
     owner = models.ForeignKey('auth.User', verbose_name = _(u'Владелец'))
     # author = models.ForeignKey('Author')    this field is described in 'author_work'
     # main information
+    author = models.ForeignKey(Author, verbose_name = _(u'Основной автор'))
     title = models.CharField(null=False, blank=False, max_length=100, verbose_name = _(u'Заголовок'))
     sub_title = models.CharField(null=True, blank=True, max_length=100, verbose_name = _(u'Подзаголовок'))
     file = models.FileField(null=True,blank=False, verbose_name = _(u'Текст работы'))
@@ -205,16 +216,15 @@ class LitWork(models.Model):
     # etc
 
     # самое страшное - редакция - основная или нет
-    main = 'MN'
     draft = 'DF'
     edition = 'ED'
     list = 'LS'
     is_main_version = models.BooleanField(default=False, verbose_name = _(u'Основная редакция?'))
-    version_types = ((main,'Основная редакция'),(draft,'Черновик'),(edition,'Редакция'),(list,'Список'))
+    version_types = ((draft,'Черновик'),(edition,'Редакция'),(list,'Список'))
+    main_versions = ((draft, ''),)
     version_type = models.CharField(null=False, blank=False,
-                                    choices=version_types, default=main, max_length=50, verbose_name = _(u'Тип редакции'))
-    # перенесено в отдельную таблицу.
-    # parent_version = models.ForeignKey('LitWork')
+                                    choices=version_types, default=draft, max_length=50, verbose_name = _(u'Тип редакции'))
+    parent_version = models.CharField(choices=(main_versions),default=draft,  blank=False, null=False, max_length=100, verbose_name = _(u'Основная редакция'))
 
     published = 'PB'
     unpublished ='UPB'
@@ -292,8 +302,8 @@ class Author_Work(models.Model):
     work = models.ForeignKey('LitWork')
 
 class Parent_Draft(models.Model):
-    main_version = models.ForeignKey('LitWork',related_name='main_version')
-    child_version = models.ForeignKey('LitWork',related_name='child_version')
+    main_version_id = models.IntegerField(verbose_name=_(u'Идентификатор'))
+    main_version_title = models.CharField(max_length=500, verbose_name=_(u'Идентификатор'))
 
 class Search(models.Model):
     data = models.CharField(blank=False, null=False, max_length=1500, verbose_name=_(u'Параметры'))

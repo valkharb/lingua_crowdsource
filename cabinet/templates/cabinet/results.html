@@ -19,15 +19,15 @@
         {% for word in words %}
             <tr>
                 <td>
-                    {{ word.id }}
+                    <b><a href="{% url 'work_detail' pk=word.sentence.paragraph.lit_work_id %}">{{ word.sentence.paragraph.lit_work.title }}</a></b>
                 </td>
                 <td class="before" style="text-align: right;">
                     {{ word.sentence.value }}
                 </td>
                 <td class="context" onClick="$('.info').each(function(e, el){$(el).attr('style','display: none;')});panel = document.getElementById('{{ word.id }}'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
-                    <a href="#info">
+                    <b><a style="color:red;" href="#info">
                         {{ word.word }}
-                    </a>
+                    </a></b>
                 </td>
                 <td class="after" style="text-align: left;">
                     {{ word.sentence.value }}

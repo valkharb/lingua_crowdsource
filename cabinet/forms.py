@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 import django
 from django.forms import Form
-from .models import LitWork, Collection, MarkUp, Tags,PublishingHouse
+from .models import LitWork, Collection, MarkUp, Tags,PublishingHouse, Marks, Author
 from django.contrib.auth.models import User
 import pymorphy2
 
@@ -10,6 +10,11 @@ class TagForm(ModelForm):
     class Meta:
         model = Tags
         fields = '__all__'
+
+class MarkForm(ModelForm):
+    class Meta:
+        model = Marks
+        exclude = ('author',)
 
 class PubForm(ModelForm):
     class Meta:
@@ -20,7 +25,10 @@ class WorkForm(ModelForm):
     class Meta:
         model = LitWork
         fields = '__all__'
-        file = django.forms.FileField(label='Текст произведения', widget=django.forms.FileInput(attrs={'class':'file_upload'}))
+        # exclude=('author',)
+    # author = django.forms.ModelMultipleChoiceField(queryset=Author.objects.values_list('last_name', flat=True).all())
+
+        # file = django.forms.FileField(label='Текст произведения', widget=django.forms.FileInput(attrs={'class':'file_upload'}))
 
 class WordForm(ModelForm):
     class Meta:

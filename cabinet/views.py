@@ -1,8 +1,9 @@
+import lxml
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from cabinet.models import LitWork, Author, Collection, PublishingHouse, MarkUp, Sentence, Paragraph, Word,PublishingHouse, Tags , Search
+from cabinet.models import LitWork, Author, Collection, Marks, MarkUp, Sentence, Paragraph, Word,PublishingHouse, Tags , Search
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm
+from .forms import WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm, MarkForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -15,6 +16,7 @@ db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_pro
 import json
 from django.db.models import Count, Avg
 from django.utils.http import is_safe_url
+from pynlpl.formats import folia
 
 
 def reset_confirm(request, uidb36=None, token=None):
@@ -205,6 +207,27 @@ def save_search(request):
                           owner=request.user,
                           created_date=timezone.now())
 
+def add_mark(request, pk, type):
+    if request.method == "POST":
+        POST = request.POST.copy()
+        POST['object_type'] = type
+        POST['object'] = pk
+        form = MarkForm(POST)
+        if form.is_valid():
+            mark = form.save(commit=False)
+            author = request.user
+            mark.save()
+            next = request.GET.get('next', '/')
+            # check that next is safe
+            if not is_safe_url(next):
+                next = '/'
+            return redirect(next)
+        else:
+            return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = MarkForm()
+        return render(request, 'cabinet/add_mark.html', {'form': form})
+
 def collection_new(request):
     if request.method == "POST":
         form = WorkForm(request.POST)
@@ -292,3 +315,22 @@ def concordance(request):
     form1 = TextFiltersForm()
     form2 = WordFiltersForm()
     return render(request, 'cabinet/results.html', {'works': final1, 'words': final2, 'tags': tags, 'form1': form1, 'form2': form2})
+
+def cql(request):
+    return render(request, 'cabinet/cql.html')
+
+def cql_search(request):
+    from pynlpl.formats import fql, cql
+    params = json.loads(request.body.decode('utf-8'))
+    doc = folia.Document(id='doc')
+    text = folia.Text(doc, id='doc.text')
+    sentences = Sentence.objects.all()
+    for s in sentences:
+        sen = text.append(folia.Sentence(doc,id=doc.id + '.s.'+str(s.id)))
+        words = Word.objects.filter(Sentence_id=s.id)
+        for w in words:
+            sen.append(folia.Word(doc,id=doc.id + '.s.'+str(s.id)+'.w.'+str(w.id), text=w.value))
+    doc.append(text)
+    query = fql.Query(cql.cql2fql(params['title']))
+    texts = query(doc)
+    return render(request, 'cabinet/cql_results.html', {'texts': texts})
