@@ -110,16 +110,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-if DEBUG:
-    EMAIL_HOST = 'localhost'
-    EMAIL_PORT = 1025
-    EMAIL_HOST_USER = ''
-    EMAIL_HOST_PASSWORD = ''
-    EMAIL_USE_TLS = False
-    ACCOUNT_ACTIVATION_DAYS = 2
-    DEFAULT_FROM_EMAIL = 'info@info.ru'
-    LOGIN_REDIRECT_URL = '/'
+ACCOUNT_ACTIVATION_DAYS=2
+AUTH_USER_EMAIL_UNIQUE = True
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'info@lingua.ru'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

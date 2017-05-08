@@ -10,28 +10,37 @@
         <button type="reset" class="cancel btn btn-default">Очистить</button>
     </div>
     <div class="results">
-        <table class="table">
+        <table id="search">
+            <tr>
+                <td>
+                    <table class="table">
 
-        </table>
-        <h2 style="margin-top: 50px;"> Статистика </h2>
-        <h3> Предложения: </h3>
-        <table>
-            <tr>
-                <td>Количество предложений:</td><td id="s_count"></td>
+                    </table>
+                </td>
             </tr>
             <tr>
-                <td>Среднее число слов:</td><td id="w_avg"></td>
+                <td>
+                    <table>
+                        <tr><td><h2 > Статистика </h2></td></tr>
+                        <tr><td><h3> Предложения: </h3></td></tr>
+                        <tr>
+                            <td>Количество предложений:</td><td id="s_count"></td>
+                        </tr>
+                        <tr>
+                            <td>Среднее число слов:</td><td id="w_avg"></td>
+                        </tr>
+                        <tr><td><h3> Абзацы: </h3></td></tr>
+                        <tr>
+                            <td>Средняя длина абзаца:</td><td id="s_len"></td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
         </table>
-        <h3> Абзацы: </h3>
-        <table>
-            <tr>
-                <td>Средняя длина абзаца:</td><td id="s_len"></td>
-            </tr>
-        </table>
+
         <table class="actions" style="display: none">
             <tr>
-                <td><a style="float: right" class="button" href="#">Экспорт результатов</a></td>
+                <td><button style="float: right" class="button export" href="#">Экспорт результатов</button></td>
                 <td><button type="submit" style="float: right" class="button save_search" >Cохранить выборку</button></td>
                 <td><button style="float: right" class="button share" >Поделиться</button></td>
             </tr>
@@ -102,8 +111,8 @@
             var data = {};
             $(".string[data-name]").each(function(e, obj){
                 if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
-                        data[obj.getAttribute('data-name')] = obj.value;
-                    }
+                    data[obj.getAttribute('data-name')] = obj.value;
+                }
             });
 
             if ($(name_query).val() !== ''){
@@ -146,8 +155,8 @@
                     document.getElementById("s_count").innerHTML=table.rows.length;
                     var arr=[];
                     for (var i = 0, row; row = table.rows[i]; i++) {
-                         arr.push(table.rows[i].cells[1].innerText.split(' ').length+
-                                    table.rows[i].cells[3].innerText.split(' ').length + 1);
+                        arr.push(table.rows[i].cells[1].innerText.split(' ').length+
+                            table.rows[i].cells[3].innerText.split(' ').length + 1);
                     }
                     var sum = 0;
                     for( var i = 0; i < arr.length; i++ ){
@@ -180,8 +189,8 @@
             var data = {};
             $(".string[data-name]").each(function(e, obj){
                 if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
-                        data[obj.getAttribute('data-name')] = obj.value;
-                    }
+                    data[obj.getAttribute('data-name')] = obj.value;
+                }
             });
             $.ajax({
                 url: '/search/save/',
@@ -225,6 +234,15 @@
                 url+='?saved=true&data='+JSON.stringify(data);
             }
             var link = prompt("Доступ к выборке по ссылке:", url);
+        });
+
+        $('.export').click(function(){
+            $('#search').table2excel({
+                exclude: ".noExl",
+                name: "Новая выборка",
+                filename: "file"
+            });
+
         });
 
     </script>

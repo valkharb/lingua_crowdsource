@@ -32,7 +32,7 @@
                 <td class="after" style="text-align: left;">
                     {{ word.sentence.value }}
                 </td>
-                <td class="tags" style="text-align: right">
+                <td class="tags noExl" style="text-align: right">
                     <a class="button" href="{% url 'add_tag' type='sentence' id=word.sentence.id %}?next={{ request.path }}">
                         Теги
                     </a>
@@ -41,7 +41,7 @@
                     {{ word.sentence.paragraph.value }}
                 </td>
             </tr>
-            <div class="info" id="{{ word.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
+            <div class="info noExl" id="{{ word.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
                 <a href="#" id="hideel" onclick="$(this).parent().attr('style', 'display:none'); return false;" style="margin: 49%">
                     <img style="width: 15px;height: 15px;" src="{% static 'images/arrow.png' %}"/>
                 </a>

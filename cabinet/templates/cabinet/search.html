@@ -31,28 +31,39 @@
         <a class="button" href="{% url 'cql' %}">CQL</a>
     </div>
     <div class="results">
-        <table class="table">
+        <table id="search">
+            <tr>
+                <td>
+                    <table class="table">
 
-        </table>
-        <h2 style="margin-top: 50px;"> Статистика </h2>
-        <h3> Предложения: </h3>
-        <table>
-            <tr>
-                <td>Количество предложений:</td><td id="s_count"></td>
+                    </table>
+                </td>
             </tr>
             <tr>
-                <td>Среднее число слов:</td><td id="w_avg"></td>
+                <td>
+                    <table>
+                        <tr><th><h2 > Статистика </h2></th></tr>
+                        <tr><th><h3> Предложения: </h3></th></tr>
+                        <tr>
+                            <td>Количество предложений:</td><td id="s_count"></td>
+                        </tr>
+                        <tr>
+                            <td>Среднее число слов:</td><td id="w_avg"></td>
+                        </tr>
+                        <tr><th> <h3> Абзацы: </h3></th></tr>
+                        <tr>
+                            <td>Средняя длина абзаца:</td><td id="s_len"></td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
         </table>
-        <h3> Абзацы: </h3>
-        <table>
-            <tr>
-                <td>Средняя длина абзаца:</td><td id="s_len"></td>
-            </tr>
-        </table>
+
+
+
         <table class="actions" style="display: none">
             <tr>
-                <td><a style="float: right" class="button" href="#">Экспорт результатов</a></td>
+                <td><a style="float: right" class="button export" href="#">Экспорт результатов</a></td>
                 <td><button type="submit" style="float: right" class="button save_search" >Cохранить выборку</button></td>
                 <td><button style="float: right" class="button share" >Поделиться</button></td>
             </tr>
@@ -132,7 +143,7 @@
             });
         });
 
-        {# поиск по текстам и словам#}
+        {# поиск по текстам и словам #}
         $('.submit').click(function(){
             $('.actions').attr('style', 'display:block; float: right;');
             name_query = $('.editbox_search');
@@ -188,6 +199,7 @@
                     for (var i=0, row; row = table.rows[i]; i++){
                         for (var j=1, row; row = table.rows[j]; j++){
                             if(table.rows[i].cells[1].innerText === table.rows[j].cells[1].innerText){
+                                table.rows[j].addClass('noExl');
                                 table.deleteRow(j);
                             }
                         }
@@ -196,8 +208,8 @@
                     document.getElementById("s_count").innerHTML=table.rows.length;
                     var arr=[];
                     for (var i = 0, row; row = table.rows[i]; i++) {
-                         arr.push(table.rows[i].cells[1].innerText.split(' ').length+
-                                    table.rows[i].cells[3].innerText.split(' ').length + 1);
+                        arr.push(table.rows[i].cells[1].innerText.split(' ').length+
+                            table.rows[i].cells[3].innerText.split(' ').length + 1);
                     }
                     var sum = 0;
                     for( var i = 0; i < arr.length; i++ ){
@@ -290,6 +302,15 @@
                 url+='?saved=true&data='+JSON.stringify(data);
             }
             var link = prompt("Доступ к выборке по ссылке:", url);
+        });
+
+        $('.export').click(function(){
+            $('#search').table2excel({
+                exclude: ".noExl",
+                name: "Новая выборка",
+                filename: "file"
+            });
+
         });
 
     </script>

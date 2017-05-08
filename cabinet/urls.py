@@ -23,7 +23,7 @@ urlpatterns = [
         url(r'^search/save/$', views.save_search, name='save_search'),
 
         # действия в личном кабинете
-        url(r'^accounts/', include('registration.urls')),
+        url(r'^accounts/', include('registration.backends.hmac.urls')),
         url(r'^accounts/(?P<pk>[0-9]+)/$', views.account, name='account'),
         url(r'^accounts/(?P<pk>[0-9]+)/edit/$', views.account_form, name='account_form'),
         url(r'^accounts/login$',  auth_views.LoginView.as_view(), name='login'),
@@ -35,7 +35,7 @@ urlpatterns = [
         url(r'^reset/$', views.reset, name='reset'),
         url(r'^accounts/password/reset/$',auth_views.password_reset, {'post_reset_redirect' : '/accounts/password/reset/done/'}),
         url(r'^accounts/password/reset/done/$', auth_views.password_reset_done),
-        url(r'^accounts/password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'post_reset_redirect' : '/accounts/password/done/'}),
+        url(r'^accounts/password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'post_reset_redirect' : '/accounts/password/done/'}, name='password_reset_confirm'),
         url(r'^accounts/password/complete/$', auth_views.password_reset_complete),
         url(r'^admin/(.*)', include(admin.site.urls)),
 
