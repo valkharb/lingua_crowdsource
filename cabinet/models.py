@@ -61,7 +61,7 @@ class Sentence(models.Model):
                  'ADVB'}
         # take infinitives
         normal_words = []
-        for i,nw in words[:-1]:
+        for nw in words[:-1]:
             parsed = morph.parse(nw)
 
             # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
@@ -135,6 +135,9 @@ class Author(models.Model):
     created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
     updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
 
+    def __str__(self):
+        return self.last_name+' '+self.first_name
+
 class PublishingHouse(models.Model):
     verbose_name = u'Издательства'
     title = models.CharField(max_length=80, verbose_name = _(u'Издательство'))
@@ -142,6 +145,8 @@ class PublishingHouse(models.Model):
     owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))
     created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
     updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
+    def __str__(self):
+        return self.title
 
 class Collection(models.Model):
     verbose_name = u'Коллекции'
@@ -152,6 +157,8 @@ class Collection(models.Model):
     updated_date = models.DateTimeField(
         blank = True, null=True, verbose_name = _(u'Дата последнего обновления'))
     is_open = models.BooleanField(default = False, verbose_name = _(u'Доступность'))
+    def __str__(self):
+        return self.title
 
 class MarkUp(models.Model):
     word = models.CharField( blank=False, max_length=100, verbose_name = _(u'Слово'))
@@ -224,7 +231,7 @@ class LitWork(models.Model):
     main_versions = ((draft, ''),)
     version_type = models.CharField(null=False, blank=False,
                                     choices=version_types, default=draft, max_length=50, verbose_name = _(u'Тип редакции'))
-    parent_version = models.CharField(choices=(main_versions),default=draft,  blank=False, null=False, max_length=100, verbose_name = _(u'Основная редакция'))
+    parent_version = models.ForeignKey('Parent_Draft',  blank=True, null=True, max_length=100, verbose_name = _(u'Основная редакция'))
 
     published = 'PB'
     unpublished ='UPB'
@@ -298,12 +305,14 @@ class LitWork(models.Model):
         return data
 
 class Author_Work(models.Model):
-    author = models.ForeignKey('Author')
-    work = models.ForeignKey('LitWork')
+    author = models.ForeignKey('Author', verbose_name=_('Автор'))
+    work = models.ForeignKey('LitWork', verbose_name=_('Произведение'))
 
 class Parent_Draft(models.Model):
     main_version_id = models.IntegerField(verbose_name=_(u'Идентификатор'))
-    main_version_title = models.CharField(max_length=500, verbose_name=_(u'Идентификатор'))
+    main_version_title = models.CharField(max_length=500, verbose_name=_(u'Заголовок'))
+    def __str__(self):
+        return self.main_version_title
 
 class Search(models.Model):
     data = models.CharField(blank=False, null=False, max_length=1500, verbose_name=_(u'Параметры'))

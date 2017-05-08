@@ -1,20 +1,62 @@
 from django.forms import ModelForm
 import django
 from django.forms import Form
-from .models import LitWork, Collection, MarkUp, Tags,PublishingHouse, Marks, Author
+from .models import LitWork, Collection, MarkUp, Tags,PublishingHouse, Marks, Author, Parent_Draft, Author_Work
 from django.contrib.auth.models import User
 import pymorphy2
 
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author_Work
+        fields = '__all__'
 
 class TagForm(ModelForm):
     class Meta:
         model = Tags
         fields = '__all__'
 
-class MarkForm(ModelForm):
-    class Meta:
-        model = Marks
-        exclude = ('author',)
+class MarkWorkForm(Form):
+    object = django.forms.CharField(label='Объект')
+    object_type = django.forms.CharField(label='Тип объекта')
+
+    author = 'author'
+    title = 'title'
+    sub_title = 'sub_title'
+    wrote_date = 'wrote_date'
+    wrote_date_source = 'wrote_date_source'
+    is_published_alive = 'is_published_alive'
+    publish_title = 'publish_title'
+    publish_date = 'publish_date'
+    publisher_title = 'publisher_title'
+    archive_title = 'archive_title'
+    work_status = 'work_status'
+    choices = ((author,'Основной автор'),(title,'Заголовок'),(sub_title,'Подзаголовок'),(wrote_date,'Дата написания'),(wrote_date_source,'Источник даты'),(publish_title, 'Наименование издания'),
+               (publish_date,'Дата публикации'),(publisher_title,'Издательство'),(archive_title,'Архив'),(work_status,'Статус текста'))
+
+    field = django.forms.ChoiceField(label='Поле', choices=choices)
+    value =  django.forms.CharField(label='Значение')
+
+class MarkWordForm(Form):
+    object = django.forms.CharField(label='Объект')
+    object_type = django.forms.CharField(label='Тип объекта')
+
+    grammem = 'grammem'
+    animacy = 'animacy'  # одушевленность
+    aspect = 'aspect'  # вид: совершенный или несовершенный
+    case = 'case'  # падеж
+    gender = 'gender'  # род (мужской, женский, средний)
+    mood = 'mood'  # наклонение (повелительное, изъявительное)
+    number = 'number'  # число (единственное, множественное)
+    person = 'person'  # лицо (1, 2, 3)
+    tense = 'tense'  # время (настоящее, прошедшее, будущее)
+    transitivity = 'transitivity'  # переходность (переходный, непереходный)
+    voice = 'voice'  # залог (действительный, страдательный)
+
+    choices=((grammem,'Часть речи'),(animacy,'Одушевленность'),(aspect,'Совершенность'),(case,'Падеж')
+             ,(gender,'Род'),(mood,'Наклонение'),(number,'Число'),(person,'Лицо'),
+             (tense,'Время'),(transitivity,'Переходность'),(voice,'Залог'))
+    field = django.forms.ChoiceField(label='Поле', choices=choices)
+    value = django.forms.CharField(label='Значение')
 
 class PubForm(ModelForm):
     class Meta:
@@ -25,10 +67,6 @@ class WorkForm(ModelForm):
     class Meta:
         model = LitWork
         fields = '__all__'
-        # exclude=('author',)
-    # author = django.forms.ModelMultipleChoiceField(queryset=Author.objects.values_list('last_name', flat=True).all())
-
-        # file = django.forms.FileField(label='Текст произведения', widget=django.forms.FileInput(attrs={'class':'file_upload'}))
 
 class WordForm(ModelForm):
     class Meta:

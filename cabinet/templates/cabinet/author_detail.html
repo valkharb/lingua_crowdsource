@@ -1,0 +1,30 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="article">
+        <h1>Просмотр сведений об авторе</h1>
+        <table>
+            <tr>
+                <th>Фамилия: </th><td>{{ a.last_name|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Имя: </th><td>{{ a.first_name|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Отчество: </th><td>{{ a.second_name|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Дата рождения: </th><td>{{ a.birth_date|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Дата смерти: </th><td>{{ a.death_date|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Страна: </th><td>{{ a.country|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Добавлено: </th><td>{{ a.created_date|linebreaksbr }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

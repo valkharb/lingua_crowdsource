@@ -1,22 +1,47 @@
 {#{% extends 'cabinet/search.html' %}#}
 {% load staticfiles %}
 {% load cql_words %}
+{% load parents %}
 {#{% block results %}#}
 <div class="table">
     <table id="results" style="width: 100%">
         {% for text in texts %}
             <tr>
-                <td>
-                    {{  text|cql_word }}
+                <td >
+                    {% for s in sens %}
+                        {% if s.id == text|parent %}
+                            <b><a href="{% url 'work_detail' pk=s.paragraph.lit_work_id %}">{{ s.paragraph.lit_work.title }}</a></b>
+                        {% endif %}
+                    {% endfor %}
                 </td>
-                <td>
-{#                    {{ text }}#}
+                <td class="before" style="text-align: right;">
+                    {% for s in sens %}
+                        {% if s.id == text|parent %}
+                            {{ s.value }}
+                        {% endif %}
+                    {% endfor %}
                 </td>
-                <td>
-{#                    {{ text }}#}
+                <td class="context" onClick="$('.info').each(function(e, el){$(el).attr('style','display: none;')});panel = document.getElementById('{{ text|id }}'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
+                    <a style="color:red;" href="#info">
+                        {{  text|cql_word }}
+                    </a>
+                </td>
+                <td class="after" style="text-align: left;">
+                    {% for s in sens %}
+                        {% if s.id == text|parent %}
+                            {{ s.value }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td id="paragraph" style="display:none">
+                    {% for s in sens %}
+                        {% if s.id == text|parent %}
+                            {{ s.paragraph.value }}
+                        {% endif %}
+                    {% endfor %}
                 </td>
             </tr>
-            <div class="info" id="{{ text.id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
+            <div class="info" id="{{ text|id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
                 <a href="#" id="hideel" onclick="$(this).parent().attr('style', 'display:none'); return false;" style="margin: 49%">
                     <img style="width: 15px;height: 15px;" src="{% static 'images/arrow.png' %}"/>
                 </a>
@@ -26,7 +51,7 @@
                             Лемма:
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
-                            {{ text.value }}
+                            {{ text|cql_word }}
                         </div>
                     </div>
                     <div style="width: 800px;">
@@ -35,7 +60,7 @@
                         </div>
                         <div style="float: right;width: 70%; background-color: white;padding: 10px;">
                             {% for t in tags %}
-                                {% if t.el_id == text.id %}
+                                {% if t.el_id == text|word_id %}
                                     {{ t.content }},
                                 {% endif %}
                             {% endfor %}
@@ -43,9 +68,9 @@
                     </div>
                 </div>
                 <div style="float: right;">
-{#                    <a href="{% url 'view_paragraph' pk=text.id %}">#}
-{#                        Подробнее...#}
-{#                    </a>#}
+                    <a href="{% url 'view_paragraph' pk=text|word_id %}">
+                        Подробнее...
+                    </a>
                 </div>
             </div>
         {% endfor %}

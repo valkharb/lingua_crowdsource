@@ -1,0 +1,24 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="article">
+        <h1>Предложена правка</h1>
+        <table>
+            <tr>
+                <th>Предложил: </th><td>{{ m.author|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Объект: </th><td>{{ m.object|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Тип объекта: </th><td>{{ m.object_type|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Поле: </th><td>{{ m.field|linebreaksbr }}</td>
+            </tr>
+            <tr>
+                <th>Значение: </th><td>{{ m.value|linebreaksbr }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

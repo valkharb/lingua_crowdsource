@@ -8,7 +8,7 @@
 <div class="panel">
     <div id="header">
         <div id="branding">
-            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
+            <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Сервис лингвистической разметки</a></h1>
         </div>
         <div id="user-tools">
             <a href="{% url 'lit_work_list' %}"> Открыть сайт </a><span> / </span>
@@ -72,11 +72,24 @@
                     </div>
                 {% endfor %}
             </div>
+            <div class="app-cabinet module">
+                <h2>Правки</h2>
+                {% for m in marks %}
+                    <div class="article">
+                        <p class="content">Правка № <a id="{{ m.id }}" href="{% url 'view_mark' pk=m.pk %}" class="search" >{{ m.id }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <script>
         $('.search').click(function(){
-            window.location.replace('{% url 'work_filters' %}?saved=true&data='+this.getAttribute('data-info'));
+            if (this.getAttribute('data-info').split('"')[1] ==='title'){
+                window.location.replace('{% url 'cql' %}?saved=true&data='+this.getAttribute('data-info'));
+            }
+            else{
+                window.location.replace('{% url 'work_filters' %}?saved=true&data='+this.getAttribute('data-info'));
+            }
         });
     </script>
 </div>

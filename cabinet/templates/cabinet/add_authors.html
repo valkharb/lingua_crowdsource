@@ -1,0 +1,21 @@
+{% extends 'cabinet/lit_work_show.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'styles/base.css' %}">
+{% block content %}
+    <h1>Добавить соавтора</h1>
+    <div>
+        <form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Сохранить"/>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            path = document.location.pathname.split('/');
+            $('#id_work').val(path[2]);
+            $('#id_work').attr('disabled','disabled');
+        });
+    </script>
+{% endblock %}

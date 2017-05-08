@@ -13,6 +13,16 @@
         <br/>
         <table style="margin-bottom: 15px;">
             <tr>
+                <td><span class="td" >Авторы:</span></td>
+                <td>
+                    <span><a href="{% url 'author_detail' pk=work.author.pk %}">{{ work.author|linebreaksbr }}</a>
+                        {% for a in authors %}
+                            , <a href="{% url 'author_detail' pk=a.pk %}">{{ a.last_name }} {{ a.first_name }}</a>
+                        {% endfor %}
+                    </span>
+                </td>
+            </tr>
+            <tr>
                 <td><span class="td" >Подзаголовок:</span></td>
                 <td><span>{{ work.sub_title|linebreaksbr }}</span></td>
             </tr>
@@ -46,7 +56,8 @@
             </tr>
         </table>
         <table >
-            <tr><td><a class="button" style=" float: right; " href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a></td>
+            <tr><td><a class="button" style=" float: right; " href="{% url 'add_authors' pk=work.pk %}">Добавить соавторов</a></td>
+                <td><a class="button" style=" float: right; " href="{% url 'mark_up' pk=work.pk %}">Запустить автоматическую разметку</a></td>
                 <td><a class="button" style=" float: right;" href="{% url 'add_mark' pk=work.pk type='work' %}?next={{ request.path }}">Предложить правку</a></td>
                 <td><a class="button" style="float: right; " href="{% url 'add_tag' type='text' id=work.id %}?next={{ request.path }}">Теги</a></td>
             </tr>

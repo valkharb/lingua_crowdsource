@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'styles/base.css' %}" type="text/css" media="screen" />
 {% block content %}
     <h2>CQL</h2>
-    <input style="width:85%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search string" id="id_name" maxlength="80" placeholder="Слово..." type="text" />
+    <input style="width:85%; padding: 10px;" data-name="title" name="editbox_search" class="editbox_search string" id="id_name" maxlength="80" placeholder="Выражение..." type="text" />
     <label  class="alert" style="display: none;">Поле обязательно для заполнения!</label>
     <div class="buttons">
         <button type="submit" class=" button submit">Поиск</button>
@@ -47,14 +47,8 @@
             saved = search[1];
             res = JSON.parse(search[3]);
             if (saved === 'true'){
-                Object.keys(res['work']).forEach(function(item, i, arr){
-                    $('.work[data-name='+item+']').val(res['work'][item]);
-                    if(res['work'][item]===false || res['work'][item]===true){
-                        $('.work[data-name='+item+']').attr('checked', res['work'][item]);
-                    }
-                });
-                Object.keys(res['word']).forEach(function(item, i, arr){
-                    $('.word[data-name='+item+']').val(res['word'][item]);
+                Object.keys(res).forEach(function(item, i, arr){
+                    $('.string').val(res[item]);
                 });
                 $('.submit').trigger('click');
             }
@@ -128,12 +122,15 @@
 
                     before = $('.before');
                     after = $('.after');
+                    words = $('.context');
 
                     $(before).each(function(e,b){
-                        $(b)[0].innerText = $(b)[0].innerText.toLowerCase().split(word.val())[0];
+                        $(b)[0].innerText = $(b)[0].innerText.toLowerCase().split(
+                            $(b).parent().find(words)[0].innerText)[0];
                     });
                     $(after).each(function(e,a) {
-                        $(a)[0].innerText = $(a)[0].innerText.toLowerCase().split(word.val())[1];
+                        $(a)[0].innerText = $(a)[0].innerText.toLowerCase().split(
+                            $(a).parent().find(words)[0].innerText)[1];
                     });
 
                     table = document.getElementById("results");
@@ -180,26 +177,11 @@
         $('.save_search').click(function(){
             name_query = $('.editbox_search');
             results = $('.table');
-            var data = {work:{}, word:{}};
-            $(".work[data-name]").each(function(e, obj){
+            var data = {};
+            $(".string[data-name]").each(function(e, obj){
                 if ($(this).val() && $(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
-                    if (obj.type == 'checkbox') {
-                        data['work'][obj.getAttribute('data-name')] = obj.checked;
+                        data[obj.getAttribute('data-name')] = obj.value;
                     }
-                    else {
-                        data['work'][obj.getAttribute('data-name')] = obj.value;
-                    }
-                }
-            });
-            $(".word[data-name]").each(function(e, obj){
-                if ($(this).val()!== '' && $(this).val()!== 'none' && $(this).val()!== 'empty') {
-                    if (obj.type == 'checkbox') {
-                        data['word'][obj.getAttribute('data-name')] = obj.checked;
-                    }
-                    else {
-                        data['word'][obj.getAttribute('data-name')] = obj.value;
-                    }
-                }
             });
             $.ajax({
                 url: '/search/save/',

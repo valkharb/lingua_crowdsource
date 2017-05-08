@@ -1,9 +1,9 @@
 import lxml
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from cabinet.models import LitWork, Author, Collection, Marks, MarkUp, Sentence, Paragraph, Word,PublishingHouse, Tags , Search
+from cabinet.models import Parent_Draft, Author_Work, LitWork, Author, Collection, Marks, MarkUp, Sentence, Paragraph, Word,PublishingHouse, Tags , Search
 from django.shortcuts import render, get_object_or_404
-from .forms import WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm, MarkForm
+from .forms import AuthorForm, WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm, MarkWorkForm, MarkWordForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -56,6 +56,8 @@ def lit_work_list(request):
 
 def work_detail(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
+    a_ids = Author_Work.objects.values_list('author_id', flat=True).filter(work_id=pk)
+    authors = Author.objects.filter(id__in=set(a_ids))
     p_count = len(Paragraph.objects.filter(lit_work_id=pk))
     ids = Paragraph.objects.values_list('id', flat=True).filter(lit_work_id=pk)
     sentences = Sentence.objects.filter(paragraph_id__in=set(ids))
@@ -69,7 +71,7 @@ def work_detail(request, pk):
         p_length['count__avg'] = round(p_length['count__avg'])
     if w_count['num__avg']:
         w_count['num__avg'] = round(w_count['num__avg'])
-    return render(request, 'cabinet/work_detail.html', {'work': work, 's_count': s_count, 'w_count':w_count['num__avg'],
+    return render(request, 'cabinet/work_detail.html', {'work': work, 'authors':authors, 's_count': s_count, 'w_count':w_count['num__avg'],
                                                         'p_count':p_count, 'p_length':p_length['count__avg']})
 
 def coll_detail(request, pk):
@@ -79,6 +81,10 @@ def coll_detail(request, pk):
 def pub_detail(request, pk):
     pub = get_object_or_404(PublishingHouse, pk=pk)
     return render(request, 'cabinet/pub_detail.html', {'pub': pub})
+
+def author_detail(request, pk):
+    a = get_object_or_404(Author, pk=pk)
+    return render(request, 'cabinet/author_detail.html', {'a': a})
 
 def authors_list(request):
     authors = Author.objects.all()
@@ -96,10 +102,12 @@ def account(request, pk):
     try:
         user = User.objects.get(pk=pk)
         works = LitWork.objects.filter(owner=request.user)
+        w_ids = LitWork.objects.values_list('id', flat=True).filter(owner=request.user)
         collections = Collection.objects.filter(owner=request.user)
         publishers  = PublishingHouse.objects.filter(owner = request.user)
         searches = Search.objects.filter(owner=request.user)
-        return render(request, 'cabinet/account.html', {'user': user, 'works': works, 'collections': collections, 'publishers': publishers, 'searches':searches})
+        marks = Marks.objects.filter(object_type='work').filter(object__in=set(w_ids))
+        return render(request, 'cabinet/account.html', {'user': user, 'works': works, 'marks':marks, 'collections': collections, 'publishers': publishers, 'searches':searches})
     except  User.DoesNotExist:
         get_object_or_404(User, pk=pk)
 
@@ -149,7 +157,8 @@ def work_results(request):
 
 def view_paragraph(request,pk):
     word = get_object_or_404(MarkUp, pk=pk)
-    return render(request, 'cabinet/view_paragraph.html', {'word': word})
+    marks = Marks.objects.filter(object_type='word').filter(object=pk)
+    return render(request, 'cabinet/view_paragraph.html', {'word': word, 'marks':marks})
 
 def word_edit(request,pk):
     word = get_object_or_404(MarkUp, pk=pk)
@@ -175,6 +184,9 @@ def work_new(request):
             work.published_date = timezone.now()
             work.save()
             work.mark_up(morph)
+            if form.cleaned_data['is_main_version']:
+                Parent_Draft.objects.create(main_version_id=work.id,
+                                            main_version_title= work.title)
             return redirect('work_detail', pk=work.pk)
         else:
             return render_to_response('cabinet/errors.html', {'form': form})
@@ -207,25 +219,24 @@ def save_search(request):
                           owner=request.user,
                           created_date=timezone.now())
 
-def add_mark(request, pk, type):
+def view_mark(request,pk):
+    mark=get_object_or_404(Marks,pk=pk)
+    return render(request, 'cabinet/view_mark.html',{'m':mark})
+
+def  add_mark(request, pk, type):
     if request.method == "POST":
-        POST = request.POST.copy()
-        POST['object_type'] = type
-        POST['object'] = pk
-        form = MarkForm(POST)
-        if form.is_valid():
-            mark = form.save(commit=False)
-            author = request.user
-            mark.save()
-            next = request.GET.get('next', '/')
-            # check that next is safe
-            if not is_safe_url(next):
-                next = '/'
-            return redirect(next)
-        else:
-            return render_to_response('cabinet/errors.html', {'form': form})
+        Marks.objects.create(object=pk,
+                             object_type=type,
+                             author=request.user,
+                             field = request.POST['field'],
+                             value = request.POST['value'])
+        next = request.GET.get('next', '/')
+        return redirect(next)
     else:
-        form = MarkForm()
+        if type == 'work':
+            form = MarkWorkForm()
+        else:
+            form = MarkWordForm()
         return render(request, 'cabinet/add_mark.html', {'form': form})
 
 def collection_new(request):
@@ -289,6 +300,22 @@ def sentences(request, pk):
         count = work.sentences()
         return render(request, 'cabinet/work_detail.html', {'work': work , 'sentences': count})
 
+def add_authors(request,pk):
+    if request.method=='POST':
+        POST = request.POST.copy()
+        POST['work'] = pk
+        form = AuthorForm(POST)
+        if form.is_valid():
+            author = form.save(commit=False)
+            author.save()
+            work = LitWork.objects.get(pk=pk)
+            return render(request, 'cabinet/work_detail.html', {'work': work})
+        else:
+            return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = AuthorForm()
+        return render(request, 'cabinet/add_authors.html', {'form': form})
+
 def analysis(request, pk):
     work = get_object_or_404(LitWork, pk=pk)
     if request.method == "GET":
@@ -333,4 +360,8 @@ def cql_search(request):
     doc.append(text)
     query = fql.Query(cql.cql2fql(params['title']))
     texts = query(doc)
-    return render(request, 'cabinet/cql_results.html', {'texts': texts})
+    arr=[]
+    for t in texts:
+        arr.append(t[0].parent.id.split('s.')[1])
+    sens = Sentence.objects.filter(id__in=arr)
+    return render(request, 'cabinet/cql_results.html', {'texts': texts, 'sens': sens})

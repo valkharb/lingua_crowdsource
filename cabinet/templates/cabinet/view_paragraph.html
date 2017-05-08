@@ -11,7 +11,7 @@
                 Теги
             </a>
         </div>
-        <table style="float:left">
+        <table>
             <tr><th>Свойство:</th><th>Значение:</th></tr>
             <tr><td>Часть речи:	</td><td>{{ word.grammem }}</td></tr>
             <tr><td>Одушевленность:	</td><td>{{ word.animacy }}</td></tr>
@@ -26,12 +26,14 @@
             <tr><td>Переходность:</td><td>{{ word.transitivity }}</td></tr>
             <tr><td>Залог:</td><td>{{ word.voice }}</td></tr>
         </table>
-    <div style="float: right; padding: 10px 140px;">
-        <table style="float:left">
-            <tr><td><a href="{% url 'add_mark' pk=word.pk %}" class="button edit">Предложить правку</a></td></tr>
-        </table>
+        <h2>Правки <a href="{% url 'add_mark' pk=word.pk type='word' %}" style="float: right; color: white; font-style: italic" class="edit">Предложить правку</a></h2>
+        {% for m in marks %}
+            <div class="article">
+                <p class="content">Правка № <a id="{{ m.id }}" href="{% url 'view_mark' pk=m.pk %}" class="search" >{{ m.id }}</a></p>
+            </div>
+        {% endfor %}
     </div>
-    </div>
+
     <script>
         $(document).ready(function(){
             text = $('#paragraph').html();
