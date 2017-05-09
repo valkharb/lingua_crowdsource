@@ -11,6 +11,8 @@
     </div>
     <div class="results">
         <table id="search">
+            <thead></thead>
+            <tbody>
             <tr>
                 <td>
                     <table class="table">
@@ -21,21 +23,35 @@
             <tr>
                 <td>
                     <table>
-                        <tr><td><h2 > Статистика </h2></td></tr>
-                        <tr><td><h3> Предложения: </h3></td></tr>
-                        <tr>
-                            <td>Количество предложений:</td><td id="s_count"></td>
-                        </tr>
-                        <tr>
-                            <td>Среднее число слов:</td><td id="w_avg"></td>
-                        </tr>
-                        <tr><td><h3> Абзацы: </h3></td></tr>
-                        <tr>
-                            <td>Средняя длина абзаца:</td><td id="s_len"></td>
-                        </tr>
+                        <thead><tr><th><h2 > Статистика </h2></th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h3> Предложения: </h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Количество предложений:</td>
+                                <td id="s_count"></td>
+                            </tr>
+                            <tr>
+                                <td>Среднее число слов:</td>
+                                <td id="w_avg"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3> Абзацы: </h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Средняя длина абзаца:</td>
+                                <td id="s_len"></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </td>
             </tr>
+            </tbody>
         </table>
 
         <table class="actions" style="display: none">
@@ -144,8 +160,8 @@
 
                     table = document.getElementById("results");
 
-                    for (var i=0, row; row = table.rows[i]; i++){
-                        for (var j=1, row; row = table.rows[j]; j++){
+                    for (var i=1, row; row = table.rows[i]; i++){
+                        for (var j=2, row; row = table.rows[j]; j++){
                             if(table.rows[i].cells[1].innerText === table.rows[j].cells[1].innerText){
                                 table.deleteRow(j);
                             }
@@ -154,7 +170,7 @@
 
                     document.getElementById("s_count").innerHTML=table.rows.length;
                     var arr=[];
-                    for (var i = 0, row; row = table.rows[i]; i++) {
+                    for (var i = 1, row; row = table.rows[i]; i++) {
                         arr.push(table.rows[i].cells[1].innerText.split(' ').length+
                             table.rows[i].cells[3].innerText.split(' ').length + 1);
                     }

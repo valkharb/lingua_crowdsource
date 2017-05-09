@@ -3,17 +3,31 @@
 {#{% block results %}#}
 <div class="table">
     <table id="results" style="width: 100%">
+        <thead class="noExl">
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
         {% for work in works %}
             <tr>
                 <td>
                     {{ work.id }}
                 </td>
+                <td></td>
                 <td>
                     {{ work.title }}
                 </td>
+                <td></td>
                 <td>
                     {{ work.file }}
                 </td>
+                <td style="display: none"> </td>
             </tr>
         {% endfor %}
         {% for word in words %}
@@ -82,6 +96,7 @@
                 </div>
             </div>
         {% endfor %}
+        </tbody>
     </table>
 
     <script>
