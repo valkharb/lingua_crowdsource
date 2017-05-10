@@ -2,101 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed53da1d-c3ed-48b5-af53-4fa5d4d36456" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cabinet/templates/cabinet/author_new.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Django_Lib.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cabinet/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cabinet/migrations/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/_markerlib/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/_markerlib/markers.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/packaging/__about__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/packaging/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/packaging/_compat.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/packaging/_structures.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/packaging/specifiers.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/_vendor/packaging/version.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/DESCRIPTION.rst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/METADATA" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/RECORD" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/WHEEL" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/dependency_links.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/entry_points.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/metadata.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/top_level.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools-18.2.dist-info/zip-safe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/cli-arm-32.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/compat.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/gui-arm-32.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/msvc9_support.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/utils.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Scripts/easy_install-3.4.exe" afterPath="$PROJECT_DIR$/env/Scripts/easy_install-3.4.exe" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Scripts/easy_install.exe" afterPath="$PROJECT_DIR$/env/Scripts/easy_install.exe" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources/373125b9-4f72-47d5-a9d8-a9be49abaaa6.xml" afterPath="$PROJECT_DIR$/.idea/dataSources/373125b9-4f72-47d5-a9d8-a9be49abaaa6.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/django.iml" afterPath="$PROJECT_DIR$/.idea/django.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/forms.py" afterPath="$PROJECT_DIR$/cabinet/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/models.py" afterPath="$PROJECT_DIR$/cabinet/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/cabinet/account.html" afterPath="$PROJECT_DIR$/cabinet/templates/cabinet/account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/cabinet/account_form.html" afterPath="$PROJECT_DIR$/cabinet/templates/cabinet/account_form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/cabinet/cql.html" afterPath="$PROJECT_DIR$/cabinet/templates/cabinet/cql.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/cabinet/cql_results.html" afterPath="$PROJECT_DIR$/cabinet/templates/cabinet/cql_results.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/cabinet/search.html" afterPath="$PROJECT_DIR$/cabinet/templates/cabinet/search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/activation.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/activation.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/activation_email.txt" afterPath="$PROJECT_DIR$/cabinet/templates/registration/activation_email.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/activation_email_subject.txt" afterPath="$PROJECT_DIR$/cabinet/templates/registration/activation_email_subject.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/base.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/login.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/passord_change_form.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/passord_change_form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_complete.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_complete.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_confirm.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_confirm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templatetags/parents.py" afterPath="$PROJECT_DIR$/cabinet/templatetags/parents.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/urls.py" afterPath="$PROJECT_DIR$/cabinet/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/views.py" afterPath="$PROJECT_DIR$/cabinet/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/diploma_proj/settings.py" afterPath="$PROJECT_DIR$/diploma_proj/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/easy_install.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/easy_install.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/__init__.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/pkg_resources/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/__init__.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/archive_util.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/archive_util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/__init__.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/alias.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/alias.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/bdist_egg.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/bdist_egg.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/bdist_rpm.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/bdist_rpm.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/bdist_wininst.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/bdist_wininst.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/build_ext.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/build_ext.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/build_py.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/build_py.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/develop.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/develop.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/easy_install.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/easy_install.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/egg_info.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/egg_info.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install_egg_info.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install_egg_info.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install_lib.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install_lib.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install_scripts.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/install_scripts.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/launcher manifest.xml" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/launcher manifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/register.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/register.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/rotate.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/rotate.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/saveopts.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/saveopts.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/sdist.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/sdist.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/setopt.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/setopt.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/test.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/upload_docs.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/command/upload_docs.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/depends.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/depends.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/dist.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/dist.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/extension.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/extension.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/lib2to3_ex.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/lib2to3_ex.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/package_index.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/package_index.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/py26compat.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/py26compat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/py27compat.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/py27compat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/py31compat.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/py31compat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/sandbox.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/sandbox.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/script (dev).tmpl" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/script (dev).tmpl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/script.tmpl" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/script.tmpl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/site-patch.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/site-patch.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/ssl_support.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/ssl_support.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/unicode_utils.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/unicode_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/version.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/version.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/windows_support.py" afterPath="$PROJECT_DIR$/env/Lib/site-packages/setuptools/windows_support.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_change_done.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_change_done.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.txt" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_form.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/password_reset_form.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/registration_complete.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/registration_complete.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cabinet/templates/registration/registration_form.html" afterPath="$PROJECT_DIR$/cabinet/templates/registration/registration_form.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -147,54 +60,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="search.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cabinet/templates/cabinet/search.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3335">
-              <caret line="230" column="49" lean-forward="false" selection-start-line="230" selection-start-column="49" selection-end-line="230" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="diploma_project.cabinet_litwork" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/c519b2ca/373125b9-4f72-47d5-a9d8-a9be49abaaa6/diploma_project.cabinet_litwork">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="results.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cabinet/templates/cabinet/results.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1400">
-              <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="parents.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cabinet/templatetags/parents.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/env/Lib/site-packages/django/template/base.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="223">
@@ -204,70 +70,92 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="diploma_project.cabinet_markup" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/c519b2ca/373125b9-4f72-47d5-a9d8-a9be49abaaa6/diploma_project.cabinet_markup">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+      <file leaf-file-name="password_change_done.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_change_done.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
               <folding />
             </state>
           </provider>
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
         </entry>
       </file>
-      <file leaf-file-name="diploma_project.cabinet_word" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/c519b2ca/373125b9-4f72-47d5-a9d8-a9be49abaaa6/diploma_project.cabinet_word">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+      <file leaf-file-name="password_reset_complete.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_complete.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
               <folding />
             </state>
           </provider>
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
+        </entry>
+      </file>
+      <file leaf-file-name="password_reset_confirm.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_confirm.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="51" lean-forward="false" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cql_results.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cabinet/templates/cabinet/cql_results.html">
+      <file leaf-file-name="password_reset_done.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="75" column="51" lean-forward="true" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
-              <folding>
-                <element signature="n#style#0;n#td#5;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="5" column="65" lean-forward="false" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cabinet/forms.py">
+      <file leaf-file-name="password_reset_email.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#34#0" expanded="true" />
-                <marker date="1494412855028" expanded="true" signature="8510:8553" ph="..." />
-              </folding>
+            <state relative-caret-position="51">
+              <caret line="3" column="40" lean-forward="false" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cabinet/models.py">
+      <file leaf-file-name="password_reset_email.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="179" column="6" lean-forward="false" selection-start-line="179" selection-start-column="6" selection-end-line="179" selection-end-column="6" />
-              <folding>
-                <marker date="1494417000871" expanded="true" signature="1723:1810" ph="INSERT INTO cabinet_sentence... " />
-                <marker date="1494417000871" expanded="true" signature="4835:4970" ph="UPDATE cabin... " />
-              </folding>
+            <state relative-caret-position="221">
+              <caret line="13" column="21" lean-forward="false" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="password_reset_form.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="registration_complete.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/registration_complete.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="87" lean-forward="false" selection-start-line="5" selection-start-column="87" selection-end-line="5" selection-end-column="87" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="registration_form.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/registration_form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -318,7 +206,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/virtual_env/Lib/site-packages/django/contrib/admin/templates/registration/password_reset_email.html" />
         <option value="$PROJECT_DIR$/django-registration-templates/registration/password_reset_email.html" />
         <option value="$PROJECT_DIR$/cabinet/static/styles/style.css" />
         <option value="$PROJECT_DIR$/cabinet/migrations/0002_alter_user_last_login_null.py" />
@@ -329,12 +216,6 @@
         <option value="$PROJECT_DIR$/cabinet/templates/cabinet/my.html" />
         <option value="$PROJECT_DIR$/cabinet/templates/cabinet/coll_detail.html" />
         <option value="$PROJECT_DIR$/cabinet/templates/cabinet/lit_work_list.html" />
-        <option value="$PROJECT_DIR$/cabinet/templates/registration/registration_form.html" />
-        <option value="$PROJECT_DIR$/cabinet/templates/registration/registration_complete.html" />
-        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_form.html" />
-        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.html" />
-        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html" />
-        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_change_done.html" />
         <option value="$PROJECT_DIR$/cabinet/templates/registration/logout.html" />
         <option value="$PROJECT_DIR$/cabinet/templates/cabinet/collection_new.html" />
         <option value="$PROJECT_DIR$/cabinet/static/styles/fonts.css" />
@@ -369,6 +250,13 @@
         <option value="$PROJECT_DIR$/cabinet/models.py" />
         <option value="$PROJECT_DIR$/cabinet/templates/cabinet/cql_results.html" />
         <option value="$PROJECT_DIR$/cabinet/templatetags/parents.py" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_change_done.html" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.html" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.txt" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/password_reset_form.html" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/registration_complete.html" />
+        <option value="$PROJECT_DIR$/cabinet/templates/registration/registration_form.html" />
       </list>
     </option>
   </component>
@@ -503,7 +391,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templatetags" />
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="registration" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -858,13 +750,20 @@
       <option name="project" value="LOCAL" />
       <updated>1493375296041</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Styles and new account_page">
+      <created>1494421401788</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1494421401788</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16092573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16092573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1926803" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -874,7 +773,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46450305" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3995943" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3995943" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -989,48 +888,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cabinet/static/styles/login.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/static/styles/rtl.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/static/styles/changelists.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/static/styles/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/static/styles/widgets.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8806">
-          <caret line="518" column="25" lean-forward="false" selection-start-line="518" selection-start-column="25" selection-end-line="518" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/pycharm.jar!/resources/html5-schema/html5/web-forms2.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="635" column="22" lean-forward="false" selection-start-line="635" selection-start-column="22" selection-end-line="635" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/env/Lib/site-packages/django/core/handlers/exception.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -1145,30 +1002,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="49" lean-forward="false" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_complete.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_confirm.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="51" lean-forward="false" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
           <folding />
         </state>
       </provider>
@@ -1316,7 +1149,7 @@
     <entry file="file://$PROJECT_DIR$/cabinet/templates/cabinet/cql_results.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="75" column="51" lean-forward="true" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
+          <caret line="75" column="51" lean-forward="false" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
           <folding>
             <element signature="n#style#0;n#td#5;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
           </folding>
@@ -1352,7 +1185,7 @@
     <entry file="file://$PROJECT_DIR$/cabinet/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
             <marker date="1494412855028" expanded="true" signature="8510:8553" ph="..." />
@@ -1385,6 +1218,78 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
           <caret line="738" column="0" lean-forward="false" selection-start-line="738" selection-start-column="0" selection-end-line="738" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_change_done.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_complete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_confirm.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="51" lean-forward="false" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_done.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="65" lean-forward="false" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="40" lean-forward="false" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_email.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="21" lean-forward="false" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/password_reset_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/registration_complete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="87" lean-forward="false" selection-start-line="5" selection-start-column="87" selection-end-line="5" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cabinet/templates/registration/registration_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="51" lean-forward="false" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
           <folding />
         </state>
       </provider>
