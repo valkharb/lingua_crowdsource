@@ -10,6 +10,11 @@ class AuthorForm(ModelForm):
         model = Author_Work
         fields = '__all__'
 
+class AForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = '__all__'
+
 class TagForm(ModelForm):
     class Meta:
         model = Tags

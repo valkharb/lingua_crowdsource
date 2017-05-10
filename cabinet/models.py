@@ -258,7 +258,10 @@ class LitWork(models.Model):
 
         # take the text from attachment
         with open(self.file.path, 'r') as work:
+            import codecs
+
             work.seek(0)
+            work = codecs.open(self.file.path, "r", "utf_8_sig")
             data = work.read()
             work.close()
         # parse text by symbol characters and put it to the array

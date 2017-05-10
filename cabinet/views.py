@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from cabinet.models import Parent_Draft, Author_Work, LitWork, Author, Collection, Marks, MarkUp, Sentence, Paragraph, Word,PublishingHouse, Tags , Search
 from django.shortcuts import render, get_object_or_404
-from .forms import AuthorForm, WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm, MarkWorkForm, MarkWordForm
+from .forms import AForm, AuthorForm, WorkForm, UserForm, TextFiltersForm, WordFiltersForm, NewCollForm, WordForm, TagForm, PubForm, MarkWorkForm, MarkWordForm
 from django.shortcuts import redirect
 from django.utils import timezone
 import pymorphy2
@@ -107,7 +107,8 @@ def account(request, pk):
         publishers  = PublishingHouse.objects.filter(owner = request.user)
         searches = Search.objects.filter(owner=request.user)
         marks = Marks.objects.filter(object_type='work').filter(object__in=set(w_ids))
-        return render(request, 'cabinet/account.html', {'user': user, 'works': works, 'marks':marks, 'collections': collections, 'publishers': publishers, 'searches':searches})
+        authors = Author.objects.filter(owner=request.user)
+        return render(request, 'cabinet/account.html', {'user': user, 'works': works, 'marks':marks, 'collections': collections, 'publishers': publishers, 'searches':searches, 'authors':authors})
     except  User.DoesNotExist:
         get_object_or_404(User, pk=pk)
 
@@ -270,6 +271,22 @@ def pub_new(request):
     else:
         form = PubForm()
     return render(request, 'cabinet/pub_new.html', {'form': form})
+
+def author_new(request):
+    if request.method == "POST":
+        form = AForm(request.POST)
+        if form.is_valid():
+            a = form.save(commit=False)
+            a.owner_id = request.user.id
+            a.created_date = timezone.now()
+            a.save()
+            return redirect('authors_list')
+
+        else:
+            return render_to_response('cabinet/errors.html', {'form': form})
+    else:
+        form = AForm()
+    return render(request, 'cabinet/author_new.html', {'form': form})
 
 def work_edit(request, pk):
     work = get_object_or_404(LitWork, pk=pk)

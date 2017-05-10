@@ -12,7 +12,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.4.3 virtualenv at C:\Users\Valery\django\virtual_env" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.4.4 virtualenv at C:\Users\VKoltunova\Documents\lingua\env" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Django Lib" level="project" />
   </component>

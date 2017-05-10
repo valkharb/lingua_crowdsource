@@ -6,13 +6,13 @@
 
 {% if account %}
 
-<p>{% trans "Account successfully activated" %}</p>
+<p>{% trans "Аккаунт успешно активирован." %}</p>
 
-<p><a href="{% url 'auth_login' %}">{% trans "Log in" %}</a></p>
+<p><a href="{% url 'auth_login' %}">{% trans "Авторизоваться" %}</a></p>
 
 {% else %}
 
-<p>{% trans "Account activation failed" %}</p>
+<p>{% trans "Активация аккаунта не выполнена." %}</p>
 
 {% endif %}
 

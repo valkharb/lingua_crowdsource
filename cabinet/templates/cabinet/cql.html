@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <td>
-                    <table>
+                    <table id="stat">
                         <thead><tr><th><h2 > Статистика </h2></th></tr></thead>
                         <tbody>
                             <tr>
@@ -168,27 +168,33 @@
                         }
                     }
 
-                    document.getElementById("s_count").innerHTML=table.rows.length;
+                    document.getElementById("s_count").innerHTML=table.rows.length-1;
                     var arr=[];
                     for (var i = 1, row; row = table.rows[i]; i++) {
                         arr.push(table.rows[i].cells[1].innerText.split(' ').length+
                             table.rows[i].cells[3].innerText.split(' ').length + 1);
                     }
-                    var sum = 0;
-                    for( var i = 0; i < arr.length; i++ ){
-                        sum += parseInt( arr[i], 10 ); //don't forget to add the base
+                    if (table.rows.length-1 !== 0) {
+                        var sum = 0;
+                        for (var i = 0; i < arr.length; i++) {
+                            sum += parseInt(arr[i], 10); //don't forget to add the base
+                        }
+                        var avg = sum / arr.length;
+
+                        var par = [];
+                        $('#paragraph').each(function () {
+                            par.push(this.innerHTML.trim().split(' ').length);
+                        });
+                        for (var i = 0; i < par.length; i++) {
+                            sum += parseInt(par[i], 10); //don't forget to add the base
+                        }
+                        var avg = sum / par.length;
+                        document.getElementById("s_len").innerHTML = avg;
                     }
-                    var avg = sum/arr.length;
-                    document.getElementById("w_avg").innerHTML = avg;
-                    var par = [];
-                    $('#paragraph').each(function(){
-                        par.push(this.innerHTML.trim().split(' ').length);
-                    });
-                    for( var i = 0; i < par.length; i++ ){
-                        sum += parseInt( par[i], 10 ); //don't forget to add the base
+                    else{
+                        document.getElementById("w_avg").innerHTML = "";
+                        document.getElementById("s_len").innerHTML = "";
                     }
-                    var avg = sum/par.length;
-                    document.getElementById("s_len").innerHTML = avg;
                 }).fail(function(e){
                     console.log(e);
                 });
@@ -253,10 +259,15 @@
         });
 
         $('.export').click(function(){
-            $('#search').table2excel({
+            $('#results').table2excel({
                 exclude: ".noExl",
-                name: "Новая выборка",
-                filename: "file"
+                name: "Результаты поиска",
+                filename: "Конкорданс"
+            });
+            $('#stat').table2excel({
+                exclude: ".noExl",
+                name: "Статистика",
+                filename: "Статистика"
             });
 
         });

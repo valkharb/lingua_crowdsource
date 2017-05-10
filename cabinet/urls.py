@@ -23,7 +23,7 @@ urlpatterns = [
         url(r'^search/save/$', views.save_search, name='save_search'),
 
         # действия в личном кабинете
-        url(r'^accounts/', include('registration.backends.hmac.urls')),
+        url(r'^accounts/', include('registration.urls')),
         url(r'^accounts/(?P<pk>[0-9]+)/$', views.account, name='account'),
         url(r'^accounts/(?P<pk>[0-9]+)/edit/$', views.account_form, name='account_form'),
         url(r'^accounts/login$',  auth_views.LoginView.as_view(), name='login'),
@@ -53,6 +53,7 @@ urlpatterns = [
         url(r'^publisher/(?P<pk>[0-9]+)/$', views.pub_detail, name='pub_detail'),
         url(r'^authors/(?P<pk>[0-9]+)/$', views.author_detail, name='author_detail'),
         url(r'^authors/$', views.authors_list, name='authors_list'),
+        url(r'^authors/new$', views.author_new, name='author_new'),
         url(r'^collections/$', views.collections_list, name='collections_list'),
         url(r'^publishers/$', views.publishers_list, name='publishers_list'),
         url(r'^collection/new/$', views.collection_new, name='collection_new'),

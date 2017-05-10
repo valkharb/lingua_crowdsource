@@ -2,12 +2,11 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="diploma_project@localhost" uuid="373125b9-4f72-47d5-a9d8-a9be49abaaa6">
-      <database-info product="MySQL" version="5.7.17-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <database-info product="MySQL" version="5.7.18-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
-      <secret-storage>master_key</secret-storage>
       <user-name>val</user-name>
       <introspection-schemas>*:diploma_project</introspection-schemas>
       <resolve-scope>diploma_project:</resolve-scope>

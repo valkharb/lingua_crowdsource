@@ -13,7 +13,7 @@
 <body>
 <div id="header">
     <div id="branding">
-        <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Linguistic mark-up platform</a></h1>
+        <h1 id="site-name"><a href="{% url 'lit_work_list' %}">Сервис лингвистической разметки</a></h1>
     </div>
 </div>
 
@@ -21,8 +21,8 @@
     {% block header %}
         {% if user.is_authenticated == True %}
             {% trans "Logged in" %}: {{ user.username }}
-            (<a class="button" href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> |
-            <a class="button" href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)
+            (<a class="button" href="{% url 'auth_logout' %}">{% trans "Выйти" %}</a> |
+            <a class="button" href="{% url 'auth_password_change' %}">{% trans "Изменить пароль" %}</a>)
         {% else %}
             <a  href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
             <a  style="float: right;" href="{% url 'lit_work_list' %}">Перейти на сайт</a>

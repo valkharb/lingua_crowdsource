@@ -1,4 +1,5 @@
 from django import template
+from cabinet.models import Word
 
 register = template.Library()
 
@@ -13,3 +14,7 @@ def id(word):
 @register.filter
 def word_id(word):
     return int(word[0].id.split('w.')[1])
+
+@register.filter
+def word_mark_id(word):
+    return Word.objects.get(id=word[0].id.split('w.')[1]).mark_up_id

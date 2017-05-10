@@ -49,6 +49,14 @@
                 {% endfor %}
             </div>
             <div class="app-cabinet module">
+                <h2>Авторы<a class="add" href="{% url 'author_new' %}">Добавить</a></h2>
+                {% for a in authors %}
+                    <div class="article">
+                        <p class="content"><a href="{% url 'author_detail' pk=a.pk %}">{{ a.last_name }} {{ a.first_name }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="app-cabinet module">
                 <h2>Мои коллекции<a class="add" href="{% url 'collection_new' %}">Добавить</a></h2>
                 {% for collection in collections %}
                     <div class="article">
