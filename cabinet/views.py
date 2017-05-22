@@ -373,12 +373,12 @@ def add_authors(request,pk):
         return render(request, 'cabinet/add_authors.html', {'form': form})
 
 
-# def analysis(request, pk):
-#     work = get_object_or_404(LitWork, pk=pk)
-#     if request.method == "GET":
-#         work = LitWork.objects.get(pk=pk)
-#         count = work.analysis()
-#         return render(request, 'cabinet/work_detail.html', {'work': work, 'analysed': count})
+def analysis(request, pk):
+    work = get_object_or_404(LitWork, pk=pk)
+    if request.method == "GET":
+        work = LitWork.objects.get(pk=pk)
+        count = work.analysis()
+        return render(request, 'cabinet/work_detail.html', {'work': work, 'analysed': count})
 
 
 # def parent_model(self):
