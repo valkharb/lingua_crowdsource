@@ -1,3 +1,4 @@
+{# шаблон добавления правок  #}
 {% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
@@ -13,6 +14,7 @@
     </div>
     <script>
         $(document).ready(function () {
+            {# парсим url и смотрим, текст или слово будут правиться, в зависимости от этого список опций меняется #}
             path = document.location.pathname.split('/');
             type = $('#id_object_type');
             $(type).val(path[3]);

@@ -1,3 +1,4 @@
+{# шаблон поиска по фильтрам #}
 {% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'styles/base.css' %}" type="text/css" media="screen" />
@@ -96,6 +97,7 @@
 
     {% csrf_token %}
     <script type="text/javascript">
+{# если перешли из сохраненных #}
 
         $(document).ready(function(){
             search = decodeURIComponent(window.location.search).split(/&|=/);
@@ -192,15 +194,17 @@
                     }
                 }
             });
-
+{# проверка на пустоту основного поля запроса #}
             if ($(name_query).val() !== ''){
                 $('.alert').attr('style', 'display: none;');
                 $.ajax({
+                    {# запрос к базе #}
                     url: '/search/results/',
                     dataType: 'html',
                     type: 'POST',
                     data: JSON.stringify(data)
                 }).done(function(e){
+                    {# вывод результатов  #}
                     results.hide();
                     results.before(e);
                     setTimeout(function(){
@@ -210,6 +214,7 @@
                     before = $('.before');
                     after = $('.after');
 
+                    {# разбиение предложения по искомому слову #}
                     $(before).each(function(e,b){
                         $(b)[0].innerText = $(b)[0].innerText.toLowerCase().split(word.val())[0];
                     });
@@ -217,6 +222,7 @@
                         $(a)[0].innerText = $(a)[0].innerText.toLowerCase().split(word.val())[1];
                     });
 
+                    {# подсчет статы #}
                     table = document.getElementById("results");
 
                     for (var i=1, row; row = table.rows[i]; i++){
@@ -332,6 +338,7 @@
             var link = prompt("Доступ к выборке по ссылке:", url);
         });
 
+        {# вывод в таблицы #}
         $('.export').click(function(){
             $('#results').table2excel({
                 exclude: ".noExl",

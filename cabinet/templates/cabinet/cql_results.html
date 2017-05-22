@@ -1,4 +1,5 @@
 {#{% extends 'cabinet/search.html' %}#}
+{# табличка с результатами поиска по регэкспу #}
 {% load staticfiles %}
 {% load cql_words %}
 {% load parents %}
@@ -19,12 +20,14 @@
         {% for text in texts %}
             <tr>
                 <td >
+                {# номер #}
                     {% for s in sens %}
                         {% if s.id == text|parent %}
                             <b><a href="{% url 'work_detail' pk=s.paragraph.lit_work_id %}">{{ s.paragraph.lit_work.title }}</a></b>
                         {% endif %}
                     {% endfor %}
                 </td>
+            {# первая часть предложения #}
                 <td class="before" style="text-align: right;">
                     {% for s in sens %}
                         {% if s.id == text|parent %}
@@ -32,11 +35,13 @@
                         {% endif %}
                     {% endfor %}
                 </td>
+            {# слово #}
                 <td class="context" onClick="$('.info').each(function(e, el){$(el).attr('style','display: none;');$(el).parent().attr('style','display: none;')});panel = document.getElementById('{{ text|id }}'); $(panel).parent().removeAttr('style'); $(panel).attr('style','display=block; padding: 10px 20px; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;') ">
                     <a style="color:red;" href="#info">
                         {{  text|cql_word }}
                     </a>
                 </td>
+            {# конец предложения #}
                 <td class="after" style="text-align: left;">
                     {% for s in sens %}
                         {% if s.id == text|parent %}
@@ -44,6 +49,7 @@
                         {% endif %}
                     {% endfor %}
                 </td>
+            {# скрытое поле - весь абзац - для подсчета статы #}
                 <td id="paragraph" style="display:none">
                     {% for s in sens %}
                         {% if s.id == text|parent %}
@@ -52,6 +58,7 @@
                     {% endfor %}
                 </td>
                 <td style="display: none;">
+                {# всплывающая форма предварительных сведений #}
                     <div class="info noExl" id="{{ text|id }}" style="padding: 10px 20px; display: none; background-color: #f8f8f8; border: solid 2px; border-color: #417690; position: fixed;bottom: 0;overflow: auto;left: 20%;right: 20%;height: 170px;width: auto;">
                         <a href="#" id="hideel" onclick="$(this).parent().attr('style', 'display:none'); return false;" style="margin: 49%">
                             <img style="width: 15px;height: 15px;" src="{% static 'images/arrow.png' %}"/>

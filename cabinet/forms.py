@@ -5,21 +5,26 @@ from .models import LitWork, Collection, MarkUp, Tags,PublishingHouse, Marks, Au
 from django.contrib.auth.models import User
 import pymorphy2
 
+
+# форма создания/редактирования сведений об авторе-работе
 class AuthorForm(ModelForm):
     class Meta:
         model = Author_Work
         fields = '__all__'
 
+# форма создания/редактирования сведений об авторе
 class AForm(ModelForm):
     class Meta:
         model = Author
         fields = '__all__'
 
+# форма создания/редактирования сведений о тегах
 class TagForm(ModelForm):
     class Meta:
         model = Tags
         fields = '__all__'
 
+# если правка для произведения, то рендер этой формы
 class MarkWorkForm(Form):
     object = django.forms.CharField(label='Объект')
     object_type = django.forms.CharField(label='Тип объекта')
@@ -41,6 +46,7 @@ class MarkWorkForm(Form):
     field = django.forms.ChoiceField(label='Поле', choices=choices)
     value =  django.forms.CharField(label='Значение')
 
+# если правка для слова - то эта форма
 class MarkWordForm(Form):
     object = django.forms.CharField(label='Объект')
     object_type = django.forms.CharField(label='Тип объекта')
@@ -63,36 +69,43 @@ class MarkWordForm(Form):
     field = django.forms.ChoiceField(label='Поле', choices=choices)
     value = django.forms.CharField(label='Значение')
 
+# форма создания/редактирования сведений об издательстве
 class PubForm(ModelForm):
     class Meta:
         model = PublishingHouse
         fields = '__all__'
 
+# форма создания/редактирования сведений о произведении
 class WorkForm(ModelForm):
     class Meta:
         model = LitWork
         fields = '__all__'
 
+# форма создания/редактирования сведений о слове
 class WordForm(ModelForm):
     class Meta:
         model = MarkUp
         exclude = ('word','count', 'sentence',)
 
-class NewWorkForm(ModelForm):
-    class Meta:
-        model = LitWork
-        fields = '__all__'
 
+# class NewWorkForm(ModelForm):
+#     class Meta:
+#         model = LitWork
+#         fields = '__all__'
+
+# форма создания/редактирования сведений о коллекции
 class NewCollForm(ModelForm):
     class Meta:
         model = Collection
         fields = '__all__'
 
+# форма создания/редактирования сведений о пользователе
 class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ('username', 'last_name', 'first_name','email')
 
+# вывод фильтра для поиска по текстам
 class TextFiltersForm(Form):
     main = 'MN'
     draft = 'DF'
@@ -110,6 +123,7 @@ class TextFiltersForm(Form):
     collection = django.forms.ChoiceField(label='Коллекция', widget=django.forms.Select(attrs={'data-name':'collection', 'class':'filter work'}))
     published = django.forms.DateField(label='Добавлено', widget=django.forms.DateInput(attrs={'data-name':'created_date', 'class':'filter work'}))
 
+# фильтр для поиска по словам
 class WordFiltersForm(Form):
     morph = pymorphy2.MorphAnalyzer()
     yes = 1

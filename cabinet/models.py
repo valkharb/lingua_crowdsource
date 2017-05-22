@@ -16,6 +16,7 @@ from pynlpl.formats import folia, fql, cql
 #     let's use existing django-model now
 # class User(models.Model) :
 
+# модель правок
 class Marks(models.Model):
     verbose_name=u'Правки'
     object=models.IntegerField(verbose_name = _(u'Объект'))
@@ -26,47 +27,52 @@ class Marks(models.Model):
     value = models.CharField(verbose_name=_(u'Значение'), max_length=100)
     author = models.ForeignKey('auth.User',verbose_name=_(u'Автор'))
 
+ # модель абзаца
 class Paragraph(models.Model):
     verbose_name = u'Абзацы'
     value = models.CharField(verbose_name = _(u'Абзац'), max_length=3000, null=True)
     lit_work = models.ForeignKey('LitWork', verbose_name=_(u'Литературное произведение'))
 
-
+    # разбиение на предложения
     def parse_sentences(self, morph):
         cur = db.cursor()
         cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
         cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
         cur.execute("SET character_set_connection=utf8mb4;")  # same as above
+        # разбиение по знакам препинания, на которые предложение оканчивается
         sentences = re.split('\n|\.\.\. |\! |\? |\. ', self.value)
         for s in sentences:
             with db:
                 cur.execute('INSERT INTO cabinet_sentence (value, paragraph_id) values( "' +s+'", '+str(self.id)+ ')')
                 # new_s = Paragraph.objects.create(value=s,paragraph_id=self.id)
+                # и сразу каждый абзац на предложения
             Sentence.objects.latest('id').parse_words(morph)
         return self
 
+ # модель предложения
 class Sentence(models.Model):
     verbose_name = u'Предложения'
     value = models.CharField(verbose_name=_(u'Предложение'), max_length=500, null=True)
     paragraph = models.ForeignKey(Paragraph, verbose_name=_(u'Абзац'))
 
+    # разбиение предложений на слова
     def parse_words(self, morph):
         cur = db.cursor()
         cur.execute("SET NAMES utf8mb4;")  # or utf8 or any other charset you want to handle
         cur.execute("SET CHARACTER SET utf8mb4;")  # same as above
         cur.execute("SET character_set_connection=utf8mb4;")  # same as above
 
+        # разбиение предложения по любым знакам препинания и пробелам
         words = re.findall(r"[\w']+", str.lower(self.value))
         POSes = {'NOUN', 'VERB', 'ADJF', 'PRTF', 'GRND', 'NPRO', 'COMP', 'PRTS', 'INTJ', 'PRCL', 'ADJS', 'NUMR',
                  'ADVB'}
         # take infinitives
         normal_words = []
         for nw in words[:-1]:
+            # pymorphy разбирает слова по морфологии
             parsed = morph.parse(nw)
 
-            # Берем только значимые части речи. Так как вариантов анализа очень много, просто берем самый вероятный.
             for p in parsed:
-
                 normal_words.append(parsed[0].normal_form)
                 # в базу будут сохраняться переведенные на киррилицу морфологические свойства. Юзеру так будет приятнее.
                 MarkUp.objects.create(word=nw,
@@ -89,7 +95,7 @@ class Sentence(models.Model):
         # create the dictionary
         normals = set(normal_words)
         dictionary = {w: 0 for w in normals}
-
+        # подсчет слов с одинаковыми разборами
         for w in dictionary:
             parsed = morph.parse(w)
             if parsed[0].normal_form in normal_words:
@@ -98,11 +104,13 @@ class Sentence(models.Model):
             for key in dictionary:
                 if morph.parse(w)[0].normal_form == key:
                     with db:
+                        # изменение количества раз, сколько встретилось слово
                         cur.execute('UPDATE cabinet_markup SET count = ' + str(
                             dictionary[key]) + ' WHERE word = "' + w + '" and sentence_id = ' + str(self.id))
         frequent = {w: dictionary[w] for w in dictionary.keys() if dictionary[w] > 1}
         return self
 
+ # модель пользовательских тегов
 class Tags(models.Model):
     user = 'ur'
     system = 'ss'
@@ -123,6 +131,7 @@ class Tags(models.Model):
     created_date = models.DateTimeField(default=timezone.now, verbose_name=_(u'Дата создания'))
     updated_date = models.DateTimeField(blank=True, null=True, verbose_name=_(u'Дата изменения'))
 
+ # модель автора произведения
 class Author(models.Model):
     verbose_name = u'Авторы'
     last_name = models.CharField(max_length=50, verbose_name = _(u'Фамилия'))
@@ -138,6 +147,7 @@ class Author(models.Model):
     def __str__(self):
         return self.last_name+' '+self.first_name
 
+ # модель издательства
 class PublishingHouse(models.Model):
     verbose_name = u'Издательства'
     title = models.CharField(max_length=80, verbose_name = _(u'Издательство'))
@@ -148,6 +158,8 @@ class PublishingHouse(models.Model):
     def __str__(self):
         return self.title
 
+
+ # модель коллекции
 class Collection(models.Model):
     verbose_name = u'Коллекции'
     title = models.CharField(max_length=200, verbose_name = _(u'Коллекция'))
@@ -160,6 +172,7 @@ class Collection(models.Model):
     def __str__(self):
         return self.title
 
+ # модель разметки
 class MarkUp(models.Model):
     word = models.CharField( blank=False, max_length=100, verbose_name = _(u'Слово'))
     grammem = models.CharField( blank=False, max_length=100, verbose_name = _(u'Часть речи'))
@@ -256,67 +269,68 @@ class LitWork(models.Model):
 
     def mark_up(self, morph):
 
-        # take the text from attachment
+        # открытие файла и чтение документа
         with open(self.file.path, 'r') as work:
             import codecs
-
             work.seek(0)
             work = codecs.open(self.file.path, "r", "utf_8_sig")
             data = work.read()
             work.close()
-        # parse text by symbol characters and put it to the array
         # разбиваем тексты сначала на абзацы. Будем их сохранять в базе последовательно
         paragraphs = data.split('\n')
         for p in paragraphs:
             new_p = Paragraph.objects.create( value = p,
                                               lit_work_id = self.id )
             new_p.save()
+            # далее каждый абзац на предложения
             new_p.parse_sentences(morph)
 
 
-        # TODO: ЗАКИДЫВАТЬ ЧИСЛО СЛОВ ПО ТЕКСТУ В БАЗУ
         return self
 
-    def sentences(self):
-        # take the text from attachment
-        with open(self.file.path, 'r') as work:
-            work.seek(0)
-            work = codecs.open(self.file.path, "r", "utf_8_sig")
-            data = work.read().replace('\n', '')
-            work.close()
-            data = data.replace('? ','.')
-            data = data.replace('! ', '.')
-            sentences = data.replace('... ', '.').split('.')
-        return len(sentences)
+    # def sentences(self):
+    #     # открытие файла и чтение документа
+    #     with open(self.file.path, 'r') as work:
+    #         work.seek(0)
+    #         work = codecs.open(self.file.path, "r", "utf_8_sig")
+    #         data = work.read().replace('\n', '')
+    #         work.close()
+    #         data = data.replace('? ','.')
+    #         data = data.replace('! ', '.')
+    #         sentences = data.replace('... ', '.').split('.')
+    #     return len(sentences)
+    #
+    # def analysis(self):
+    #     # take the text from attachment
+    #     with open(self.file.path, 'r') as work:
+    #         work.seek(0)
+    #         work = codecs.open(self.file.path, "r", "utf_8_sig")
+    #         data = work.read()
+    #         work.close()
+    #         paragraphs = data.split('\n')
+    #     return len(paragraphs)
+    #
+    # def concordance(self):
+    #     # take the text from attachment
+    #     with open(self.file.path, 'r') as work:
+    #         work.seek(0)
+    #         data = work.read().replace('\n', '')
+    #         work.close()
+    #     return data
 
-    def analysis(self):
-        # take the text from attachment
-        with open(self.file.path, 'r') as work:
-            work.seek(0)
-            work = codecs.open(self.file.path, "r", "utf_8_sig")
-            data = work.read()
-            work.close()
-            paragraphs = data.split('\n')
-        return len(paragraphs)
-
-    def concordance(self):
-        # take the text from attachment
-        with open(self.file.path, 'r') as work:
-            work.seek(0)
-            data = work.read().replace('\n', '')
-            work.close()
-        return data
-
+ # модель связи автоор-произведение
 class Author_Work(models.Model):
     author = models.ForeignKey('Author', verbose_name=_('Автор'))
     work = models.ForeignKey('LitWork', verbose_name=_('Произведение'))
 
+ # модель связи платонический текст и все дочерние
 class Parent_Draft(models.Model):
     main_version_id = models.IntegerField(verbose_name=_(u'Идентификатор'))
     main_version_title = models.CharField(max_length=500, verbose_name=_(u'Заголовок'))
     def __str__(self):
         return self.main_version_title
 
+ # модель сохраненных выборок
 class Search(models.Model):
     data = models.CharField(blank=False, null=False, max_length=1500, verbose_name=_(u'Параметры'))
     owner = models.ForeignKey('auth.User', verbose_name=_(u'Владелец'))

@@ -1,3 +1,4 @@
+{# шаблон нового произведения #}
 {% extends 'cabinet/lit_work_show.html' %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'styles/base.css' %}">
@@ -13,6 +14,7 @@
     </div>
     <script type="text/javascript">
         $('#id_is_main_version').change(function(){
+            {# определяем, какие поля отображать, какие нет #}
             if ($(this).is(":checked")){
                 $('#id_version_type').parents('tr').attr('style', 'display: none');
                 $('#id_parent_version').parents('tr').attr('style', 'display: none');
