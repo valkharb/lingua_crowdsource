@@ -2,7 +2,6 @@ import re
 import pymysql
 import math
 import pymorphy2
-from tqdm import tqdm
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _

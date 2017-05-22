@@ -154,3 +154,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+TRANSLATABLE_MODEL_MODULES = ["cabinet.models"]
