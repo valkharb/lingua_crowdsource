@@ -32,5 +32,9 @@ create database diploma_project;
 
 ⦁	Устанавливаем зависимости
 	pip install django django-modeltranslation modeltranslation django-registration pymysql django-select2 pymorphy2 pynlpl
+	
+⦁	Мигрируем базу данных
+	python manage.py makemigrations cabinet
+	python manage.py migrate
   
 ⦁	запускаем сервер командой python manage.py runserver 0.0.0.0:8000
