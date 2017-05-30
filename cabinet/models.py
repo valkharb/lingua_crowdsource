@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 import re
 import pymysql
 import math
@@ -6,8 +8,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.apps import apps
-db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_project' , charset='utf8')
-apps.get_app_config('admin').verbose_name = 'Главная панель'
+db= pymysql.connect(host='localhost', user='val', passwd='111111111', db='diploma_project' , charset='utf8')
 import codecs
 from pynlpl.formats import folia, fql, cql
 # from pytz import timezone

@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 import lxml
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -12,7 +14,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.contrib.auth.models import User
 import pymysql
-db= pymysql.connect(host='localhost', user='val', passwd='1111', db='diploma_project' , charset='utf8')
+db= pymysql.connect(host='localhost', user='val', passwd='111111111', db='diploma_project' , charset='utf8')
 import json
 from django.db.models import Count, Avg
 from django.utils.http import is_safe_url

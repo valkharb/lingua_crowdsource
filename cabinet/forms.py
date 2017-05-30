@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 from django.forms import ModelForm
 import django
 from django.forms import Form

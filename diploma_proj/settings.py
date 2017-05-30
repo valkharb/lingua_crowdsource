@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'diploma_project',
         'USER': 'val',
-        'PASSWORD': '1111',
+        'PASSWORD': '111111111',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
@@ -125,7 +125,6 @@ DEFAULT_FROM_EMAIL = 'info@lingua.ru'
 LANGUAGE_CODE = 'ru-RU'
 
 LANGUAGES = (
-	('ru', 'Русский'),
     ('en', 'English'),
 )
 

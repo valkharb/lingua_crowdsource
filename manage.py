@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import sys
 import pymysql
 pymysql.install_as_MySQLdb()
 import MySQLdb
-db = MySQLdb.connect("localhost" , "val" , "1111")
+db = MySQLdb.connect("localhost" , "val" , "111111111")
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "diploma_proj.settings")
